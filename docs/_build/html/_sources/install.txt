@@ -1,0 +1,77 @@
+============
+Installation
+============
+
+Preliminary steps
+=================
+
+The following steps are required for any OS.
+
+Download pyqtgraphs
+-------------------
+
+Download MARSIS/SHARAD viewer
+-----------------------------
+
+GNU/Linux
+=========
+
+Debian 8 (Jessie)
+-----------------
+
+Enable backports repository
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Install QGIS and dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Install MARSIS/SHARAD plugin
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Ubuntu 15
+---------
+
+Install QGIS and dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Install MARSIS/SHARAD plugin
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+CentOS 7
+--------
+
+Enable required repositories
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Apple OSX
+=========
+
+TBD
+
+
+Microsoft Windows
+=================
+
+MS Win 8.1
+----------
+
+Download and install QGIS
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Install pyqtgraph
+^^^^^^^^^^^^^^^^^
+
+MS Win 10
+---------
+
+TBD
+
+
+Post installation
+=================
+
+The following steps are required for any OS.
+
+Set plugin preferencies
+-----------------------
+
