@@ -108,19 +108,19 @@
   <customwidget>
    <class>RadarViewer</class>
    <extends>QWidget</extends>
-   <header>marsis_sharad_viewer.radar_viewers</header>
+   <header>MarsisSharadViewer.radar_viewers</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>SyncRadarViewer</class>
    <extends>QWidget</extends>
-   <header>marsis_sharad_viewer.radar_viewers</header>
+   <header>MarsisSharadViewer.radar_viewers</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ThreeDViewer</class>
    <extends>QWidget</extends>
-   <header>marsis_sharad_viewer.radar_viewers</header>
+   <header>MarsisSharadViewer.radar_viewers</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
