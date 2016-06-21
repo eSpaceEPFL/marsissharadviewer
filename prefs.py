@@ -33,16 +33,6 @@ SIM_PREFIX = {"MARSIS": "E_",
 SIM_SUFFIX = {"MARSIS": "_SS3_TRK_CMP_M_SIM.png",
               "SHARAD": ""}
 
-####### ORBITS 8000 ###########################################################
-#DISK_L2_DIR = {"MARSIS": "/media/federico/fc_data/MARSIS_data/L2_Data/BROWSE/",
-#               "SHARAD": ""}
-#DISK_SIM_DIR = {"MARSIS": "/media/federico/fc_data/MARSIS_data/L2_Data/BROWSE/",
-#               "SHARAD": ""}
-#
-#L2_SUFFIX = {"MARSIS": "_SS3_TRK_CMP_M_ql.png",
-#             "SHARAD": "_thm.jpg"}
-###############################################################################
-
 L2_DIR = {}
 SIM_DIR = {}
 
