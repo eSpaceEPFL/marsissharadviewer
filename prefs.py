@@ -5,20 +5,23 @@
 #
 # Mantainer: Federico Cantini <federico.cantini@epfl.ch>
 
+from PyQt4.QtCore import QSettings
 import radar_readers as rr
 
-DISK_L2_DIR = {"MARSIS": "/media/federico/fc_data/MARSIS_data/L2_Data_full/BROWSE/",#"/media/federico/Backup/MARSIS/L2_Data/BROWSE/", #"/home/federico/Documents/iMars/MARSIS_data_L2/L2_Data/BROWSE/",
-               "SHARAD": ""}
-DISK_SIM_DIR = {"MARSIS": "/media/federico/fc_data/MARSIS_data/",#"/media/federico/Backup/MARSIS/", # "/home/federico/Documents/iMars/MARSIS_data_L2/L2_Data/BROWSE/",
-               "SHARAD": ""}
+s = QSettings("./marsradqgis")
 
-HTTP_L2_DIR = {"MARSIS": "http://127.0.0.1/MARSIS_L2/",
-               "SHARAD": "http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/browse/thm/"}
-HTTP_SIM_DIR = {"MARSIS": "http://127.0.0.1/MARSIS_L2/",
-                "SHARAD": ""}
+DISK_L2_DIR = {"MARSIS": s.value("MarsisDataDisk","/media/federico/fc_data/MARSIS_data/L2_Data_full/BROWSE/"),#"/media/federico/Backup/MARSIS/L2_Data/BROWSE/", #"/home/federico/Documents/iMars/MARSIS_data_L2/L2_Data/BROWSE/",
+               "SHARAD": s.value("SharadDataDisk","")}
+DISK_SIM_DIR = {"MARSIS": s.value("MarsisSimDisk","/media/federico/fc_data/MARSIS_data/"),#"/media/federico/Backup/MARSIS/", # "/home/federico/Documents/iMars/MARSIS_data_L2/L2_Data/BROWSE/",
+                "SHARAD": s.value("SharadSimDisk","")}
 
-DATA_SOURCE = {"MARSIS": 'DISK',
-               "SHARAD": "HTTP"}#DISK -> local dir; HTTP -> remote dir (http connection)
+HTTP_L2_DIR = {"MARSIS": s.value("MarsisDataHttp","http://127.0.0.1/MARSIS_L2/"),
+               "SHARAD": s.value("SharadDataHttp","http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/browse/thm/")}
+HTTP_SIM_DIR = {"MARSIS": s.value("MarsisSimHttp","http://127.0.0.1/MARSIS_L2/"),
+                "SHARAD": s.value("SharadSimHttp","")}
+
+DATA_SOURCE = {"MARSIS": s.value("MarsisDataSource","DISK"),
+               "SHARAD": s.value("SharadDataSource","HTTP")}#DISK -> local dir; HTTP -> remote dir (http connection)
 
 L2_PREFIX = {"MARSIS": "R_",
              "SHARAD": "s_"}
@@ -54,7 +57,7 @@ for source in DATA_SOURCE:
 
 
 
-CHACHE_BASE_DIR = "/home/federico/MarsQgisRadar/"
+CHACHE_BASE_DIR = s.value("CacheDir","/home/federico/MarsQgisRadar/")
 
 RADAR_READER = {"MARSIS": rr.MarsisRadarReader(L2_DIR["MARSIS"], CHACHE_BASE_DIR, L2_PREFIX["MARSIS"], L2_SUFFIX["MARSIS"]),
                "SHARAD": rr.SharadRadarReader(L2_DIR["SHARAD"], CHACHE_BASE_DIR, L2_PREFIX["SHARAD"], L2_SUFFIX["SHARAD"])}
