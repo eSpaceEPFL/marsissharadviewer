@@ -13,6 +13,7 @@ from PyQt4.QtGui import QAction, QIcon, QMenu
 import os.path
 
 from marsis_viewer_dialog import MarsisViewerDialog
+from settings_dialog import SettingsDialog
 from radar_3d import Radar3D
 
 import prefs
@@ -122,7 +123,7 @@ class Marsis:
         pass
 
     def settings(self):
-        pass
+        self.set_dialog = SettingsDialog()
 
     def update_prefs(self):
         self.prefs.set_prefs()
