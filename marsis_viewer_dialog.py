@@ -26,7 +26,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'marsis_viewer_dialog_base.ui'))
 
 class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
-    def __init__(self, iface, free_routine=None, parent=None):
+    def __init__(self, iface, prefs, free_routine=None, parent=None):
         """Constructor."""
         super(MarsisViewerDialog, self).__init__(parent)
         # Set up the user interface from Designer.
@@ -36,7 +36,10 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
         # #widgets-and-dialogs-with-auto-connect
         self.free_routine = free_routine
         self.iface = iface
+        self.prefs = prefs
+
         self.setupUi(self)
+
 #        self.radar2d.iface = iface
 
         self.run()
@@ -55,9 +58,14 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
 #        self.process.start()
 #        self._dialog.close()
 #######################
-
+        self.set_prefs()
         self.set_up_view()
         self.show_viewer()
+
+    def set_prefs(self):
+        self.radar2d.set_prefs(self.prefs)
+        self.sync2d.set_prefs(self.prefs)
+        self.threed.set_prefs(self.prefs)
 
 
     def show_viewer(self):

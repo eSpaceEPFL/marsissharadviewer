@@ -7,9 +7,12 @@
 
 from qgis.core import QgsFeatureRequest, QgsCoordinateTransform
 
-import prefs
 
 class GetFeatureData():
+
+    def __init__(self, iface, prefs):
+        self.iface = iface
+        self.prefs = prefs
 
     def get_layers(self):
 
@@ -22,18 +25,18 @@ class GetFeatureData():
         self.orbit_field_name = []
         self.instrument = []
         for layer in self.iface.mapCanvas().layers():
-            if ((layer.name().find('MARSIS') > -1) or (layer.name().find('marsis') > -1)) and layer.fieldNameIndex('point_id') > -1 and layer.fieldNameIndex(prefs.ORBIT['MARSIS']) > -1:
+            if ((layer.name().find('MARSIS') > -1) or (layer.name().find('marsis') > -1)) and layer.fieldNameIndex('point_id') > -1 and layer.fieldNameIndex(self.prefs.ORBIT['MARSIS']) > -1:
                 self.layers.append(layer)
-                self.radar_reader.append(prefs.RADAR_READER['MARSIS'])
-                self.sim_reader.append(prefs.SIM_READER['MARSIS'])
-                self.orbit_field_name.append(prefs.ORBIT['MARSIS'])
+                self.radar_reader.append(self.prefs.RADAR_READER['MARSIS'])
+                self.sim_reader.append(self.prefs.SIM_READER['MARSIS'])
+                self.orbit_field_name.append(self.prefs.ORBIT['MARSIS'])
                 self.instrument.append('MARSIS')
 
-            if ((layer.name().find('SHARAD') > -1) or (layer.name().find('sharad') > -1)) and layer.fieldNameIndex('point_id') > -1 and layer.fieldNameIndex(prefs.ORBIT['SHARAD']) > -1:
+            if ((layer.name().find('SHARAD') > -1) or (layer.name().find('sharad') > -1)) and layer.fieldNameIndex('point_id') > -1 and layer.fieldNameIndex(self.prefs.ORBIT['SHARAD']) > -1:
                 self.layers.append(layer)
-                self.radar_reader.append(prefs.RADAR_READER['SHARAD'])
-                self.sim_reader.append(prefs.SIM_READER['SHARAD'])
-                self.orbit_field_name.append(prefs.ORBIT['SHARAD'])
+                self.radar_reader.append(self.prefs.RADAR_READER['SHARAD'])
+                self.sim_reader.append(self.prefs.SIM_READER['SHARAD'])
+                self.orbit_field_name.append(self.prefs.ORBIT['SHARAD'])
                 self.instrument.append('SHARAD')
 
         self.orbits = {}

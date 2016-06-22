@@ -32,7 +32,7 @@ from radar_plots import SinglePlot
 from radar_plots import ThreeDPlot
 from radar_plots import ThreeDImageRenderer
 
-import prefs
+#import prefs
 
 #import scipy.ndimage as ndi
 import numpy as np
@@ -42,6 +42,7 @@ class _RadarViewer(pg.LayoutWidget):
 
     def __init__(self, parent = None):
         super(_RadarViewer, self).__init__(parent)
+
 
         self.rad_gray_lut = lut.GrayLUT()
 
@@ -72,6 +73,9 @@ class _RadarViewer(pg.LayoutWidget):
 
         self.plots = []
         self.reset()
+
+    def set_prefs(self, prefs):
+        self.prefs = prefs
 
     def add_buttons(self):
         self.buttons = {}
@@ -150,7 +154,7 @@ class RadarViewer(_RadarViewer):
             self.upd_gis_selection[str_orbit] = UpdGisSelection(ow, str_orbit, data_dict[orbit]['layer'])
             self.orbit_row[-1].plots[0].roi_connect(self.upd_gis_selection[str_orbit].run)
 
-            self.buttons[prefs.DEF_LUT].click()
+            self.buttons[self.prefs.DEF_LUT].click()
 
             ii = ii + 1
 
@@ -285,9 +289,9 @@ class UpdGisSelection():
 
         if self.fetch_feat_ids:
             self.fetch_feat_ids = 0
-            qstring = prefs.ORBIT['MARSIS']+' = '+  str(self.orbit_number)
+            qstring = self.prefs.ORBIT['MARSIS']+' = '+  str(self.orbit_number)
             req=QgsFeatureRequest().setFilterExpression(qstring)
-            req.setSubsetOfAttributes([self.layer.fieldNameIndex(prefs.ORBIT['MARSIS']), self.layer.fieldNameIndex('point_id')])
+            req.setSubsetOfAttributes([self.layer.fieldNameIndex(self.prefs.ORBIT['MARSIS']), self.layer.fieldNameIndex('point_id')])
 
             fit=self.layer.getFeatures(req)
             feats=[ f for f in fit ]
@@ -544,6 +548,9 @@ class ThreeDViewer(QtGui.QWidget):
         self.orbit_surf_dict = {}
         self.add_buttons()
 
+    def set_prefs(self, prefs):
+        self.prefs = prefs
+
     def add_buttons(self):
         self.buttons = {}
         self.buttons['ctrl'] = self._add_button("Open controller", self.open_controller)
@@ -564,8 +571,8 @@ class ThreeDViewer(QtGui.QWidget):
 #        self.controller = ThreeDController()
 #        self.controller.show()
         self.data_dict = data_dict
-        utils.iface.mapCanvas().saveAsImage(prefs.CHACHE_BASE_DIR+'canvas.png')
-        self.canvas = np.asarray(im.open(prefs.CHACHE_BASE_DIR+'canvas.png'))
+        utils.iface.mapCanvas().saveAsImage(self.prefs.CHACHE_BASE_DIR+'canvas.png')
+        self.canvas = np.asarray(im.open(self.prefs.CHACHE_BASE_DIR+'canvas.png'))
 
         self.set_k(data_dict)
 

@@ -15,6 +15,7 @@ import os.path
 from marsis_viewer_dialog import MarsisViewerDialog
 from radar_3d import Radar3D
 
+import prefs
 
 class Marsis:
     """QGIS Plugin Implementation."""
@@ -29,6 +30,11 @@ class Marsis:
         """
         # Save reference to the QGIS interface
         self.iface = iface
+
+        #set preferences
+        self.prefs = prefs.RadarPrefs()
+        self.prefs.set_prefs()
+
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
         # initialize locale
@@ -95,7 +101,7 @@ class Marsis:
 
     def marsis_viewer(self):
         gc.collect()
-        self.dialog = MarsisViewerDialog(self.iface, free_routine = self.marsis_free)
+        self.dialog = MarsisViewerDialog(self.iface, self.prefs, free_routine = self.marsis_free)
 #        dialog.exec_()
         print "vai"
 
