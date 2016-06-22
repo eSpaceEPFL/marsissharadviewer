@@ -124,6 +124,9 @@ class Marsis:
     def settings(self):
         pass
 
+    def update_prefs(self):
+        self.prefs.set_prefs()
+
     def unload(self):
 
         """Removes the plugin menu item and icon from QGIS GUI."""
