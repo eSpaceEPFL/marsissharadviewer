@@ -95,7 +95,7 @@
              <widget class="QLineEdit" name="lineMarsisSimDisk"/>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton_3">
+             <widget class="QToolButton" name="toolMarsisSimDisk">
               <property name="text">
                <string>...</string>
               </property>
@@ -126,7 +126,7 @@
              <widget class="QLineEdit" name="lineMarsisDataDisk"/>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton_2">
+             <widget class="QToolButton" name="toolMarsisDataDisk">
               <property name="text">
                <string>...</string>
               </property>
@@ -191,7 +191,7 @@
              <widget class="QLineEdit" name="lineSharadDataDisk"/>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton">
+             <widget class="QToolButton" name="toolSharadDataDisk">
               <property name="text">
                <string>...</string>
               </property>
@@ -215,7 +215,7 @@
              <widget class="QLineEdit" name="lineSharadSimDisk"/>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton_6">
+             <widget class="QToolButton" name="toolSharadSimDisk">
               <property name="text">
                <string>...</string>
               </property>
@@ -302,7 +302,7 @@
              <widget class="QLineEdit" name="lineCacheDir"/>
             </item>
             <item>
-             <widget class="QToolButton" name="toolButton_4">
+             <widget class="QToolButton" name="toolCacheDir">
               <property name="text">
                <string>...</string>
               </property>
