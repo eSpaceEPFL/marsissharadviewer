@@ -16,10 +16,13 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
 
 class SettingsDialog(QtGui.QWidget, FORM_CLASS):
 
-    def __init__(self, parent=None):
+    def __init__(self, prefs, parent=None):
         super(SettingsDialog, self).__init__(parent)
+        self.prefs = prefs
         self.setupUi(self)
         self.show()
+
+        print dir(self.prefs)
 
     def accept(self):
         pass

@@ -123,7 +123,7 @@ class Marsis:
         pass
 
     def settings(self):
-        self.set_dialog = SettingsDialog()
+        self.set_dialog = SettingsDialog(self.prefs)
 
     def update_prefs(self):
         self.prefs.set_prefs()
