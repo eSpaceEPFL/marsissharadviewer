@@ -29,6 +29,9 @@ class RadarPrefs(object):
         self.DATA_SOURCE = {"MARSIS": self.s.value("MarsisDataSource","DISK"),
                        "SHARAD": self.s.value("SharadDataSource","HTTP")}#DISK -> local dir; HTTP -> remote dir (http connection)
 
+        self.SIM_SOURCE = {"MARSIS": self.s.value("MarsisSimSource","DISK"),
+                       "SHARAD": self.s.value("SharadSimSource","HTTP")}#DISK -> local dir; HTTP -> remote dir (http connection)
+
         self.L2_PREFIX = {"MARSIS": "R_",
                      "SHARAD": "s_"}
         self.L2_SUFFIX = {"MARSIS": "_SS3_TRK_CMP_M.png",
@@ -45,12 +48,17 @@ class RadarPrefs(object):
         for source in self.DATA_SOURCE:
             if self.DATA_SOURCE[source] == 'DISK':
                 self.L2_DIR[source] = self.DISK_L2_DIR[source] #DISK_L2_DIR -> local dir; HTTP_L2_DIR -> remote dir (http connection)
-                self.SIM_DIR[source] = self.DISK_SIM_DIR[source] #DISK_SIM_DIR -> local dir; HTTP_SIM_DIR -> remote dir (http connection)
 
             if self.DATA_SOURCE[source] == 'HTTP':
                 self.L2_DIR[source] = self.HTTP_L2_DIR[source] #DISK_L2_DIR -> local dir; HTTP_L2_DIR -> remote dir (http connection)
-                self.SIM_DIR[source] = self.HTTP_SIM_DIR[source] #DISK_SIM_DIR -> local dir; HTTP_SIM_DIR -> remote dir (http connection)
 
+
+        for source in self.SIM_SOURCE:
+            if self.SIM_SOURCE[source] == 'DISK':
+                self.SIM_DIR[source] = self.DISK_SIM_DIR[source] #DISK_SIM_DIR -> local dir; HTTP_SIM_DIR -> remote dir (http connection)
+
+            if self.SIM_SOURCE[source] == 'HTTP':
+                self.SIM_DIR[source] = self.HTTP_SIM_DIR[source] #DISK_SIM_DIR -> local dir; HTTP_SIM_DIR -> remote dir (http connection)
 
 
         self.CHACHE_BASE_DIR = self.s.value("CacheDir","/home/federico/MarsQgisRadar/")
