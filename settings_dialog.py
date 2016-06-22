@@ -68,8 +68,27 @@ class SettingsDialog(QtGui.QWidget, FORM_CLASS):
         #MISC
         self.lineCacheDir.setText(self.prefs.CHACHE_BASE_DIR)
 
+    def upd_prefs(self):
+
+        self.prefs.set_prefs()
+
+    def toolMarsisDataClicked():
+       pass
+
+    def toolMarsisSimClicked():
+       pass
+
+    def toolSharadDataClicked():
+       pass
+
+    def toolSharadSimClicked():
+       pass
+
+    def toolCacheClicked():
+       pass
+
     def accept(self):
-        pass
+        self.upd_prefs()
 
     def reject(self):
         self.close()
