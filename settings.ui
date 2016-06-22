@@ -338,8 +338,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>839</x>
+     <y>547</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -354,8 +354,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>839</x>
+     <y>547</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -363,7 +363,94 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>toolCacheDir</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>toolCacheClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>815</x>
+     <y>420</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>535</x>
+     <y>530</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolMarsisDataDisk</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>toolMarsisDataClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>451</x>
+     <y>80</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>358</x>
+     <y>521</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolMarsisSimDisk</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>toolMarsisSimClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>821</x>
+     <y>84</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>154</x>
+     <y>513</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolSharadDataDisk</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>toolSharadDataClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>458</x>
+     <y>233</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>604</x>
+     <y>535</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>toolSharadSimDisk</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>toolSharadSimClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>812</x>
+     <y>225</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>81</x>
+     <y>529</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>toolCacheClicked()</slot>
+  <slot>toolMarsisDataClicked()</slot>
+  <slot>toolMarsisSimClicked()</slot>
+  <slot>toolSharadDataClicked()</slot>
+  <slot>toolSharadSimClicked()</slot>
+ </slots>
  <buttongroups>
   <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>
