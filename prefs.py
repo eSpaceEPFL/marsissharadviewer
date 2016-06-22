@@ -73,3 +73,17 @@ class RadarPrefs(object):
 
         self.DEF_LUT = 'radara'
 
+    def set_data_disk(self, key, location):
+        self.DISK_L2_DIR[key] = location
+
+    def set_data_http(self, key, location):
+        self.HTTP_L2_DIR[key] = location
+
+    def set_sim_disk(self, key, location):
+        self.DISK_SIM_DIR[key] = location
+
+    def set_sim_http(self, key, location):
+        self.HTTP_SIM_DIR[key] = location
+
+    def set_data_source(self, radar_key, source_key):
+        pass
