@@ -178,7 +178,7 @@
           <item row="1" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_9">
             <item>
-             <widget class="QRadioButton" name="radioMarsisDataDisk_2">
+             <widget class="QRadioButton" name="radioSharadDataDisk">
               <property name="text">
                <string/>
               </property>
@@ -202,7 +202,7 @@
           <item row="1" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_10">
             <item>
-             <widget class="QRadioButton" name="radioButton_10">
+             <widget class="QRadioButton" name="radioSharadSimDisk">
               <property name="text">
                <string/>
               </property>
@@ -226,7 +226,7 @@
           <item row="2" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_11">
             <item>
-             <widget class="QRadioButton" name="radioButton_11">
+             <widget class="QRadioButton" name="radioSharadDataHttp">
               <property name="text">
                <string/>
               </property>
@@ -243,7 +243,7 @@
           <item row="2" column="2">
            <layout class="QHBoxLayout" name="horizontalLayout_12">
             <item>
-             <widget class="QRadioButton" name="radioButton_12">
+             <widget class="QRadioButton" name="radioSharadSimHttp">
               <property name="text">
                <string/>
               </property>
