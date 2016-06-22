@@ -44,7 +44,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_3"/>
+             <widget class="QLineEdit" name="lineMarsisDataHttp"/>
             </item>
            </layout>
           </item>
@@ -75,7 +75,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_4"/>
+             <widget class="QLineEdit" name="lineMarsisSimHttp"/>
             </item>
            </layout>
           </item>
@@ -92,7 +92,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_2"/>
+             <widget class="QLineEdit" name="lineMarsisSimDisk"/>
             </item>
             <item>
              <widget class="QToolButton" name="toolButton_3">
@@ -123,7 +123,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit"/>
+             <widget class="QLineEdit" name="lineMarsisDataDisk"/>
             </item>
             <item>
              <widget class="QToolButton" name="toolButton_2">
@@ -188,7 +188,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_9"/>
+             <widget class="QLineEdit" name="lineSharadDataDisk"/>
             </item>
             <item>
              <widget class="QToolButton" name="toolButton">
@@ -212,7 +212,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_10"/>
+             <widget class="QLineEdit" name="lineSharadSimDisk"/>
             </item>
             <item>
              <widget class="QToolButton" name="toolButton_6">
@@ -236,7 +236,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_11"/>
+             <widget class="QLineEdit" name="lineSharadDataHttp"/>
             </item>
            </layout>
           </item>
@@ -253,7 +253,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_12"/>
+             <widget class="QLineEdit" name="lineSharadSimHttp"/>
             </item>
            </layout>
           </item>
@@ -299,7 +299,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="lineEdit_13"/>
+             <widget class="QLineEdit" name="lineCacheDir"/>
             </item>
             <item>
              <widget class="QToolButton" name="toolButton_4">
