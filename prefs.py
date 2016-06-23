@@ -73,17 +73,44 @@ class RadarPrefs(object):
 
         self.DEF_LUT = 'radara'
 
-    def set_data_disk(self, key, location):
-        self.DISK_L2_DIR[key] = location
+    def _set_pref(self, label, value):
+        self.s.setValue(label, value)
 
-    def set_data_http(self, key, location):
-        self.HTTP_L2_DIR[key] = location
+    def set_marsis_data_disk(self, location):
+        self._set_pref("MarsisDataDisk", location)
 
-    def set_sim_disk(self, key, location):
-        self.DISK_SIM_DIR[key] = location
+    def set_marsis_data_http(self, location):
+        self._set_pref("MarsisDataHttp", location)
 
-    def set_sim_http(self, key, location):
-        self.HTTP_SIM_DIR[key] = location
+    def set_marsis_sim_disk(self, location):
+        self._set_pref("MarsisSimDisk", location)
 
-    def set_data_source(self, radar_key, source_key):
-        pass
+    def set_marsis_sim_http(self, location):
+        self._set_pref("MarsisSimHttp", location)
+
+    def set_sharad_data_disk(self, location):
+        self._set_pref("SharadDataDisk", location)
+
+    def set_sharad_data_http(self, location):
+        self._set_pref("SharadDataHttp", location)
+
+    def set_sharad_sim_disk(self, location):
+        self._set_pref("SharadSimDisk", location)
+
+    def set_sharad_sim_http(self, location):
+        self._set_pref("SharadSimHttp", location)
+
+    def set_cache_dir(self, location):
+        self._set_pref("CacheDir", location)
+
+    def set_marsis_data_source(self, source_key):
+        self._set_pref("MarsisDataSource", source_key)
+
+    def set_marsis_sim_source(self, source_key):
+        self._set_pref("MarsisSimSource", source_key)\
+
+    def set_sharad_data_source(self, source_key):
+        self._set_pref("SharadDataSource", source_key)
+
+    def set_sharad_sim_source(self, source_key):
+        self._set_pref("SharadSimSource", source_key)
