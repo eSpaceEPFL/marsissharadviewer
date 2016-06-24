@@ -151,7 +151,7 @@ class RadarViewer(_RadarViewer):
                                        self.get_roi_bounds(data_dict[orbit]))
             self.orbit_row[-1].set_full_link_int()
 
-            self.upd_gis_selection[str_orbit] = UpdGisSelection(ow, str_orbit, data_dict[orbit]['layer'])
+            self.upd_gis_selection[str_orbit] = UpdGisSelection(ow, str_orbit, data_dict[orbit]['layer'], self.prefs)
             self.orbit_row[-1].plots[0].roi_connect(self.upd_gis_selection[str_orbit].run)
 
             self.buttons[self.prefs.DEF_LUT].click()
@@ -276,13 +276,14 @@ class SyncRadarViewer(RadarViewer):
 
 class UpdGisSelection():
 
-    def __init__(self, orbit_viewer, orbit_number, layer):
+    def __init__(self, orbit_viewer, orbit_number, layer, prefs):
         self.orbit_viewer = orbit_viewer
         self.orbit_number = orbit_number
         self.layer = layer
         self.features_ids = []
         self.features_ids_dict = {}
         self.fetch_feat_ids = 1
+        self.prefs = prefs
 #        self.run_filter = run_filter
 
     def run(self, a):
