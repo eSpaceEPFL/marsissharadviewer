@@ -45,12 +45,27 @@ class SettingsDialog(QtGui.QWidget, FORM_CLASS):
 
 
         #SHARAD
-        self.lineSharadDataDisk.setText(self.prefs.DISK_L2_DIR['SHARAD'])
-        self.lineSharadSimDisk.setText(self.prefs.DISK_SIM_DIR['SHARAD'])
-
-        self.lineSharadDataHttp.setText(self.prefs.HTTP_L2_DIR['SHARAD'])
-        self.lineSharadSimHttp.setText(self.prefs.HTTP_SIM_DIR['SHARAD'])
-
+        try: 
+           self.lineSharadDataDisk.setText(self.prefs.DISK_L2_DIR['SHARAD'])
+        except TypeError: 
+        	print "Opps! Type Error" 
+           
+        try:
+        	self.lineSharadSimDisk.setText(self.prefs.DISK_SIM_DIR['SHARAD'])
+        except TypeError:
+        	print "Opps! Type Error" 
+        	
+        try:
+        	self.lineSharadDataHttp.setText(self.prefs.HTTP_L2_DIR['SHARAD'])
+        except TypeError:
+        	print "Opps! Type Error" 
+        
+        try:
+        	self.lineSharadSimHttp.setText(self.prefs.HTTP_SIM_DIR['SHARAD'])
+        except TypeError:
+        	print "Opps! Type Error" 
+        	
+        	
         if self.prefs.DATA_SOURCE['SHARAD'] == 'DISK':
             self.radioSharadDataDisk.setChecked(True)
 
