@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2015 - EPFL - eSpace
+# Copyright (C) 2015-2016 - EPFL - eSpace
 #
 # Author: Federico Cantini <federico.cantini@epfl.ch>
 #
@@ -15,17 +15,48 @@ from PIL import Image as im
 
 ###############################################################################
 class DataManager(object):
+    """Convert raw radargrams to internal format
+
+    *Methods*
+    * run - Execute the conversion
+    """
+
     def run(self, raw_data):
+        """Execute the conversion
+
+        raw_data: raw radargram
+        """
+
         pass
 
 class ImgManager(DataManager):
+    """Convert image radargrams to internal format
+
+    *Methods*
+    * run - Execute the conversion
+    """
+
     def run(self, raw_data):
+        """Execute the conversion
+
+        raw_data: image radargram
+        """
+
         pass
 
 class MarsisImgManager(ImgManager):
+    """Convert Marsis image radargrams to internal format
+
+    *Methods*
+    * run - Execute the conversion
     """
-    """
+
     def run(self, raw_data):
+        """Execute the conversion
+
+        raw_data: image radargram
+        """
+
         data = np.hsplit(np.rot90(np.asarray(raw_data), k=3),6)
         data.reverse()
         data1=[]
@@ -34,29 +65,71 @@ class MarsisImgManager(ImgManager):
         return data1
 
 class SharadImgManager(ImgManager):
+    """Convert Sharad image radargrams to internal format
+
+    *Methods*
+    * run - Execute the conversion
     """
-    """
+
     def run(self, raw_data):
+        """Execute the conversion
+
+        raw_data: image radargram
+        """
+
         d = np.rot90(np.asarray(raw_data), k=3)
         return [d[np.newaxis,:,:]]
 
 ###############################################################################
 class DataFetcher(object):
+    """Implement data feching from local or remote location
+
+    *Methods*
+    *fetch - Fetch the radargram data
     """
-    """
+
     def fetch(self, location, cache, filename):
+        """Fetch the radargram data
+
+        location: location of the radargram file
+        cache: location to cache the radargram file to
+        filename: name of the radargram file
+        """
+
         pass
 
 class DiskFetcher(DataFetcher):
+    """Implement data feching from disk
+
+    *Methods*
+    *fetch - Fetch the radargram data
     """
-    """
+
     def fetch(self, location, cache, filename):
+        """Fetch the radargram data
+
+        location: directory of the radargram file
+        cache: directory to cache the radargram file to
+        filename: name of the radargram file
+        """
+
         return im.open(os.path.join(location,filename))
 
 class HttpFetcher(DiskFetcher):
+    """Implement http data feching
+
+    *Methods*
+    *fetch - Fetch the radargram data
     """
-    """
+
     def fetch(self, location, cache, filename):
+        """Fetch the radargram data
+
+        location: base url of the radargram file
+        cache: directory to cache the radargram file to
+        filename: name of the radargram file
+        """
+
         if not os.path.exists(cache):
             os.makedirs(cache)
 
