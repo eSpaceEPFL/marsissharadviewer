@@ -51,7 +51,7 @@ class DiskFetcher(DataFetcher):
     """
     """
     def fetch(self, location, cache, filename):
-        return im.open(location+filename)
+        return im.open(os.path.join(location,filename))
 
 class HttpFetcher(DiskFetcher):
     """
@@ -60,12 +60,17 @@ class HttpFetcher(DiskFetcher):
         if not os.path.exists(cache):
             os.makedirs(cache)
 
-        if os.path.exists(cache+filename) == False:
+        cache_location = os.path.join(cache,filename)
+        if location[0:4]=='http':
+            url = location+'/'+filename
+        else:
+            url = os.path.join(location,filename)
+
+        if os.path.exists(cache_location) == False:
             try:
-                (chaced, headers) = urlretrieve(location+filename, cache+filename)
+                (chaced, headers) = urlretrieve(url, cache_location)
             except IOError:
               pass
-
 
         return super(HttpFetcher, self).fetch(cache, cache, filename)
 
@@ -94,9 +99,9 @@ class DataLocator(object):
         orbit_str = self.get_orbit_str(orbit)
         orbit_dir = self.get_orbit_dir(orbit_str)
 
-        return self.fetcher.fetch(self.base_dir+orbit_dir+"/",
-                                    self.cache_dir+orbit_dir+"/",
-                                    self.file_prefix+orbit_str+self.file_suffix)
+        return self.fetcher.fetch(os.path.join(self.base_dir,orbit_dir),
+                                  os.path.join(self.cache_dir,orbit_dir),
+                                  self.file_prefix+orbit_str+self.file_suffix)
 
     def get_orbit_str(self, orbit):
         pass

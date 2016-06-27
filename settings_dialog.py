@@ -113,27 +113,27 @@ class SettingsDialog(QtGui.QWidget, FORM_CLASS):
     def toolMarsisDataClicked(self):
        dirname = QtGui.QFileDialog.getExistingDirectory(self, 'Select MARSIS data dir', self.lineMarsisDataDisk.text())
        if dirname:
-           self.lineMarsisDataDisk.setText(os.path.normpath(dirname)+'/')
+           self.lineMarsisDataDisk.setText(os.path.normpath(dirname))
 
     def toolMarsisSimClicked(self):
        dirname = QtGui.QFileDialog.getExistingDirectory(self, 'Select MARSIS simulations dir', self.lineMarsisSimDisk.text())
        if dirname:
-           self.lineMarsisSimDisk.setText(os.path.normpath(dirname)+'/')
+           self.lineMarsisSimDisk.setText(os.path.normpath(dirname))
 
     def toolSharadDataClicked(self):
        dirname = QtGui.QFileDialog.getExistingDirectory(self, 'Select SHARAD data dir', self.lineSharadDataDisk.text())
        if dirname:
-           self.lineSharadDataDisk.setText(os.path.normpath(dirname)+'/')
+           self.lineSharadDataDisk.setText(os.path.normpath(dirname))
 
     def toolSharadSimClicked(self):
        dirname = QtGui.QFileDialog.getExistingDirectory(self, 'Select SHARAD simulations dir', self.lineSharadSimDisk.text())
        if dirname:
-           self.lineSharadSimDisk.setText(os.path.normpath(dirname)+'/')
+           self.lineSharadSimDisk.setText(os.path.normpath(dirname))
 
     def toolCacheClicked(self):
        dirname = QtGui.QFileDialog.getExistingDirectory(self, 'Select cache dir', self.lineCacheDir.text())
        if dirname:
-           self.lineCacheDir.setText(os.path.normpath(dirname)+'/')
+           self.lineCacheDir.setText(os.path.normpath(dirname))
 
     def accept(self):
         self.upd_prefs()

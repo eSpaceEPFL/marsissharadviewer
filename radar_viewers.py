@@ -5,6 +5,7 @@
 #
 # Mantainer: Federico Cantini <federico.cantini@epfl.ch>
 
+import os.path
 from collections import OrderedDict
 
 from numpy import mean as np_mean
@@ -572,8 +573,8 @@ class ThreeDViewer(QtGui.QWidget):
 #        self.controller = ThreeDController()
 #        self.controller.show()
         self.data_dict = data_dict
-        utils.iface.mapCanvas().saveAsImage(self.prefs.CHACHE_BASE_DIR+'canvas.png')
-        self.canvas = np.asarray(im.open(self.prefs.CHACHE_BASE_DIR+'canvas.png'))
+        utils.iface.mapCanvas().saveAsImage(os.path.join(self.prefs.CHACHE_BASE_DIR,'canvas.png'))
+        self.canvas = np.asarray(im.open(os.path.join(self.prefs.CHACHE_BASE_DIR+'canvas.png')))
 
         self.set_k(data_dict)
 
