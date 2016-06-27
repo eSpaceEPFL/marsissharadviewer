@@ -177,6 +177,8 @@ class RadarViewer(_RadarViewer):
         return orbit_dict['range']
 
     def get_q_rect(self, orbit_dict):
+    # If files are not available an exception is thrown here
+    # Check if data is actually avaiable (probably higher in the hierarchy of call ) 
         return QtCore.QRectF(0, -orbit_dict['data'][0].shape[2],orbit_dict['data'][0].shape[1], orbit_dict['data'][0].shape[2])
 
     def show_data(self, lut = lut.GrayLUT().get_lut(), comp_mode = QtGui.QPainter.CompositionMode_Plus):
