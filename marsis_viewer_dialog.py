@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2015 - EPFL - eSpace
+# Copyright (C) 2015-2016 - EPFL - eSpace
 #
 # Author: Federico Cantini <federico.cantini@epfl.ch>
 #
