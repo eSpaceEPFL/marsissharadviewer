@@ -64,7 +64,7 @@ class Marsis:
         self.iface.mainWindow().menuBar().insertMenu(self.iface.firstRightStandardMenu().menuAction(), self.marsis_menu)
 
         icon = QIcon(':/plugins/marsissharadviewer/icon.png')
-        self.marsis_viewer_action = QAction(icon, "Marsis viewer", self.iface.mainWindow())
+        self.marsis_viewer_action = QAction(icon, "MARSIS/SHARAD Viewer", self.iface.mainWindow())
         QObject.connect(self.marsis_viewer_action, SIGNAL("triggered()"), self.marsis_viewer)
         self.marsis_menu.addAction(self.marsis_viewer_action)
 
