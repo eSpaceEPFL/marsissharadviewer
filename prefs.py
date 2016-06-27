@@ -16,15 +16,15 @@ class RadarPrefs(object):
     def set_prefs(self):
 
 
-        self.DISK_L2_DIR = {"MARSIS": self.s.value("MarsisDataDisk","/media/federico/fc_data/MARSIS_data/L2_Data_full/BROWSE/"),#"/media/federico/Backup/MARSIS/L2_Data/BROWSE/", #"/home/federico/Documents/iMars/MARSIS_data_L2/L2_Data/BROWSE/",
-                       "SHARAD": self.s.value("SharadDataDisk","")}
-        self.DISK_SIM_DIR = {"MARSIS": self.s.value("MarsisSimDisk","/media/federico/fc_data/MARSIS_data/"),#"/media/federico/Backup/MARSIS/", # "/home/federico/Documents/iMars/MARSIS_data_L2/L2_Data/BROWSE/",
-                        "SHARAD": self.s.value("SharadSimDisk","")}
+        self.DISK_L2_DIR = {"MARSIS": self.s.value("MarsisDataDisk","~/"),
+                       "SHARAD": self.s.value("SharadDataDisk","~./")}
+        self.DISK_SIM_DIR = {"MARSIS": self.s.value("MarsisSimDisk","~/"),
+                        "SHARAD": self.s.value("SharadSimDisk","~/")}
 
-        self.HTTP_L2_DIR = {"MARSIS": self.s.value("MarsisDataHttp","http://127.0.0.1/MARSIS_L2/"),
+        self.HTTP_L2_DIR = {"MARSIS": self.s.value("MarsisDataHttp","http://"),
                        "SHARAD": self.s.value("SharadDataHttp","http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/browse/thm/")}
-        self.HTTP_SIM_DIR = {"MARSIS": self.s.value("MarsisSimHttp","http://127.0.0.1/MARSIS_L2/"),
-                        "SHARAD": self.s.value("SharadSimHttp","")}
+        self.HTTP_SIM_DIR = {"MARSIS": self.s.value("MarsisSimHttp","http://"),
+                        "SHARAD": self.s.value("SharadSimHttp","http://")}
 
         self.DATA_SOURCE = {"MARSIS": self.s.value("MarsisDataSource","DISK"),
                        "SHARAD": self.s.value("SharadDataSource","HTTP")}#DISK -> local dir; HTTP -> remote dir (http connection)
