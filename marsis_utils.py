@@ -60,7 +60,7 @@ class Marsis:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        self.marsis_menu = QMenu(QCoreApplication.translate("marsis", "MARSIS"))
+        self.marsis_menu = QMenu(QCoreApplication.translate("marsissharadviewer", "Mars Radars"))
         self.iface.mainWindow().menuBar().insertMenu(self.iface.firstRightStandardMenu().menuAction(), self.marsis_menu)
 
         icon = QIcon(':/plugins/marsissharadviewer/icon.png')
