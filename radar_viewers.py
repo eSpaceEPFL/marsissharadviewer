@@ -612,6 +612,9 @@ class ThreeDViewer(QtGui.QWidget):
 
 
     def set_k(self, data_dict):
+    # Here place check if something was selected - output an error 
+    # indicating that nothing reasonable was selected 
+    # Here plug in crashes if started from an empty project. 
         if np.abs(data_dict[data_dict.keys()[0]]['proj_y'][0])>1000:
             self.plot.set_k( kx=100000., ky=100000., kz=1.)
         else:
