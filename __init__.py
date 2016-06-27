@@ -6,7 +6,7 @@
  Utilities to work with MARSIS data
                              -------------------
         begin                : 2015-09-07
-        copyright            : (C) 2015 by EPFL-eSpace
+        copyright            : (C) 2015-2016 by EPFL-eSpace
         email                : federico.cantini@epfl.ch
         git sha              : $Format:%H$
  ***************************************************************************/
