@@ -6,11 +6,12 @@
 # Mantainer: Federico Cantini <federico.cantini@epfl.ch>
 
 import gc
-
+import os.path
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, SIGNAL
 from PyQt4.QtGui import QAction, QIcon, QMenu
 # Initialize Qt resources from file resources.py
-import os.path
+import resources
+
 
 from marsis_viewer_dialog import MarsisViewerDialog
 from settings_dialog import SettingsDialog
@@ -62,8 +63,7 @@ class Marsis:
         self.marsis_menu = QMenu(QCoreApplication.translate("marsis", "MARSIS"))
         self.iface.mainWindow().menuBar().insertMenu(self.iface.firstRightStandardMenu().menuAction(), self.marsis_menu)
 
-        icon = QIcon(':/plugins/MarsisViewer/icon.png')
- #       icon = QIcon(':/plugins/Marsis/icon.png')
+        icon = QIcon(':/plugins/marsissharadviewer/icon.png')
         self.marsis_viewer_action = QAction(icon, "Marsis viewer", self.iface.mainWindow())
         QObject.connect(self.marsis_viewer_action, SIGNAL("triggered()"), self.marsis_viewer)
         self.marsis_menu.addAction(self.marsis_viewer_action)
