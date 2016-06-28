@@ -108,24 +108,27 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
 
         self.reset()
         if not(self.get_layers()):
-            print "No valid layers available/selected"
             self.closeEvent(None)
+            QtGui.QMessageBox.critical (None, "Error", "No valid layers available/selected")
             return 0
 
         if not (self.get_selected_features()):
             print "No valid selected features"
+            QtGui.QMessageBox.critical (None, "Error", "No valid selected features")
             self.closeEvent(None)
             return 0
 
         removed = self.get_data()
 
         if not (self.orbits):
-            print "No data available for the selected orbits"
+            QtGui.QMessageBox.critical (None, "Error", "No data available for the selected orbits")
             return 0
 
         if removed:
-            print "No data available for the following orbits "
-            print removed
+            removed_string = ""
+            for orbit in removed:
+                removed_string = removed_string +" "+str(orbit)
+            QtGui.QMessageBox.warning(None, "Warning", "No data available for the following orbits\n"+removed_string)
 
 
         self.set_viewers()
