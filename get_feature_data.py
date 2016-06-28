@@ -9,13 +9,29 @@ from qgis.core import QgsFeatureRequest, QgsCoordinateTransform
 
 
 class GetFeatureData():
+    """Implement data retrieval
+
+    *Methods*
+    * __init__ - Inizialize the class
+    * get_layers - Get MARSIS and SHARAD layers from QGIS interface
+    * get_selected_features - Get selected orbit points andd related data from QGIS canvas
+    * get_data - Get radargrams
+    * gfd_reset - Remove reference to orbit data
+    """
 
     def __init__(self, iface, prefs):
+        """Inizialize the class
+
+        iface: QGIS interface
+        prefs: Instance of preference (prefs) class
+        """
+
         self.iface = iface
         self.prefs = prefs
 
     def get_layers(self):
-
+        """Get MARSIS and SHARAD layers from QGIS interface
+        """
 
 #        self.layers = [self.iface.activeLayer()]
         self.layers = [] #[self.iface.mapCanvas()]
@@ -42,6 +58,9 @@ class GetFeatureData():
         self.orbits = {}
 
     def get_selected_features(self):
+        """Get selected orbit points andd related data from QGIS canvas
+        """
+
         map_crs = self.iface.mapCanvas().mapRenderer().destinationCrs()
 
         features_ids = [layer.selectedFeaturesIds() for layer in self.layers]
@@ -87,6 +106,8 @@ class GetFeatureData():
 
 
     def get_data(self):
+        """Get radargrams
+        """
 
         for orbit in self.orbits.keys():
             self.orbits[orbit]['point_id'].sort()
@@ -116,7 +137,6 @@ class GetFeatureData():
 
             if (not self.orbits[orbit]['data']) and (not self.orbits[orbit]['sim']):
                  self.orbits[orbit] = None
-                 print "orbit "+ orbit + " removed"
 
 #            for point in orbits[orbit]['point_id']:
 #
@@ -125,5 +145,7 @@ class GetFeatureData():
 #            self.data_tree.addTopLevelItem(tree_item)
 
     def gfd_reset(self):
-        print "reset"
+        """Remove reference to orbit data
+        """
+
         self.orbits = None

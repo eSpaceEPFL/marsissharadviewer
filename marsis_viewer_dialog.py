@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2015 - EPFL - eSpace
+# Copyright (C) 2015-2016 - EPFL - eSpace
 #
 # Author: Federico Cantini <federico.cantini@epfl.ch>
 #
@@ -18,7 +18,7 @@ from PyQt4 import uic
 #import radar_readers as rr
 #import numpy as np
 #import prefs
-import time
+#import time
 from get_feature_data import GetFeatureData
 #from qgis.core import QgsFeatureRequest
 
@@ -26,8 +26,29 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'marsis_viewer_dialog_base.ui'))
 
 class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
+    """Implement the MARSIS/SHARAD viewer
+
+    *Methods*
+    * __init__ - Inizialize the viewer
+    * run - Run methods that performs all the real work
+    * set_prefs - Set a reference for the plug in preferences
+    * show_viewer - Show the viewers
+    * set_up_view - Retrieve data
+    * set_viewers - Set the viewers
+    * get_layer_lat - UNUSED
+    * reset - Reset the viewers
+    * connect_roi - UNUSED
+    * closeEvent - Properly close the viewer
+    """
+
     def __init__(self, iface, prefs, free_routine=None, parent=None):
-        """Constructor."""
+        """Inizialize the viewer
+
+        iface: QGIS interface
+        prefs: Instance of preference (prefs) class
+        free_routine: function to call to allow garbage collector to release memory
+        parent:
+        """
         super(MarsisViewerDialog, self).__init__(parent)
         # Set up the user interface from Designer.
         # After setupUI you can access any designer object by doing
@@ -46,7 +67,8 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
 
 
     def run(self):
-        """Run method that performs all the real work"""
+        """Run method that performs all the real work
+        """
 
 #        self._dialog = WaitDialog(parent = self)
 #        self._dialog.show()
@@ -63,44 +85,35 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
         self.show_viewer()
 
     def set_prefs(self):
+        """Set a reference for the plug in preferences
+        """
+
         self.radar2d.set_prefs(self.prefs)
         self.sync2d.set_prefs(self.prefs)
         self.threed.set_prefs(self.prefs)
 
 
     def show_viewer(self):
+        """Show the viewers
+        """
+
 #        self._dialog.close()
         self.show()
 
     def set_up_view(self):
+        """Retrieve data
+        """
 
         self.reset()
-
-#        start = time.time()
         self.get_layers()
-#        end = time.time()
-#        print ""
-#        print "get_layers"
-#        print end - start
-        start = time.time()
         self.get_selected_features()
-        end = time.time()
-        print ""
-        print "get_feat"
-        print end - start
-
-        start = time.time()
         self.get_data()
-        end = time.time()
-        print ""
-        print "get_data"
-        print end - start
-
-
         self.set_viewers()
 
-
     def set_viewers(self):
+        """Set the viewers
+        """
+
         self.radar2d.set_plots(self.orbits)
         self.sync2d.set_plots(self.orbits)
         self.threed.set_plots(self.orbits)
@@ -109,6 +122,9 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
         pass
 
     def reset(self):
+        """Reset the viewers
+        """
+
         self.gfd_reset()
         self.radar2d.reset()
         self.sync2d.reset()
@@ -121,6 +137,9 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
         self.radar2d.region[str(orbit)][0].sigRegionChanged.connect()
 
     def closeEvent(self, event):
+        """Properly close the viewer
+        """
+
         self.reset()
         self.radar2d.close()
         self.sync2d.close()
@@ -128,8 +147,6 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
         gc.collect()
         if self.free_routine:
             self.free_routine()
-
-        print "Closing main window"
 
 class WaitDialog(QtGui.QDialog):
     def __init__(self, parent = None):

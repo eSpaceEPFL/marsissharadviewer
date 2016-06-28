@@ -1,16 +1,28 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2015 - EPFL - eSpace
+# Copyright (C) 2015-2016 - EPFL - eSpace
 #
 # Author: Federico Cantini <federico.cantini@epfl.ch>
 #
 # Mantainer: Federico Cantini <federico.cantini@epfl.ch>
 
-import gc
+"""
+marsis_utils
+============
 
+QGIS-plugin main file
+
+Classes
+-------
+* Marsis - implement the plug in main interface
+"""
+
+import gc
+import os.path
 from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, QObject, SIGNAL
 from PyQt4.QtGui import QAction, QIcon, QMenu
+
 # Initialize Qt resources from file resources.py
-import os.path
+import resources
 
 from marsis_viewer_dialog import MarsisViewerDialog
 from settings_dialog import SettingsDialog
@@ -19,10 +31,22 @@ from radar_3d import Radar3D
 import prefs
 
 class Marsis:
-    """QGIS Plugin Implementation."""
+    """Implement the main Plug in interface
+
+    *Methods*
+    * __init__ - Inizialize the plug in
+    * initGui - Create the menu entries and toolbar icons inside the QGIS GUI
+    * marsis_viewer - Launch the MARSIS/SHARAD viewer
+    * marsis_free - Remove reference to MARSIS/SHARAD viewer dialog
+    * radar_3d - Export 3D data in CSV format
+    * radar_fetch - Fetch radargrams (To be implemented)
+    * settings - Launch the preferences settings dialog
+    * update_prefs - Update the plug in preferences
+    * unload - Remove the plugin menu item and icon from QGIS GUI
+    """
 
     def __init__(self, iface):
-        """Constructor.
+        """Inizialize the plug in
 
         :param iface: An interface instance that will be passed to this class
             which provides the hook by which you can manipulate the QGIS
@@ -57,14 +81,14 @@ class Marsis:
 
 
     def initGui(self):
-        """Create the menu entries and toolbar icons inside the QGIS GUI."""
+        """Create the menu entries and toolbar icons inside the QGIS GUI
+        """
 
-        self.marsis_menu = QMenu(QCoreApplication.translate("marsis", "MARSIS"))
+        self.marsis_menu = QMenu(QCoreApplication.translate("marsissharadviewer", "Mars Radars"))
         self.iface.mainWindow().menuBar().insertMenu(self.iface.firstRightStandardMenu().menuAction(), self.marsis_menu)
 
-        icon = QIcon(':/plugins/MarsisViewer/icon.png')
- #       icon = QIcon(':/plugins/Marsis/icon.png')
-        self.marsis_viewer_action = QAction(icon, "Marsis viewer", self.iface.mainWindow())
+        icon = QIcon(':/plugins/marsissharadviewer/icon.png')
+        self.marsis_viewer_action = QAction(icon, "MARSIS/SHARAD Viewer", self.iface.mainWindow())
         QObject.connect(self.marsis_viewer_action, SIGNAL("triggered()"), self.marsis_viewer)
         self.marsis_menu.addAction(self.marsis_viewer_action)
 
@@ -101,36 +125,50 @@ class Marsis:
 
 
     def marsis_viewer(self):
+        """Launch the MARSIS/SHARAD viewer
+        """
         gc.collect()
         self.dialog = MarsisViewerDialog(self.iface, self.prefs, free_routine = self.marsis_free)
 #        dialog.exec_()
-        print "vai"
 
     def marsis_free(self):
+        """Remove reference to MARSIS/SHARAD viewer dialog
+        """
         self.dialog = None
 #        gc.collect()
 
-    def polar_viewer(self):
-        pass
+#    def polar_viewer(self):
+#        pass
 
     def radar_3d(self):
+        """Export 3D data in CSV format
+        """
         Radar3D(self.iface)
 
-    def track_fetch(self):
-        pass
+#    def track_fetch(self):
+#        pass
 
     def radar_fetch(self):
+        """Fetch radargrams #TODO(To be implemented)
+        """
         pass
 
     def settings(self):
+        """Launch the preferences settings dialog
+        """
+
         self.set_dialog = SettingsDialog(self.prefs)
 
     def update_prefs(self):
+        """Update the plug in preferences
+        """
+
         self.prefs.set_prefs()
 
     def unload(self):
+        """Removes the plugin menu item and icon from QGIS GUI
+        """
 
-        """Removes the plugin menu item and icon from QGIS GUI."""
         if self.marsis_menu != None:
             self.iface.mainWindow().menuBar().removeAction(self.marsis_menu.menuAction())
         else:
