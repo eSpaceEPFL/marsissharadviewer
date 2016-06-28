@@ -55,7 +55,12 @@ class GetFeatureData():
                 self.orbit_field_name.append(self.prefs.ORBIT['SHARAD'])
                 self.instrument.append('SHARAD')
 
+        if not self.layers:
+            return 0
+
         self.orbits = {}
+
+        return 1
 
     def get_selected_features(self):
         """Get selected orbit points andd related data from QGIS canvas
@@ -103,12 +108,16 @@ class GetFeatureData():
                 self.orbits[key]['lon_dict'][point_id] =  point[0] #feature.geometry().asPoint()[0]
                 (self.orbits[key]['proj_x_dict'][point_id], self.orbits[key]['proj_y_dict'][point_id]) = xform.transform(point)
 
+        if not (self.orbits):
+            return 0
+
+        return 1
 
 
     def get_data(self):
         """Get radargrams
         """
-
+        removed = []
         for orbit in self.orbits.keys():
             self.orbits[orbit]['point_id'].sort()
             for point in self.orbits[orbit]['point_id']:
@@ -135,14 +144,19 @@ class GetFeatureData():
 #            f2 = np.mean(np.array(orbits[orbit]['data'][3:6]),0)
             self.orbits[orbit]['range'] = [min(self.orbits[orbit]['point_id']), max(self.orbits[orbit]['point_id'])]
 
+            #Remove orbit from dictionary if data is unavailable
             if (not self.orbits[orbit]['data']) and (not self.orbits[orbit]['sim']):
-                 self.orbits[orbit] = None
+                 del self.orbits[orbit]
+#                 self.orbits[orbit] = None
+                 removed.append(orbit)
 
 #            for point in orbits[orbit]['point_id']:
 #
 #                tree_item.addChild(QTreeWidgetItem([str(point)]))
 #
 #            self.data_tree.addTopLevelItem(tree_item)
+
+        return removed
 
     def gfd_reset(self):
         """Remove reference to orbit data

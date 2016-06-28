@@ -81,7 +81,9 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
 #        self._dialog.close()
 #######################
         self.set_prefs()
-        self.set_up_view()
+        if not (self.set_up_view()):
+            return
+
         self.show_viewer()
 
     def set_prefs(self):
@@ -105,10 +107,30 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
         """
 
         self.reset()
-        self.get_layers()
-        self.get_selected_features()
-        self.get_data()
+        if not(self.get_layers()):
+            print "No valid layers available/selected"
+            self.closeEvent(None)
+            return 0
+
+        if not (self.get_selected_features()):
+            print "No valid selected features"
+            self.closeEvent(None)
+            return 0
+
+        removed = self.get_data()
+
+        if not (self.orbits):
+            print "No data available for the selected orbits"
+            return 0
+
+        if removed:
+            print "No data available for the following orbits "
+            print removed
+
+
         self.set_viewers()
+
+        return 1
 
     def set_viewers(self):
         """Set the viewers
