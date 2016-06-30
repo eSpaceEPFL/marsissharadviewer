@@ -113,7 +113,6 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
             return 0
 
         if not (self.get_selected_features()):
-            print "No valid selected features"
             QtGui.QMessageBox.critical (None, "Error", "No valid selected features")
             self.closeEvent(None)
             return 0
@@ -121,14 +120,14 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
         removed = self.get_data()
 
         if not (self.orbits):
-            QtGui.QMessageBox.critical (None, "Error", "No data available for the selected orbits")
+            QtGui.QMessageBox.critical (None, "Error", "No radargrams available for the selected orbits")
             return 0
 
         if removed:
             removed_string = ""
             for orbit in removed:
                 removed_string = removed_string +" "+str(orbit)
-            QtGui.QMessageBox.warning(None, "Warning", "No data available for the following orbits\n"+removed_string)
+            QtGui.QMessageBox.warning(None, "Warning", "No radargrams available for the following orbits\n"+removed_string)
 
 
         self.set_viewers()
