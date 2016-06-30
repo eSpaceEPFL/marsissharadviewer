@@ -113,7 +113,6 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
             return 0
 
         if not (self.get_selected_features()):
-            print "No valid selected features"
             QtGui.QMessageBox.critical (None, "Error", "No valid selected features")
             self.closeEvent(None)
             return 0
