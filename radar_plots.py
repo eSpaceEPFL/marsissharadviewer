@@ -49,6 +49,7 @@ class SinglePlot(pg_GraphicsLayout):
         super(SinglePlot, self).__init__(parent, **kargs)
 
         self.menu = None
+        self.set_menu()
         self.surf_line = None
         self.images = []
 
@@ -80,7 +81,7 @@ class SinglePlot(pg_GraphicsLayout):
 
         self.grid = pg_GridItem() #adding grid
         self.view_box.addItem(self.grid)
-
+#        self.view_box.setParent(self)
 #        for image in images:
 #            self._add_image(image)
 
@@ -91,6 +92,7 @@ class SinglePlot(pg_GraphicsLayout):
 
         self.roi = pg_LinearRegionItem(movable=roi_movable) #adding roi highlight
         self.view_box.addItem(self.roi)
+#        self.roi.setParent(self)
 
         self.v_mark = pg_InfiniteLine(angle=90, movable=True) #adding vertical marker
         self.view_box.addItem(self.v_mark, ignoreBounds=True)
@@ -100,41 +102,35 @@ class SinglePlot(pg_GraphicsLayout):
         self.view_box.addItem(self.h_mark, ignoreBounds=True)
         self.h_mark.sigPositionChanged.connect(self.upd_pos_label)
 
-    def mouseClickEvent(self, ev):
-        if ev.button() == QtCore.Qt.RightButton:
-            self.raiseContextMenu(ev)
-            ev.accept()
 
-    def raiseContextMenu(self, ev):
-        menu = self.getMenu()
+    def getContextMenus(self, event):
         if self.surf_line:
             self.surf_line_action.setEnabled(0)
-#        menu = self.scene().addParentContextMenus(self, menu, ev)
-        pos = ev.screenPos()
-        menu.popup(QtCore.QPoint(pos.x(), pos.y()))
-
-    def getMenu(self):
-        if self.menu is None:
-            self.menu = QtGui.QMenu()
-            self.menu.setTitle("---")
-
-            self.surf_line_action = QtGui.QAction("Add surface line", self.menu)
-            self.surf_line_action.triggered.connect(self.add_surf_line)
-            self.menu.addAction(self.surf_line_action)
-#            self.menu.surf_line = self.surf_line_action
-
-            sub_line = QtGui.QAction("Add subsurface line", self.menu)
-#            sub_line.triggered.connect(None)
-            self.menu.addAction(sub_line)
-            self.menu.sub_line = sub_line
-
 
         return self.menu
 
-#    def mouseDragEvent(self, ev):
-#        if ev.button() != QtCore.Qt.LeftButton:
-#            return
-#        ev.accept()
+#    def raiseContextMenu(self, ev):
+#        menu = self.getMenu()
+#        if self.surf_line:
+#            self.surf_line_action.setEnabled(0)
+##        menu = self.scene().addParentContextMenus(self, menu, ev)
+#        pos = ev.screenPos()
+#        menu.popup(QtCore.QPoint(pos.x(), pos.y()))
+
+    def set_menu(self):
+        self.menu = QtGui.QMenu()
+        self.menu.setTitle("Depth measurement")
+
+        self.surf_line_action = QtGui.QAction("Add surface line", self.menu)
+        self.surf_line_action.triggered.connect(self.add_surf_line)
+        self.menu.addAction(self.surf_line_action)
+
+        sub_line = QtGui.QAction("Add subsurface line", self.menu)
+#            sub_line.triggered.connect(None)
+        self.menu.addAction(sub_line)
+        self.menu.sub_line = sub_line
+
+
 
     def add_surf_line(self):
         self.surf_line = pg_PolyLineROI([[0,0], [10,10]], closed=False, removable=True, pen = (0,9))
