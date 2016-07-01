@@ -130,11 +130,15 @@ class SinglePlot(pg_GraphicsLayout):
         self.menu.addAction(sub_line)
         self.menu.sub_line = sub_line
 
-
-
     def add_surf_line(self):
         self.surf_line = pg_PolyLineROI([[0,0], [10,10]], closed=False, removable=True, pen = (0,9))
         self.view_box.addItem(self.surf_line)
+        self.surf_line.sigRemoveRequested.connect(self.remove_surf_line)
+
+    def remove_surf_line(self):
+        self.surf_line.sigRemoveRequested.disconnect(self.remove_surf_line)
+        self.view_box.removeItem(self.surf_line)
+        self.surf_line = None
 
     def set_label(self, label_text):
         self.label.setText(label_text)
