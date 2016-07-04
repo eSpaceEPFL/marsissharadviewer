@@ -5,6 +5,9 @@
 #
 # Mantainer: Federico Cantini <federico.cantini@epfl.ch>
 
+from gc import collect as gc_collect
+from time import sleep
+
 from numpy import inf as np_inf
 from numpy import zeros as np_zeros
 from numpy import ones as np_ones
@@ -51,6 +54,7 @@ class SinglePlot(pg_GraphicsLayout):
         self.menu = None
         self.set_menu()
         self.surf_line = None
+        self.sub_lines = []
         self.images = []
 
         self.label_text = label_text
@@ -104,8 +108,12 @@ class SinglePlot(pg_GraphicsLayout):
 
 
     def getContextMenus(self, event):
+        print "gt menu"
+        print self.surf_line
         if self.surf_line:
             self.surf_line_action.setEnabled(0)
+        else:
+            self.surf_line_action.setEnabled(1)
 
         return self.menu
 
@@ -126,7 +134,7 @@ class SinglePlot(pg_GraphicsLayout):
         self.menu.addAction(self.surf_line_action)
 
         sub_line = QtGui.QAction("Add subsurface line", self.menu)
-#            sub_line.triggered.connect(None)
+        sub_line.triggered.connect(self.add_sub_line)
         self.menu.addAction(sub_line)
         self.menu.sub_line = sub_line
 
@@ -136,9 +144,19 @@ class SinglePlot(pg_GraphicsLayout):
         self.surf_line.sigRemoveRequested.connect(self.remove_surf_line)
 
     def remove_surf_line(self):
-        self.surf_line.sigRemoveRequested.disconnect(self.remove_surf_line)
+        print "-->"
+#        self.surf_line.sigRemoveRequested.disconnect(self.remove_surf_line)
         self.view_box.removeItem(self.surf_line)
+#        self.surf_line.stateChanged()
+        del self.surf_line
         self.surf_line = None
+
+#        gc_collect() #To prevent sigRemoveRequested to keep firing
+
+    def add_sub_line(self):
+        self.sub_lines.append(SubLine([[0,0], [10,10]], closed=False, removable=True, vb = self.view_box, pen = (3,9)))
+        self.view_box.addItem(self.sub_lines[-1])
+        self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
 
     def set_label(self, label_text):
         self.label.setText(label_text)
@@ -284,7 +302,21 @@ class SinglePlot(pg_GraphicsLayout):
                                                   self.q_rects[ii].width(),
                                                   self.q_rects[ii].height()))
 
+###############################################################################
+###############################################################################
+###############################################################################
 
+class SubLine(pg_PolyLineROI):
+
+    def __init__(self, positions, closed=False, pos=None, vb = None, **args):
+        super(SubLine, self).__init__(positions, closed=False, pos=None, **args)
+        self.vb = vb
+
+    def remove(self):
+        print "--->"
+        self.sigRemoveRequested.disconnect(self.remove)
+        self.vb.removeItem(self)
+        self = None
 
 class PositionLabel(pg_TextItem):
 
