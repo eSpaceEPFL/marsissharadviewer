@@ -32,6 +32,7 @@ import pyqtgraph.opengl as gl
 
 import look_up_tables as lut
 
+
 class SinglePlot(pg_GraphicsLayout):
     """
     """
@@ -108,12 +109,15 @@ class SinglePlot(pg_GraphicsLayout):
 
 
     def getContextMenus(self, event):
-        print "gt menu"
-        print self.surf_line
-        if self.surf_line:
-            self.surf_line_action.setEnabled(0)
-        else:
-            self.surf_line_action.setEnabled(1)
+
+        try:
+            if self.surf_line:
+                self.surf_line_action.setEnabled(0)
+            else:
+                self.surf_line_action.setEnabled(1)
+        except AttributeError:
+            pass
+
 
         return self.menu
 
@@ -139,13 +143,16 @@ class SinglePlot(pg_GraphicsLayout):
         self.menu.sub_line = sub_line
 
     def add_surf_line(self):
-        self.surf_line = pg_PolyLineROI([[0,0], [10,10]], closed=False, removable=True, pen = (0,9))
+        (x1,x2) = self.roi.getRegion()
+        h = self.q_rects[0].top()+self.q_rects[0].height()/2.
+        print h
+        self.surf_line = pg_PolyLineROI([[x1,h], [x2,h]], closed=False, removable=True, pen = (0,9), movable = False)
         self.view_box.addItem(self.surf_line)
         self.surf_line.sigRemoveRequested.connect(self.remove_surf_line)
 
     def remove_surf_line(self):
         print "-->"
-#        self.surf_line.sigRemoveRequested.disconnect(self.remove_surf_line)
+        self.surf_line.sigRemoveRequested.disconnect(self.remove_surf_line)
         self.view_box.removeItem(self.surf_line)
 #        self.surf_line.stateChanged()
         del self.surf_line
@@ -154,7 +161,8 @@ class SinglePlot(pg_GraphicsLayout):
 #        gc_collect() #To prevent sigRemoveRequested to keep firing
 
     def add_sub_line(self):
-        self.sub_lines.append(SubLine([[0,0], [10,10]], closed=False, removable=True, vb = self.view_box, pen = (3,9)))
+        (x1,x2) = self.roi.getRegion()
+        self.sub_lines.append(SubLine([[x1,0], [x2,0]], closed=False, removable=True, vb = self.view_box, pen = (3,9)))
         self.view_box.addItem(self.sub_lines[-1])
         self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
 
