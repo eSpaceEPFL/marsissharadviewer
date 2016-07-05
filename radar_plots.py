@@ -145,13 +145,11 @@ class SinglePlot(pg_GraphicsLayout):
     def add_surf_line(self):
         (x1,x2) = self.roi.getRegion()
         h = self.q_rects[0].top()+self.q_rects[0].height()/2.
-        print h
         self.surf_line = pg_PolyLineROI([[x1,h], [x2,h]], closed=False, removable=True, pen = (0,9), movable = False)
         self.view_box.addItem(self.surf_line)
         self.surf_line.sigRemoveRequested.connect(self.remove_surf_line)
 
     def remove_surf_line(self):
-        print "-->"
         self.surf_line.sigRemoveRequested.disconnect(self.remove_surf_line)
         self.view_box.removeItem(self.surf_line)
 #        self.surf_line.stateChanged()
