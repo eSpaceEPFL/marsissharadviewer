@@ -145,7 +145,7 @@ class SinglePlot(pg_GraphicsLayout):
     def add_surf_line(self):
         (x1,x2) = self.roi.getRegion()
         h = self.q_rects[0].top()+self.q_rects[0].height()/2.
-        self.surf_line = pg_PolyLineROI([[x1,h], [x2,h]], closed=False, removable=True, pen = (0,9), movable = False)
+        self.surf_line = pg_PolyLineROI([[x1,h], [x2,h]], closed=False, removable=True, pen = (0,9), movable = True)
         self.view_box.addItem(self.surf_line)
         self.surf_line.sigRemoveRequested.connect(self.remove_surf_line)
 
@@ -160,7 +160,8 @@ class SinglePlot(pg_GraphicsLayout):
 
     def add_sub_line(self):
         (x1,x2) = self.roi.getRegion()
-        self.sub_lines.append(SubLine([[x1,0], [x2,0]], closed=False, removable=True, vb = self.view_box, pen = (3,9)))
+        h = self.q_rects[0].top()+self.q_rects[0].height()/2.
+        self.sub_lines.append(SubLine([[x1,h], [x2,h]], closed=False, removable=True, vb = self.view_box, pen = (3,9), movable = True))
         self.view_box.addItem(self.sub_lines[-1])
         self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
 
@@ -319,7 +320,6 @@ class SubLine(pg_PolyLineROI):
         self.vb = vb
 
     def remove(self):
-        print "--->"
         self.sigRemoveRequested.disconnect(self.remove)
         self.vb.removeItem(self)
         self = None

@@ -7,6 +7,7 @@
 
 import os.path
 from collections import OrderedDict
+from time import sleep
 
 from numpy import mean as np_mean
 from numpy import zeros as np_zeros
@@ -178,7 +179,7 @@ class RadarViewer(_RadarViewer):
 
     def get_q_rect(self, orbit_dict):
     # If files are not available an exception is thrown here
-    # Check if data is actually avaiable (probably higher in the hierarchy of call ) 
+    # Check if data is actually avaiable (probably higher in the hierarchy of call )
         return QtCore.QRectF(0, -orbit_dict['data'][0].shape[2],orbit_dict['data'][0].shape[1], orbit_dict['data'][0].shape[2])
 
     def show_data(self, lut = lut.GrayLUT().get_lut(), comp_mode = QtGui.QPainter.CompositionMode_Plus):
@@ -419,6 +420,7 @@ class OrbitViewer(pg.GraphicsLayout):
         for plot in self.plots:
             plot.set_roi(roi_range, roi_bounds)
 
+
     def set_roi_bounds(self, roi_bounds):
         for plot in self.plots:
             plot.set_roi_bounds(roi_bounds)
@@ -614,9 +616,9 @@ class ThreeDViewer(QtGui.QWidget):
 
 
     def set_k(self, data_dict):
-    # Here place check if something was selected - output an error 
-    # indicating that nothing reasonable was selected 
-    # Here plug in crashes if started from an empty project. 
+    # Here place check if something was selected - output an error
+    # indicating that nothing reasonable was selected
+    # Here plug in crashes if started from an empty project.
         if np.abs(data_dict[data_dict.keys()[0]]['proj_y'][0])>1000:
             self.plot.set_k( kx=100000., ky=100000., kz=1.)
         else:
