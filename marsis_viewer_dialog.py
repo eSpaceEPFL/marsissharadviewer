@@ -7,8 +7,8 @@
 
 import os
 import gc
-#import pyqtgraph as pg
-from pyqtgraph.Qt import QtGui, QtCore
+
+from marsissharadviewer.pyqtgraphcore.Qt import QtGui, QtCore
 from PyQt4 import uic
 #from PyQt4.QtCore import QThread
 

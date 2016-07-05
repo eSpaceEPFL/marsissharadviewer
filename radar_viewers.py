@@ -13,11 +13,11 @@ from numpy import mean as np_mean
 from numpy import zeros as np_zeros
 #from numpy import array as np_array
 
-import pyqtgraph as pg
-import pyqtgraph.opengl as gl
+import marsissharadviewer.pyqtgraphcore  as pg
+from marsissharadviewer.pyqtgraphcore import opengl as gl
 from OpenGL.GL import *
 
-from pyqtgraph.Qt import QtCore, QtGui
+from marsissharadviewer.pyqtgraphcore.Qt import QtCore, QtGui
 #QtGui.QApplication.setGraphicsSystem('raster')
 from qgis.core import QgsFeatureRequest
 from qgis import utils

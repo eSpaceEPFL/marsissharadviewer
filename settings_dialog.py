@@ -8,7 +8,7 @@
 import os
 
 from PyQt4 import uic
-from pyqtgraph.Qt import QtGui
+from marsissharadviewer.pyqtgraphcore.Qt import QtGui
 
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -45,27 +45,27 @@ class SettingsDialog(QtGui.QWidget, FORM_CLASS):
 
 
         #SHARAD
-        try: 
+        try:
            self.lineSharadDataDisk.setText(self.prefs.DISK_L2_DIR['SHARAD'])
-        except TypeError: 
-        	print "Opps! Type Error" 
-           
+        except TypeError:
+        	print "Opps! Type Error"
+
         try:
         	self.lineSharadSimDisk.setText(self.prefs.DISK_SIM_DIR['SHARAD'])
         except TypeError:
-        	print "Opps! Type Error" 
-        	
+        	print "Opps! Type Error"
+
         try:
         	self.lineSharadDataHttp.setText(self.prefs.HTTP_L2_DIR['SHARAD'])
         except TypeError:
-        	print "Opps! Type Error" 
-        
+        	print "Opps! Type Error"
+
         try:
         	self.lineSharadSimHttp.setText(self.prefs.HTTP_SIM_DIR['SHARAD'])
         except TypeError:
-        	print "Opps! Type Error" 
-        	
-        	
+        	print "Opps! Type Error"
+
+
         if self.prefs.DATA_SOURCE['SHARAD'] == 'DISK':
             self.radioSharadDataDisk.setChecked(True)
 

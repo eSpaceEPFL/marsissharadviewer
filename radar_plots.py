@@ -16,19 +16,19 @@ from numpy import rot90 as np_rot90
 from numpy import array as np_array
 from numpy import linspace as np_linspace
 
-from pyqtgraph.Qt import  QtCore, QtGui
+from marsissharadviewer.pyqtgraphcore.Qt import  QtCore, QtGui
 
-from pyqtgraph import GraphicsLayout as pg_GraphicsLayout
-from pyqtgraph import TextItem as pg_TextItem
-from pyqtgraph import GridItem as pg_GridItem
-from pyqtgraph import LinearRegionItem as pg_LinearRegionItem
-from pyqtgraph import InfiniteLine as pg_InfiniteLine
-from pyqtgraph import LabelItem as pg_LabelItem
-from pyqtgraph import ImageItem as pg_ImageItem
-from pyqtgraph import makeRGBA as pg_makeRGBA
-from pyqtgraph import PolyLineROI as pg_PolyLineROI
+from marsissharadviewer.pyqtgraphcore import GraphicsLayout as pg_GraphicsLayout
+from marsissharadviewer.pyqtgraphcore import TextItem as pg_TextItem
+from marsissharadviewer.pyqtgraphcore import GridItem as pg_GridItem
+from marsissharadviewer.pyqtgraphcore import LinearRegionItem as pg_LinearRegionItem
+from marsissharadviewer.pyqtgraphcore import InfiniteLine as pg_InfiniteLine
+from marsissharadviewer.pyqtgraphcore import LabelItem as pg_LabelItem
+from marsissharadviewer.pyqtgraphcore import ImageItem as pg_ImageItem
+from marsissharadviewer.pyqtgraphcore import makeRGBA as pg_makeRGBA
+from marsissharadviewer.pyqtgraphcore import PolyLineROI as pg_PolyLineROI
 
-import pyqtgraph.opengl as gl
+from marsissharadviewer.pyqtgraphcore import opengl as gl
 
 import look_up_tables as lut
 
