@@ -188,3 +188,28 @@ class ThreadProcessing(QtCore.QThread):
     def run(self):
         self.to_run()
         self.finished.emit()
+
+class Orbit(object):
+    """
+    """
+
+    def __init__(self):
+        self.lat_dict = {}
+        self.lon_dict = {}
+        self.point_id = []
+        self.proj_x_dict = {}
+        self.layer = None
+        self.lat = []
+        self.proj_x = []
+        self.proj_y = []
+        self.data = []
+        self.v_scale = None
+        self.crs = None
+        self.proj_y_dict = {}
+        self.data_reader = None
+        self.lon = []
+        self.instrument = None
+        self.point_id_range
+        self.sim_reader = None
+        self.sim = []
+
