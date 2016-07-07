@@ -14,10 +14,7 @@ class Orbit(object):
     def __init__(self, orbit_id):
         self.id = orbit_id
         self.point_id_dict = OrderedDict()
-#        self.point_id_dict['lon'] = {}
-#        self.point_id_dict['lat'] = {}
-#        self.point_id_dict['proj_x'] = {}
-#        self.point_id_dict['proj_y'] = {}
+
         self.layer = None
         self.data = []
         self.sim = []
@@ -27,16 +24,6 @@ class Orbit(object):
         self.instrument = None
         self.range = None
         self.sim_reader = None
-
-#        self.lat_dict = {}
-#        self.lon_dict = {}
-#        self.point_id = []
-#        self.proj_x_dict = {}
-#        self.lon = []
-#        self.proj_y_dict = {}
-#        self.lat = []
-#        self.proj_x = []
-#        self.proj_y = []
 
     def set_id(self, value):
         self.id= value
@@ -170,8 +157,3 @@ class Orbit(object):
     def get_range(self):
         return self.range
 
-#    def add_point_id(self, value):
-#        self.point_id.append(value)
-#
-#    def rem_point_id(self, value):
-#        self.point_id.remove(value)
