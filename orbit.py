@@ -157,8 +157,11 @@ class Orbit(object):
     def read_sim(self):
         self.sim = self.sim_reader.get_data(self.id)
 
+    def read_v_scale(self):
+        self.v_scale = self.data_reader.get_v_scale(self.id)
+
     def get_v_scale(self):
-        self.v_scale = self.sim_reader.get_v_scale(self.id)
+        return self.v_scale
 
     def set_range(self):
         point_ids = self.point_id_dict.keys()

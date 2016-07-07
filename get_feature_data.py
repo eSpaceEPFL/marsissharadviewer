@@ -117,7 +117,7 @@ class GetFeatureData():
             self.orbits[orbit].sort_point_dict()
             self.orbits[orbit].read_data()
             self.orbits[orbit].read_sim()
-            self.orbits[orbit].get_v_scale()
+            self.orbits[orbit].read_v_scale()
 
             self.orbits[orbit].set_range()
 
@@ -132,6 +132,7 @@ class GetFeatureData():
 #                tree_item.addChild(QTreeWidgetItem([str(point)]))
 #
 #            self.data_tree.addTopLevelItem(tree_item)
+
 
         return removed
 

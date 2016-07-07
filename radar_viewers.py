@@ -271,11 +271,12 @@ class SyncRadarViewer(RadarViewer):
         return (orbit_dict.lat_0(), orbit_dict.lat_f())
 
     def get_q_rect(self, orbit_dict):
+
         step = (orbit_dict.lat_f()-orbit_dict.lat_0())/(orbit_dict.get_range()[-1]-orbit_dict.get_range()[0])
         lat_0 = orbit_dict.lat_0() + step*(-orbit_dict.get_range()[0])
         lat_f = orbit_dict.lat_0() + step*(orbit_dict.data[0].shape[1]-orbit_dict.get_range()[0])
 
-        return QtCore.QRectF(lat_0,-orbit_dict.get_v_scale(), lat_f-lat_0, orbit_dict.v_scale())
+        return QtCore.QRectF(lat_0,-orbit_dict.get_v_scale(), lat_f-lat_0, orbit_dict.get_v_scale())
 
 
 class UpdGisSelection():
@@ -619,7 +620,7 @@ class ThreeDViewer(QtGui.QWidget):
     # Here place check if something was selected - output an error
     # indicating that nothing reasonable was selected
     # Here plug in crashes if started from an empty project.
-        if np.abs(data_dict[data_dict.keys()[0]]['proj_y'][0])>1000:
+        if np.abs(data_dict[data_dict.keys()[0]].get_proj_y_list()[0])>1000:
             self.plot.set_k( kx=100000., ky=100000., kz=1.)
         else:
             self.plot.set_k( kx=1., ky=1., kz=1.)
