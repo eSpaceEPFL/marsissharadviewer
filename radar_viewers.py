@@ -646,43 +646,6 @@ class GridItem(gl.GLGridItem):
 
     def __init__(self, size=None, color=None, antialias=True, glOptions='translucent'):
         super(GridItem, self).__init__(size = size, color=color,antialias = antialias,glOptions=glOptions)
-#        GLGraphicsItem.__init__(self)
-#        self.setGLOptions(glOptions)
-#        self.antialias = antialias
-#        if size is None:
-#            size = QtGui.QVector3D(20,20,1)
-#        self.setSize(size=size)
-#        self.setSpacing(1, 1, 1)
-#
-#    def setSize(self, x=None, y=None, z=None, size=None):
-#        """
-#        Set the size of the axes (in its local coordinate system; this does not affect the transform)
-#        Arguments can be x,y,z or size=QVector3D().
-#        """
-#        if size is not None:
-#            x = size.x()
-#            y = size.y()
-#            z = size.z()
-#        self.__size = [x,y,z]
-#        self.update()
-#
-#    def size(self):
-#        return self.__size[:]
-#
-#    def setSpacing(self, x=None, y=None, z=None, spacing=None):
-#        """
-#        Set the spacing between grid lines.
-#        Arguments can be x,y,z or spacing=QVector3D().
-#        """
-#        if spacing is not None:
-#            x = spacing.x()
-#            y = spacing.y()
-#            z = spacing.z()
-#        self.__spacing = [x,y,z]
-#        self.update()
-#
-#    def spacing(self):
-#        return self.__spacing[:]
 
     def paint(self):
         self.setupGLState()
