@@ -11,7 +11,8 @@ class Orbit(object):
     """
     """
 
-    def __init__(self):
+    def __init__(self, orbit_id):
+        self.id = str(orbit_id)
         self.point_id_dict = OrderedDict()
         self.point_id_dict['lon'] = {}
         self.point_id_dict['lat'] = {}
@@ -36,6 +37,12 @@ class Orbit(object):
 #        self.lat = []
 #        self.proj_x = []
 #        self.proj_y = []
+
+    def set_id(self, value):
+        self.id= value
+
+    def get_id(self):
+        return self.id
 
     def set_layer(self, value):
         self.layer = value
@@ -67,14 +74,17 @@ class Orbit(object):
     def get_crs(self):
         return self.crs
 
+    def add_point_id(self, point_id):
+        self.point_id_dict[point_id] = {}
+
     def add_lon(self, point_id, lon):
-        self.point_id_dict['lon'] = lon
+        self.point_id_dict[point_id]['lon'] = lon
 
     def get_lon(self, point_id):
         return self.point_id_dict[point_id]['lon']
 
     def add_lat(self, point_id, lat):
-        self.point_id_dict['lat'] = lat
+        self.point_id_dict[point_id]['lat'] = lat
 
     def get_lat(self, point_id):
         return self.point_id_dict[point_id]['lat']
@@ -93,6 +103,18 @@ class Orbit(object):
 
         return lat_list
 
+    def add_proj_x(self, point_id, proj_x):
+        self.point_id_dict[point_id]['proj_x'] = proj_x
+
+    def get_proj_x(self, point_id):
+        return self.point_id_dict[point_id]['proj_x']
+
+    def add_proj_y(self, point_id, proj_y):
+        self.point_id_dict[point_id]['proj_y'] = proj_y
+
+    def get_proj_y(self, point_id):
+        return self.point_id_dict[point_id]['proj_y']
+
     def sort_point_dict(self):
         """ TO BE CALLED AFTER DICT 'LOADING'
         """
@@ -104,6 +126,18 @@ class Orbit(object):
 
         self.point_id_dict = temp_d
 
+    def read_gata(self):
+        self.data = self.data_reader.get_data(self.id)
+
+    def read_sim(self):
+        self.sim = self.sim_reader.get_data(self.id)
+
+    def get_v_scale(self):
+        self.v_scale = self.sim_reader.get_v_scale(self.id)
+
+    def set_range(self):
+        point_ids = self.point_id_dict.keys()
+        self.range = [min(point_ids), max(point_ids)]
 
 #    def add_point_id(self, value):
 #        self.point_id.append(value)
