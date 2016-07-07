@@ -293,33 +293,11 @@ class UpdGisSelection():
 
     def run(self, a):
 
-        if self.fetch_feat_ids:
-            self.fetch_feat_ids = 0
-            qstring = self.prefs.ORBIT['MARSIS']+' = '+  str(self.orbit_number)
-            req=QgsFeatureRequest().setFilterExpression(qstring)
-            req.setSubsetOfAttributes([self.layer.fieldNameIndex(self.prefs.ORBIT['MARSIS']), self.layer.fieldNameIndex('point_id')])
-
-            fit=self.layer.getFeatures(req)
-            feats=[ f for f in fit ]
-            feats.sort(key=lambda x: x.attribute('point_id'), reverse=False)
-
-            ii = 0
-            point_ids = []
-
-            for f in feats:
-                self.features_ids.append(f.id())
-                point_ids.append(f.attribute('point_id'))
-                self.features_ids_dict[f.attribute('point_id')] = ii
-                ii = ii + 1
-
-            self.orbit_viewer.set_roi_bounds([min( point_ids), max( point_ids)])
-
-        self.layer.deselect(self.features_ids)
-
-        selection_start = self.features_ids_dict[int(round(a.getRegion()[0]))]
-        selection_stop = self.features_ids_dict[int(round(a.getRegion()[1]))]
-
-        self.layer.select(self.features_ids[selection_start:selection_stop])
+        point_ids = self.orbit_viewer.orbit_dict.get_map_avail_ids()
+        self.orbit_viewer.set_roi_bounds([min( point_ids), max( point_ids)])
+        feat_list = self.orbit_viewer.orbit_dict.get_map_selected_feats(int(round(a.getRegion()[0])),int(round(a.getRegion()[1])))
+        self.layer.deselect(self.orbit_viewer.orbit_dict.get_map_avail_feats())
+        self.layer.select(feat_list)
 
 class RadarLutWidget(pg.LayoutWidget):
 
@@ -386,6 +364,7 @@ class OrbitViewer(pg.GraphicsLayout):
         self.orbit_label = orbit_dict.get_instrument() + " - Orbit "+str(orbit)
         self.x_unit = x_unit
         self.y_unit = y_unit
+        self.orbit_dict=orbit_dict
 
         for band in orbit_dict.data:
             data_f.append(np_mean(band,0))

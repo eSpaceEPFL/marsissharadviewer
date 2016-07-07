@@ -7,12 +7,15 @@
 
 from collections import OrderedDict
 
+from qgis.core import QgsFeatureRequest
+
 class Orbit(object):
     """
     """
 
-    def __init__(self, orbit_id):
+    def __init__(self, orbit_id, prefs):
         self.id = orbit_id
+        self.prefs = prefs
         self.point_id_dict = OrderedDict()
 
         self.layer = None
@@ -24,6 +27,10 @@ class Orbit(object):
         self.instrument = None
         self.range = None
         self.sim_reader = None
+
+        self.map_avail_feats = None
+        self.map_avail_feats_d = None
+        self.map_avail_ids = None
 
     def set_id(self, value):
         self.id= value
@@ -156,4 +163,46 @@ class Orbit(object):
 
     def get_range(self):
         return self.range
+
+    def get_map_avail_feats(self):
+        if not self.map_avail_feats:
+            self.__retrieve_map_avail_feats(self)
+
+        return self.map_avail_feats
+
+    def __retrieve_map_avail_feats(self):
+
+        qstring = self.prefs.ORBIT['MARSIS']+' = '+  str(self.id)
+        req=QgsFeatureRequest().setFilterExpression(qstring)
+        req.setSubsetOfAttributes([self.layer.fieldNameIndex(self.prefs.ORBIT['MARSIS']), self.layer.fieldNameIndex('point_id')])
+
+        fit=self.layer.getFeatures(req)
+        feats=[ f for f in fit ]
+        feats.sort(key=lambda x: x.attribute('point_id'), reverse=False)
+
+        ii = 0
+
+        self.map_avail_ids = []
+        self.map_avail_feats = []
+        self.map_avail_feats_d = {}
+        for f in feats:
+            self.map_avail_feats.append(f.id())
+            self.map_avail_ids.append(f.attribute('point_id'))
+            self.map_avail_feats_d[f.attribute('point_id')] = ii
+            ii = ii + 1
+
+    def get_map_selected_feats(self, start, stop):
+        if not self.map_avail_feats:
+            self.__retrieve_map_avail_feats()
+
+        selection_start = self.map_avail_feats_d[start]
+        selection_stop = self.map_avail_feats_d[stop]
+
+        return self.map_avail_feats[selection_start:selection_stop]
+
+    def get_map_avail_ids(self):
+        if not self.map_avail_ids:
+            self.__retrieve_map_avail_feats()
+
+        return self.map_avail_ids
 

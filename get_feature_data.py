@@ -84,7 +84,7 @@ class GetFeatureData():
             for feature in fit[ii]:
                 key = str(feature.attribute(self.orbit_field_name[ii]))
                 if self.orbits.has_key(key) == False:
-                    self.orbits[key] = Orbit(key)
+                    self.orbits[key] = Orbit(key, self.prefs)
 
                     self.orbits[key].set_layer (self.layers[ii])
 
