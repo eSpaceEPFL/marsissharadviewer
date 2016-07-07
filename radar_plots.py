@@ -169,6 +169,8 @@ class SinglePlot(pg_GraphicsLayout):
         self.label.setText(label_text)
 
     def set_roi(self, min_max, bounds = None):
+        print ":"
+        print min_max
         self.roi.setRegion(min_max)
         if bounds:
             self.roi.setBounds(bounds)

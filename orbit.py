@@ -12,12 +12,12 @@ class Orbit(object):
     """
 
     def __init__(self, orbit_id):
-        self.id = str(orbit_id)
+        self.id = orbit_id
         self.point_id_dict = OrderedDict()
-        self.point_id_dict['lon'] = {}
-        self.point_id_dict['lat'] = {}
-        self.point_id_dict['proj_x'] = {}
-        self.point_id_dict['proj_y'] = {}
+#        self.point_id_dict['lon'] = {}
+#        self.point_id_dict['lat'] = {}
+#        self.point_id_dict['proj_x'] = {}
+#        self.point_id_dict['proj_y'] = {}
         self.layer = None
         self.data = []
         self.sim = []
@@ -25,7 +25,7 @@ class Orbit(object):
         self.crs = None
         self.data_reader = None
         self.instrument = None
-        self.point_id_range
+        self.range = None
         self.sim_reader = None
 
 #        self.lat_dict = {}
@@ -63,7 +63,7 @@ class Orbit(object):
         return self.sim_reader
 
     def set_instrument(self, value):
-        self.intrument = value
+        self.instrument = value
 
     def get_instrument(self):
         return self.instrument
@@ -89,19 +89,25 @@ class Orbit(object):
     def get_lat(self, point_id):
         return self.point_id_dict[point_id]['lat']
 
-    def get_lon_list(self):
-        lon_list = []
-        for point_id in self.point_id_dict.keys():
-            lon_list.append(self.point_id_dict[point_id]['lon'])
+    def _dict_0(self, d_key):
+        point_id = self.point_id_dict.keys()[0]
+        return self.point_id_dict[point_id][d_key]
 
-        return lon_list
+    def _dict_f(self, d_key):
+        point_id = self.point_id_dict.keys()[-1]
+        return self.point_id_dict[point_id][d_key]
 
-    def get_lat_list(self):
-        lat_list = []
-        for point_id in self.point_id_dict.keys():
-            lat_list.append(self.point_id_dict[point_id]['lat'])
+    def lon_0(self):
+        return self._dict_0('lon')
 
-        return lat_list
+    def lon_f(self):
+        return self._dict_f('lon')
+
+    def lat_0(self):
+        return self._dict_0('lat')
+
+    def lat_f(self):
+        return self._dict_f('lat')
 
     def add_proj_x(self, point_id, proj_x):
         self.point_id_dict[point_id]['proj_x'] = proj_x
@@ -115,6 +121,25 @@ class Orbit(object):
     def get_proj_y(self, point_id):
         return self.point_id_dict[point_id]['proj_y']
 
+    def _get_dict_as_list(self, d_key):
+        l = []
+        for point_id in self.point_id_dict.keys():
+            l.append(self.point_id_dict[point_id][d_key])
+
+        return l
+
+    def get_lon_list(self):
+        return self._get_dict_as_list('lon')
+
+    def get_lat_list(self):
+        return self._get_dict_as_list('lat')
+
+    def get_proj_x_list(self):
+        return self._get_dict_as_list('proj_x')
+
+    def get_proj_y_list(self):
+        return self._get_dict_as_list('proj_y')
+
     def sort_point_dict(self):
         """ TO BE CALLED AFTER DICT 'LOADING'
         """
@@ -126,7 +151,7 @@ class Orbit(object):
 
         self.point_id_dict = temp_d
 
-    def read_gata(self):
+    def read_data(self):
         self.data = self.data_reader.get_data(self.id)
 
     def read_sim(self):
@@ -138,6 +163,9 @@ class Orbit(object):
     def set_range(self):
         point_ids = self.point_id_dict.keys()
         self.range = [min(point_ids), max(point_ids)]
+
+    def get_range(self):
+        return self.range
 
 #    def add_point_id(self, value):
 #        self.point_id.append(value)

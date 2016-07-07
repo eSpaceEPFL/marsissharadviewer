@@ -153,7 +153,7 @@ class RadarViewer(_RadarViewer):
                                        self.get_roi_bounds(data_dict[orbit]))
             self.orbit_row[-1].set_full_link_int()
 
-            self.upd_gis_selection[str_orbit] = UpdGisSelection(ow, str_orbit, data_dict[orbit]['layer'], self.prefs)
+            self.upd_gis_selection[str_orbit] = UpdGisSelection(ow, str_orbit, data_dict[orbit].get_layer(), self.prefs)
             self.orbit_row[-1].plots[0].roi_connect(self.upd_gis_selection[str_orbit].run)
 
             self.buttons[self.prefs.DEF_LUT].click()
@@ -175,12 +175,12 @@ class RadarViewer(_RadarViewer):
         return None
 
     def get_roi_range(self, orbit_dict):
-        return orbit_dict['range']
+        return orbit_dict.get_range()
 
     def get_q_rect(self, orbit_dict):
     # If files are not available an exception is thrown here
     # Check if data is actually avaiable (probably higher in the hierarchy of call )
-        return QtCore.QRectF(0, -orbit_dict['data'][0].shape[2],orbit_dict['data'][0].shape[1], orbit_dict['data'][0].shape[2])
+        return QtCore.QRectF(0, -orbit_dict.data[0].shape[2],orbit_dict.data[0].shape[1], orbit_dict.data[0].shape[2])
 
     def show_data(self, lut = lut.GrayLUT().get_lut(), comp_mode = QtGui.QPainter.CompositionMode_Plus):
         self._show_single_image(0, lut = lut, comp_mode = comp_mode)
@@ -268,14 +268,14 @@ class SyncRadarViewer(RadarViewer):
 
     def get_roi_range(self, orbit_dict):
 
-        return (orbit_dict['lat'][0], orbit_dict['lat'][-1])
+        return (orbit_dict.lat_0(), orbit_dict.lat_f())
 
     def get_q_rect(self, orbit_dict):
-        step = (orbit_dict['lat'][-1]-orbit_dict['lat'][0])/(orbit_dict['range'][-1]-orbit_dict['range'][0])
-        lat_0 = orbit_dict['lat'][0] + step*(-orbit_dict['range'][0])
-        lat_f = orbit_dict['lat'][0] + step*(orbit_dict['data'][0].shape[1]-orbit_dict['range'][0])
+        step = (orbit_dict.lat_f()-orbit_dict.lat_0())/(orbit_dict.get_range()[-1]-orbit_dict.get_range()[0])
+        lat_0 = orbit_dict.lat_0() + step*(-orbit_dict.get_range()[0])
+        lat_f = orbit_dict.lat_0() + step*(orbit_dict.data[0].shape[1]-orbit_dict.get_range()[0])
 
-        return QtCore.QRectF(lat_0,-orbit_dict['v_scale'], lat_f-lat_0, orbit_dict['v_scale'])
+        return QtCore.QRectF(lat_0,-orbit_dict.get_v_scale(), lat_f-lat_0, orbit_dict.v_scale())
 
 
 class UpdGisSelection():
@@ -382,23 +382,23 @@ class OrbitViewer(pg.GraphicsLayout):
         data_f = []
         sim_f = []
         self.v_offset = v_offset
-        self.orbit_label = orbit_dict['instrument'] + " - Orbit "+str(orbit)
+        self.orbit_label = orbit_dict.get_instrument() + " - Orbit "+str(orbit)
         self.x_unit = x_unit
         self.y_unit = y_unit
 
-        for band in orbit_dict['data']:
+        for band in orbit_dict.data:
             data_f.append(np_mean(band,0))
 
-        if orbit_dict['sim']:
-            for band in orbit_dict['sim']:
+        if orbit_dict.sim:
+            for band in orbit_dict.sim:
                 sim_f.append(np_mean(band,0))
 
         else:
-            for band in orbit_dict['data']:
+            for band in orbit_dict.data:
                 sim_f.append(np_zeros(band.shape[1:]))
 
         ii = 0
-        for band in orbit_dict['data']:
+        for band in orbit_dict.data:
             self.plots.append(SinglePlot(images = [data_f[ii], sim_f[ii]],
                                          images_label = ["data", "sim"],
                                          label_text = self.orbit_label+" Frequency band "+str(ii+1),
@@ -595,22 +595,22 @@ class ThreeDViewer(QtGui.QWidget):
         for orbit in data_dict.keys():
             self.orbit_surf_dict[orbit] = {}
             self.orbit_surf_dict[orbit]['data'] = []
-            for band in data_dict[orbit]['data']:
-                data = np_mean(band[:,data_dict[orbit]['range'][0]:data_dict[orbit]['range'][1]+1,:],0)
-                y = np.array(data_dict[orbit]['proj_y'])
-                x = np.array(data_dict[orbit]['proj_x'])
-                z = np.linspace(0, data_dict[orbit]['v_scale'], data.shape[1])
+            for band in data_dict[orbit].data:
+                data = np_mean(band[:,data_dict[orbit].get_range()[0]:data_dict[orbit].get_range()[1]+1,:],0)
+                y = np.array(data_dict[orbit].get_proj_y_list())
+                x = np.array(data_dict[orbit].get_proj_x_list())
+                z = np.linspace(0, data_dict[orbit].get_v_scale(), data.shape[1])
                 gl_obj = self.plot.add_surface(x,y,z/10., data)
                 self.orbit_surf_dict[orbit]['data'].append(ThreeDDataSurf(gl_obj, self.plot, 0))
 
 #            if data_dict[orbit].has_key('sim'):
-            if data_dict[orbit]['sim']:
+            if data_dict[orbit].sim:
                 self.orbit_surf_dict[orbit]['sim'] = []
-                for band in data_dict[orbit]['sim']:
-                    data = np_mean(band[:,data_dict[orbit]['range'][0]:data_dict[orbit]['range'][1]+1,:],0)
-                    y = np.array(data_dict[orbit]['proj_y'])
-                    x = np.array(data_dict[orbit]['proj_x'])
-                    z = np.linspace(0, data_dict[orbit]['v_scale'], data.shape[1])
+                for band in data_dict[orbit].sim:
+                    data = np_mean(band[:,data_dict[orbit].get_range()[0]:data_dict[orbit].get_range()[1]+1,:],0)
+                    y = np.array(data_dict[orbit].get_proj_y_list())
+                    x = np.array(data_dict[orbit].get_proj_x_list())
+                    z = np.linspace(0, data_dict[orbit].get_v_scale(), data.shape[1])
                     gl_obj = self.plot.add_surface(x,y,z/10., data)
                     self.orbit_surf_dict[orbit]['sim'].append(ThreeDDataSurf(gl_obj, self.plot, 0))
 
@@ -631,8 +631,8 @@ class ThreeDViewer(QtGui.QWidget):
             xm = []
             ym = []
 
-            ym.append(np.mean(data_dict[orbit]['proj_y']))
-            xm.append(np.mean(data_dict[orbit]['proj_x']))
+            ym.append(np.mean(data_dict[orbit].get_proj_y_list()))
+            xm.append(np.mean(data_dict[orbit].get_proj_x_list()))
 
         return (np.mean(xm), np.mean(ym))
 
@@ -749,7 +749,7 @@ class ThreeDCtrlWidget(pg.LayoutWidget):
         i={}
         self.surf_actions = []
         for orbit in viewer.orbit_surf_dict.keys():
-           i[orbit] = pg.TreeWidgetItem([viewer.data_dict[orbit]['instrument']+" "+orbit])
+           i[orbit] = pg.TreeWidgetItem([viewer.data_dict[orbit].get_instrument()+" "+orbit])
            self.tw.addTopLevelItem(i[orbit])
            button_orb = QtGui.QCheckBox()
            orbito_list.append(button_orb)
