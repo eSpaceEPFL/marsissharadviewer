@@ -8,8 +8,6 @@
 import os
 import gc
 
-from collections import OrderedDict
-
 from marsissharadviewer.pyqtgraphcore.Qt import QtGui, QtCore
 from PyQt4 import uic
 #from PyQt4.QtCore import QThread
@@ -23,6 +21,8 @@ from PyQt4 import uic
 #import time
 from get_feature_data import GetFeatureData
 #from qgis.core import QgsFeatureRequest
+
+from orbit import *
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'marsis_viewer_dialog_base.ui'))
@@ -191,83 +191,3 @@ class ThreadProcessing(QtCore.QThread):
         self.to_run()
         self.finished.emit()
 
-class Orbit(object):
-    """
-    """
-
-    def __init__(self):
-        self.point_id_dict = OrderedDict()
-        self.point_id_dict['lon'] = {}
-        self.point_id_dict['lat'] = {}
-        self.point_id_dict['proj_x'] = {}
-        self.point_id_dict['proj_y'] = {}
-        self.layer = None
-        self.data = []
-        self.sim = []
-        self.v_scale = None
-        self.crs = None
-        self.data_reader = None
-        self.instrument = None
-        self.point_id_range
-        self.sim_reader = None
-
-#        self.lat_dict = {}
-#        self.lon_dict = {}
-#        self.point_id = []
-#        self.proj_x_dict = {}
-#        self.lon = []
-#        self.proj_y_dict = {}
-#        self.lat = []
-#        self.proj_x = []
-#        self.proj_y = []
-
-    def set_layer(self, value):
-        self.layer = value
-
-    def get_layer(self):
-        return self.layer
-
-    def set_data_reader(self, value):
-        self.data_reader = value
-
-    def get_data_reader(self):
-        return self.data_reader
-
-    def set_sim_reader(self, value):
-        self.sim_reader = value
-
-    def get_sim_reader(self):
-        return self.sim_reader
-
-    def set_instrument(self, value):
-        self.intrument = value
-
-    def get_instrument(self):
-        return self.instrument
-
-    def set_crs(self, value):
-        self.crs= value
-
-    def get_crs(self):
-        return self.crs
-
-    def add_lon(self, key, value):
-        self.lon_dict[key] = value
-
-    def get_lon(self, key):
-        return self.lon_dict[key]
-
-    def add_lat(self, key, value):
-        self.lat_dict[key] = value
-
-    def get_lat(self, key):
-        return self.lat_dict[key]
-
-    def get_lon_list(self):
-        return
-
-#    def add_point_id(self, value):
-#        self.point_id.append(value)
-#
-#    def rem_point_id(self, value):
-#        self.point_id.remove(value)

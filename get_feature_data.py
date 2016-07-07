@@ -6,7 +6,7 @@
 # Mantainer: Federico Cantini <federico.cantini@epfl.ch>
 
 from qgis.core import QgsFeatureRequest, QgsCoordinateTransform
-
+from orbit import *
 
 class GetFeatureData():
     """Implement data retrieval
