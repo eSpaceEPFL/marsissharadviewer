@@ -329,9 +329,6 @@ class DepthTool(object):
         self.vb.addItem(self.sub_lines[-1])
         self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
 
-    def rm_sub_line(self):
-        pass
-
     def measure(self):
         pass
 
