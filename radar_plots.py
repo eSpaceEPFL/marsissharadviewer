@@ -54,8 +54,8 @@ class SinglePlot(pg_GraphicsLayout):
 
         self.menu = None
         self.set_menu()
-        self.surf_line = None
-        self.sub_lines = []
+#        self.surf_line = None
+#        self.sub_lines = []
         self.images = []
 
         self.label_text = label_text
@@ -77,6 +77,7 @@ class SinglePlot(pg_GraphicsLayout):
         self.addItem(self.label, row=0, col=0)
 
         self.view_box = self.addViewBox(row=1, col=0, lockAspect=lock_aspect) #adding viewbox
+        self.depth = DepthTool(self.view_box)
 
         self.position_label = PositionLabel(x_label = x_label,
                                             y_label = y_label,
@@ -145,25 +146,14 @@ class SinglePlot(pg_GraphicsLayout):
     def add_surf_line(self):
         (x1,x2) = self.roi.getRegion()
         h = self.q_rects[0].top()+self.q_rects[0].height()/2.
-        self.surf_line = pg_PolyLineROI([[x1,h], [x2,h]], closed=False, removable=True, pen = (0,9), movable = True)
-        self.view_box.addItem(self.surf_line)
-        self.surf_line.sigRemoveRequested.connect(self.remove_surf_line)
 
-    def remove_surf_line(self):
-        self.surf_line.sigRemoveRequested.disconnect(self.remove_surf_line)
-        self.view_box.removeItem(self.surf_line)
-#        self.surf_line.stateChanged()
-        del self.surf_line
-        self.surf_line = None
-
-#        gc_collect() #To prevent sigRemoveRequested to keep firing
+        self.depth.add_surf_line([x1,x2],[h,h])
 
     def add_sub_line(self):
         (x1,x2) = self.roi.getRegion()
         h = self.q_rects[0].top()+self.q_rects[0].height()/2.
-        self.sub_lines.append(SubLine([[x1,h], [x2,h]], closed=False, removable=True, vb = self.view_box, pen = (3,9), movable = True))
-        self.view_box.addItem(self.sub_lines[-1])
-        self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
+
+        self.depth.add_sub_line([x1,x2],[h,h])
 
     def set_label(self, label_text):
         self.label.setText(label_text)
@@ -313,6 +303,37 @@ class SinglePlot(pg_GraphicsLayout):
 ###############################################################################
 ###############################################################################
 ###############################################################################
+
+class DepthTool(object):
+    def __init__(self, vb):
+        self.vb = vb
+
+        self.surf_line = None
+        self.sub_lines = []
+
+
+    def add_surf_line(self, x, y):
+        self.surf_line = pg_PolyLineROI([[x[0],y[0]], [x[1],y[1]]], closed=False, removable=True, pen = (0,9), movable = True)
+        self.vb.addItem(self.surf_line)
+        self.surf_line.sigRemoveRequested.connect(self.rm_surf_line)
+
+    def rm_surf_line(self):
+        self.surf_line.sigRemoveRequested.disconnect(self.rm_surf_line)
+        self.vb.removeItem(self.surf_line)
+#        self.surf_line.stateChanged()
+        del self.surf_line
+        self.surf_line = None
+
+    def add_sub_line(self, x, y):
+        self.sub_lines.append(SubLine([[x[0],y[0]], [x[1],y[1]]], closed=False, removable=True, vb = self.vb, pen = (3,9), movable = True))
+        self.vb.addItem(self.sub_lines[-1])
+        self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
+
+    def rm_sub_line(self):
+        pass
+
+    def measure(self):
+        pass
 
 class SubLine(pg_PolyLineROI):
 
