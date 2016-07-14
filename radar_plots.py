@@ -314,7 +314,7 @@ class DepthTool(object):
 
 
     def add_surf_line(self, x, y):
-        self.surf_line = pg_PolyLineROI([[x[0],y[0]], [x[1],y[1]]], closed=False, removable=True, pen = (0,9), movable = True)
+        self.surf_line = SurfLine([[x[0],y[0]], [x[1],y[1]]], closed=False, removable=True, pen = (0,9), movable = True)
         self.vb.addItem(self.surf_line)
         self.surf_line.sigRemoveRequested.connect(self.rm_surf_line)
 
@@ -349,11 +349,11 @@ class DepthTool(object):
         return (line[0], line[1]-self.i_surf[1][x0:x0+len(line[1])])
 
     def _check_extent(self):
-        x0_surf = self.surf_line.getLocalHandlePositions()[0][1].x()
-        xf_surf = self.surf_line.getLocalHandlePositions()[-1][1].x()
+        x0_surf = self.surf_line.getViewHandlePositions()[0][1].x()
+        xf_surf = self.surf_line.getViewHandlePositions()[-1][1].x()
 
         for line in self.sub_lines:
-            handles = line.getLocalHandlePositions()
+            handles = line.getViewHandlePositions()
             if handles[0][1].x() < x0_surf:
                 return 1
 
@@ -363,7 +363,7 @@ class DepthTool(object):
         return 0
 
     def _interp_line(self, line):
-        handles = line.getLocalHandlePositions()
+        handles = line.getViewHandlePositions()
         x = []
         y = []
         for h in handles:
@@ -376,7 +376,22 @@ class DepthTool(object):
 
         return (xi,yi)
 
-class SubLine(pg_PolyLineROI):
+class SurfLine(pg_PolyLineROI):
+    def getViewHandlePositions(self, index=None):
+        """Returns the position of handles in the scene coordinate system.
+
+        The format returned is a list of (name, pos) tuples.
+        """
+        if index == None:
+            positions = []
+            for h in self.handles:
+                positions.append((h['name'], h['item'].viewPos()))
+            return positions
+        else:
+            return (self.handles[index]['name'], self.handles[index]['item'].viewPos())
+
+
+class SubLine(SurfLine):
 
     def __init__(self, positions, sub_list, closed=False, pos=None, vb = None, **args):
         super(SubLine, self).__init__(positions, closed=False, pos=None, **args)
