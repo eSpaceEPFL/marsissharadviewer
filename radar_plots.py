@@ -377,8 +377,11 @@ class DepthTool(object):
         return (xi,yi)
 
 class SurfLine(pg_PolyLineROI):
+    """Just to add the getViewHandlePositions method to the pyqtgraphs
+    PolyLineROI class and change menù label"""
+
     def getViewHandlePositions(self, index=None):
-        """Returns the position of handles in the scene coordinate system.
+        """Returns the position of handles in the view coordinate system.
 
         The format returned is a list of (name, pos) tuples.
         """
@@ -390,6 +393,16 @@ class SurfLine(pg_PolyLineROI):
         else:
             return (self.handles[index]['name'], self.handles[index]['item'].viewPos())
 
+    def getMenu(self):
+        if self.menu is None:
+            self.menu = QtGui.QMenu()
+            self.menu.setTitle("Surf line")
+            remAct = QtGui.QAction("Remove surface line", self.menu)
+            remAct.triggered.connect(self.removeClicked)
+            self.menu.addAction(remAct)
+            self.menu.remAct = remAct
+        return self.menu
+
 
 class SubLine(SurfLine):
 
@@ -397,6 +410,16 @@ class SubLine(SurfLine):
         super(SubLine, self).__init__(positions, closed=False, pos=None, **args)
         self.vb = vb
         self.list = sub_list
+
+    def getMenu(self):
+        if self.menu is None:
+            self.menu = QtGui.QMenu()
+            self.menu.setTitle("Sub line")
+            remAct = QtGui.QAction("Remove sub-surface line", self.menu)
+            remAct.triggered.connect(self.removeClicked)
+            self.menu.addAction(remAct)
+            self.menu.remAct = remAct
+        return self.menu
 
     def remove(self):
         self.sigRemoveRequested.disconnect(self.remove)
