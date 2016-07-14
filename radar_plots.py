@@ -332,6 +332,7 @@ class DepthTool(object):
 
     def measure(self):
         if self._check_extent():
+            QtGui.QMessageBox.critical (None, "Error", "Surface line does not cover subsurface line extension")
             return -1
 
         self.i_sub = []
