@@ -326,7 +326,7 @@ class DepthTool(object):
         self.surf_line = None
 
     def add_sub_line(self, x, y):
-        self.sub_lines.append(SubLine([[x[0],y[0]], [x[1],y[1]]], closed=False, removable=True, vb = self.vb, pen = (3,9), movable = True))
+        self.sub_lines.append(SubLine([[x[0],y[0]], [x[1],y[1]]], self.sub_lines, closed=False, removable=True, vb = self.vb, pen = (3,9), movable = True))
         self.vb.addItem(self.sub_lines[-1])
         self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
 
@@ -377,13 +377,15 @@ class DepthTool(object):
 
 class SubLine(pg_PolyLineROI):
 
-    def __init__(self, positions, closed=False, pos=None, vb = None, **args):
+    def __init__(self, positions, sub_list, closed=False, pos=None, vb = None, **args):
         super(SubLine, self).__init__(positions, closed=False, pos=None, **args)
         self.vb = vb
+        self.list = sub_list
 
     def remove(self):
         self.sigRemoveRequested.disconnect(self.remove)
         self.vb.removeItem(self)
+        self.list.remove(self)
         self = None
 
 class PositionLabel(pg_TextItem):
