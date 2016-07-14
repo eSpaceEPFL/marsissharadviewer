@@ -15,6 +15,7 @@ from numpy import empty as np_empty
 from numpy import rot90 as np_rot90
 from numpy import array as np_array
 from numpy import linspace as np_linspace
+from numpy import interp as np_interp
 
 from marsissharadviewer.pyqtgraphcore.Qt import  QtCore, QtGui
 
@@ -112,7 +113,7 @@ class SinglePlot(pg_GraphicsLayout):
     def getContextMenus(self, event):
 
         try:
-            if self.surf_line:
+            if self.depth.surf_line:
                 self.surf_line_action.setEnabled(0)
             else:
                 self.surf_line_action.setEnabled(1)
@@ -330,7 +331,49 @@ class DepthTool(object):
         self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
 
     def measure(self):
-        pass
+        if self._check_extent():
+            return -1
+
+        self.i_sub = []
+        self.depths = []
+        self.i_surf = self._interp_line(self.surf_line)
+        for line in self.sub_lines:
+            self.i_sub.append(self._interp_line(line))
+            self.depths.append(self._compute_depth(self.i_sub[-1]))
+
+    def _compute_depth(self, line):
+        x0 = -self.i_surf[0][0] + line[0][0]
+#        xf = self.i_surf[0][-1] - line[0][-1]
+
+        return (line[0], line[1]-self.i_surf[1][x0:x0+len(line[1])])
+
+    def _check_extent(self):
+        x0_surf = self.surf_line.getLocalHandlePositions()[0][1].x()
+        xf_surf = self.surf_line.getLocalHandlePositions()[-1][1].x()
+
+        for line in self.sub_lines:
+            handles = line.getLocalHandlePositions()
+            if handles[0][1].x() < x0_surf:
+                return 1
+
+            if handles[-1][1].x() > xf_surf:
+                return 1
+
+        return 0
+
+    def _interp_line(self, line):
+        handles = line.getLocalHandlePositions()
+        x = []
+        y = []
+        for h in handles:
+            x.append(h[1].x())
+            y.append(h[1].y())
+
+        xi = range(int(x[0]),int(x[-1])+1)
+        yi = np_interp(np_array(xi), np_array(x), np_array(y))
+
+
+        return (xi,yi)
 
 class SubLine(pg_PolyLineROI):
 
