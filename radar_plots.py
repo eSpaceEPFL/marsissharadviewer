@@ -312,7 +312,6 @@ class DepthTool(object):
         self.surf_line = None
         self.sub_lines = []
 
-
     def add_surf_line(self, x, y):
         self.surf_line = SurfLine([[x[0],y[0]], [x[1],y[1]]], closed=False, removable=True, pen = (0,9), movable = True)
         self.vb.addItem(self.surf_line)
