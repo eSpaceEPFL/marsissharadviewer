@@ -78,7 +78,7 @@ class SinglePlot(pg_GraphicsLayout):
         self.addItem(self.label, row=0, col=0)
 
         self.view_box = self.addViewBox(row=1, col=0, lockAspect=lock_aspect) #adding viewbox
-        self.depth = DepthTool(self.view_box)
+        self.depth = DepthTool(self.view_box, test_cb)
 
         self.position_label = PositionLabel(x_label = x_label,
                                             y_label = y_label,
@@ -144,6 +144,10 @@ class SinglePlot(pg_GraphicsLayout):
         self.menu.addAction(sub_line)
         self.menu.sub_line = sub_line
 
+        meas = QtGui.QAction("Measure...", self.menu)
+        meas.triggered.connect(self.depth_measure)
+        self.menu.addAction(meas)
+
     def add_surf_line(self):
         (x1,x2) = self.roi.getRegion()
         h = self.q_rects[0].top()+self.q_rects[0].height()/2.
@@ -155,6 +159,9 @@ class SinglePlot(pg_GraphicsLayout):
         h = self.q_rects[0].top()+self.q_rects[0].height()/2.
 
         self.depth.add_sub_line([x1,x2],[h,h])
+
+    def depth_measure(self):
+        self.depth.measure()
 
     def set_label(self, label_text):
         self.label.setText(label_text)
@@ -306,8 +313,9 @@ class SinglePlot(pg_GraphicsLayout):
 ###############################################################################
 
 class DepthTool(object):
-    def __init__(self, vb):
+    def __init__(self, vb, measure_cb):
         self.vb = vb
+        self.measure_cb = measure_cb
 
         self.surf_line = None
         self.sub_lines = []
@@ -330,8 +338,17 @@ class DepthTool(object):
         self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
 
     def measure(self):
+
+        if not self.surf_line:
+            QtGui.QMessageBox.critical (None, "Error", "No surface line")
+            return -1
+
+        if not len(self.sub_lines):
+            QtGui.QMessageBox.critical (None, "Error", "No sub-surface lines")
+            return -1
+
         if self._check_extent():
-            QtGui.QMessageBox.critical (None, "Error", "Surface line does not cover subsurface line extension")
+            QtGui.QMessageBox.critical (None, "Error", "Surface line does not cover subsurface lines extension")
             return -1
 
         self.i_sub = []
@@ -340,6 +357,8 @@ class DepthTool(object):
         for line in self.sub_lines:
             self.i_sub.append(self._interp_line(line))
             self.depths.append(self._compute_depth(self.i_sub[-1]))
+
+        self.measure_cb(self.i_surf, self.i_sub, self.depths)
 
     def _compute_depth(self, line):
         x0 = -self.i_surf[0][0] + line[0][0]
@@ -647,5 +666,14 @@ class ThreeDScatterRenderer(ThreeDRenderer):
     def render(self):
         self.gl_obj = gl.GLScatterPlotItem(pos=self.pos, size=self.size, color=self.color, pxMode=False)
         self.gl_obj.translate(-self.xoff, -self.yoff, -self.zoff)
+
+
+def test_cb(a,b,c):
+    print "a:"
+    print a
+    print "b:"
+    print b
+    print "c:"
+    print c
 
 
