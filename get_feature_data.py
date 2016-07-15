@@ -80,28 +80,31 @@ class GetFeatureData():
 
 #        for feature in self.layer.selectedFeaturesIterator():
         for ii in range(len(self.layers)):
-            xform = QgsCoordinateTransform(self.layers[ii].crs(), map_crs)
+#            xform = QgsCoordinateTransform(self.layers[ii].crs(), map_crs)
             for feature in fit[ii]:
                 key = str(feature.attribute(self.orbit_field_name[ii]))
                 if self.orbits.has_key(key) == False:
-                    self.orbits[key] = Orbit(key, self.prefs)
+                    self.orbits[key] = Orbit(key,
+                                             prefs = self.prefs,
+                                             layer = self.layers[ii],
+                                             data_reader = self.radar_reader[ii],
+                                             sim_reader = self.sim_reader[ii],
+                                             instrument = self.instrument[ii],
+                                             map_crs = map_crs)
 
-                    self.orbits[key].set_layer (self.layers[ii])
 
-                    self.orbits[key].set_data_reader(self.radar_reader[ii])
-                    self.orbits[key].set_sim_reader(self.sim_reader[ii])
 #                self.orbits[key]['orbit'] = self.orbit_field_name[ii]
-                    self.orbits[key].set_instrument(self.instrument[ii])
-                    self.orbits[key].set_crs(self.layers[ii].crs())
 
-                point_id = feature.attribute('point_id')
-                self.orbits[key].add_point_id(point_id)
-                point = feature.geometry().asPoint()
-                self.orbits[key].add_lat(point_id, point[1]) #feature.geometry().asPoint()[1]
-                self.orbits[key].add_lon(point_id, point[0]) #feature.geometry().asPoint()[0]
-                (proj_x, proj_y) = xform.transform(point)
-                self.orbits[key].add_proj_x(point_id, proj_x)
-                self.orbits[key].add_proj_y(point_id, proj_y)
+                self.orbits[key].add_feature_point(feature)
+
+#                point_id = feature.attribute('point_id')
+#                self.orbits[key].add_point_id(point_id)
+#                point = feature.geometry().asPoint()
+#                self.orbits[key].add_lat(point_id, point[1]) #feature.geometry().asPoint()[1]
+#                self.orbits[key].add_lon(point_id, point[0]) #feature.geometry().asPoint()[0]
+#                (proj_x, proj_y) = xform.transform(point)
+#                self.orbits[key].add_proj_x(point_id, proj_x)
+#                self.orbits[key].add_proj_y(point_id, proj_y)
 
         if not (self.orbits):
             return 0

@@ -7,78 +7,96 @@
 
 from collections import OrderedDict
 
-from qgis.core import QgsFeatureRequest
+from qgis.core import QgsFeatureRequest, QgsCoordinateTransform
 
 class Orbit(object):
     """
     """
 
-    def __init__(self, orbit_id, prefs):
+    def __init__(self,
+                 orbit_id,
+                 prefs = None,
+                 layer = None,
+                 data_reader = None,
+                 sim_reader = None,
+                 instrument = None,
+                 map_crs = None):
+
         self.id = orbit_id
         self.prefs = prefs
-        self.point_id_dict = OrderedDict()
+        self.layer = layer
+        self.data_reader = data_reader
+        self.sim_reader = sim_reader
+        self.instrument = instrument
+        self.map_crs = map_crs
 
-        self.layer = None
+
+#        self.xform = xform
+        self.point_id_dict = OrderedDict()
+        self.crs = self.layer.crs()
+        self.xform = QgsCoordinateTransform(self.crs, map_crs)
+
         self.data = []
         self.sim = []
         self.v_scale = None
-        self.crs = None
-        self.data_reader = None
-        self.instrument = None
+
         self.range = None
-        self.sim_reader = None
 
         self.map_avail_feats = None
         self.map_avail_feats_d = None
         self.map_avail_ids = None
 
-    def set_id(self, value):
-        self.id= value
-
+#    def set_id(self, value):
+#        self.id= value
+#
     def get_id(self):
         return self.id
-
-    def set_layer(self, value):
-        self.layer = value
-
+#
+#    def set_layer(self, value):
+#        self.layer = value
+#
     def get_layer(self):
         return self.layer
-
-    def set_data_reader(self, value):
-        self.data_reader = value
-
-    def get_data_reader(self):
-        return self.data_reader
-
-    def set_sim_reader(self, value):
-        self.sim_reader = value
-
+#
+#    def set_data_reader(self, value):
+#        self.data_reader = value
+#
+#    def get_data_reader(self):
+#        return self.data_reader
+#
+#    def set_sim_reader(self, value):
+#        self.sim_reader = value
+#
     def get_sim_reader(self):
         return self.sim_reader
-
-    def set_instrument(self, value):
-        self.instrument = value
-
+#
+#    def set_instrument(self, value):
+#        self.instrument = value
+#
     def get_instrument(self):
         return self.instrument
 
-    def set_crs(self, value):
-        self.crs= value
 
-    def get_crs(self):
-        return self.crs
-
-    def add_point_id(self, point_id):
+    def add_feature_point(self, feature):
+        point_id = feature.attribute('point_id')
         self.point_id_dict[point_id] = {}
+        self.point_id_dict[point_id]['feat'] = feature
+        point = feature.geometry().asPoint()
+        self.point_id_dict[point_id]['lat'] = point[1]
+        self.point_id_dict[point_id]['lon'] = point[0]
+        (proj_x, proj_y) = self.xform.transform(point)
+        self.point_id_dict[point_id]['proj_x'] = proj_x
+        self.point_id_dict[point_id]['proj_y'] = proj_y
 
-    def add_lon(self, point_id, lon):
-        self.point_id_dict[point_id]['lon'] = lon
+
+#    def add_lon(self, point_id, lon):
+#        self.point_id_dict[point_id]['lon'] = lon
 
     def get_lon(self, point_id):
         return self.point_id_dict[point_id]['lon']
 
-    def add_lat(self, point_id, lat):
-        self.point_id_dict[point_id]['lat'] = lat
+#    def add_lat(self, point_id, lat):
+#        self.point_id_dict[point_id]['lat'] = lat
 
     def get_lat(self, point_id):
         return self.point_id_dict[point_id]['lat']
@@ -103,14 +121,14 @@ class Orbit(object):
     def lat_f(self):
         return self._dict_f('lat')
 
-    def add_proj_x(self, point_id, proj_x):
-        self.point_id_dict[point_id]['proj_x'] = proj_x
+#    def add_proj_x(self, point_id, proj_x):
+#        self.point_id_dict[point_id]['proj_x'] = proj_x
 
     def get_proj_x(self, point_id):
         return self.point_id_dict[point_id]['proj_x']
 
-    def add_proj_y(self, point_id, proj_y):
-        self.point_id_dict[point_id]['proj_y'] = proj_y
+#    def add_proj_y(self, point_id, proj_y):
+#        self.point_id_dict[point_id]['proj_y'] = proj_y
 
     def get_proj_y(self, point_id):
         return self.point_id_dict[point_id]['proj_y']
@@ -189,6 +207,7 @@ class Orbit(object):
             self.map_avail_feats.append(f.id())
             self.map_avail_ids.append(f.attribute('point_id'))
             self.map_avail_feats_d[f.attribute('point_id')] = ii
+            self.add_feature_point(f)
             ii = ii + 1
 
     def get_map_selected_feats(self, start, stop):
