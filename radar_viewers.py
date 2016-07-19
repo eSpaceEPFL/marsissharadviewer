@@ -278,6 +278,20 @@ class SyncRadarViewer(RadarViewer):
 
         return QtCore.QRectF(lat_0,-orbit_dict.get_v_scale(), lat_f-lat_0, orbit_dict.get_v_scale())
 
+class CreateDepthLayer(object):
+
+    def __init__(self, orbit, band):
+        self.orbit = orbit
+        self.band = band
+
+    def run(self, i_surf, i_sub, depths):
+        print "i_surf:"
+        print i_surf
+        print "i_sub:"
+        print i_sub
+        print "depths:"
+        print depths
+
 
 class UpdGisSelection():
 
@@ -379,6 +393,7 @@ class OrbitViewer(pg.GraphicsLayout):
 
         ii = 0
         for band in orbit_dict.data:
+            depth_cb = CreateDepthLayer(self.orbit_dict, band)
             self.plots.append(SinglePlot(images = [data_f[ii], sim_f[ii]],
                                          images_label = ["data", "sim"],
                                          label_text = self.orbit_label+" Frequency band "+str(ii+1),
@@ -388,7 +403,8 @@ class OrbitViewer(pg.GraphicsLayout):
                                          x_label = x_label,
                                          y_label = y_label,
                                          x_unit = x_unit,
-                                         y_unit = y_unit))
+                                         y_unit = y_unit,
+                                         depth_cb = depth_cb.run))
 
             self.addItem(self.plots[-1], row=0, col=(ii))
 

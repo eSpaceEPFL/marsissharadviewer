@@ -50,6 +50,7 @@ class SinglePlot(pg_GraphicsLayout):
                  x_unit = "",
                  y_unit = "",
                  v_offset = 0,
+                 depth_cb = None,
                  **kargs):
         super(SinglePlot, self).__init__(parent, **kargs)
 
@@ -78,7 +79,7 @@ class SinglePlot(pg_GraphicsLayout):
         self.addItem(self.label, row=0, col=0)
 
         self.view_box = self.addViewBox(row=1, col=0, lockAspect=lock_aspect) #adding viewbox
-        self.depth = DepthTool(self.view_box, test_cb)
+        self.depth = DepthTool(self.view_box, depth_cb)
 
         self.position_label = PositionLabel(x_label = x_label,
                                             y_label = y_label,
@@ -667,13 +668,5 @@ class ThreeDScatterRenderer(ThreeDRenderer):
         self.gl_obj = gl.GLScatterPlotItem(pos=self.pos, size=self.size, color=self.color, pxMode=False)
         self.gl_obj.translate(-self.xoff, -self.yoff, -self.zoff)
 
-
-def test_cb(a,b,c):
-    print "a:"
-    print a
-    print "b:"
-    print b
-    print "c:"
-    print c
 
 
