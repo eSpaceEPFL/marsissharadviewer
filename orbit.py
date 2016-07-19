@@ -225,3 +225,11 @@ class Orbit(object):
 
         return self.map_avail_ids
 
+    def get_feature(self, point_id):
+        if not self.point_id_dict.has_key(point_id):
+            self.__retrieve_map_avail_feats()
+
+        if self.point_id_dict.has_key(point_id):
+            return self.point_id_dict[point_id]['feat']
+
+        return -1
