@@ -329,7 +329,7 @@ class CreateDepthLayer(object):
                         attr_list = attr_list+[float(i_sub_d[ii][xx]),
                                                self.orbit.px2t(float(i_sub_d[ii][xx])),
                                                float(depths_d[ii][xx]),
-                                               float(depths_d[ii][xx])]
+                                               self.orbit.px2t(float(depths_d[ii][xx]))]
                     else:
                         attr_list = attr_list+[None]*4
 
