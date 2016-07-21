@@ -239,5 +239,4 @@ class Orbit(object):
         return -1
 
     def px2t(self, px):
-        print self.data[0].shape
         return float(px)/self.data[0].shape[2]*self.v_scale
