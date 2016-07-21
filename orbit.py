@@ -169,6 +169,9 @@ class Orbit(object):
     def read_sim(self):
         self.sim = self.sim_reader.get_data(self.id)
 
+    def get_data_size(self):
+        return self.data[0].shape
+
     def read_v_scale(self):
         self.v_scale = self.data_reader.get_v_scale(self.id)
 
@@ -228,8 +231,13 @@ class Orbit(object):
     def get_feature(self, point_id):
         if not self.point_id_dict.has_key(point_id):
             self.__retrieve_map_avail_feats()
+            self.sort_point_dict()
 
         if self.point_id_dict.has_key(point_id):
             return self.point_id_dict[point_id]['feat']
 
         return -1
+
+    def px2t(self, px):
+        print self.data[0].shape
+        return float(px)/self.data[0].shape[2]*self.v_scale
