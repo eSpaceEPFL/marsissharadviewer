@@ -19,7 +19,7 @@ from OpenGL.GL import *
 
 from marsissharadviewer.pyqtgraphcore.Qt import QtCore, QtGui
 #QtGui.QApplication.setGraphicsSystem('raster')
-from qgis.core import QgsFeatureRequest
+from qgis.core import  QgsVectorLayer, QgsMapLayerRegistry, QgsField, QgsFeature, QgsFeatureRequest
 from qgis import utils
 #from PyQt4.QtCore import QRectF
 #from PyQt4.QtGui import QPushButton, QGridLayout
@@ -285,13 +285,77 @@ class CreateDepthLayer(object):
         self.band = band
 
     def run(self, i_surf, i_sub, depths):
-        print "i_surf:"
-        print i_surf
-        print "i_sub:"
-        print i_sub
-        print "depths:"
-        print depths
 
+        warning_flag = 0
+
+        # create layer
+        layer_name = self.orbit.get_instrument()+'_'+self.orbit.get_id()+'_'+str(self.band)+'_depth'
+        vl = QgsVectorLayer("Point", layer_name, "memory")
+        pr = vl.dataProvider()
+
+        # changes are only possible when editing the layer
+        vl.startEditing()
+        # add fields
+        pr.addAttributes([QgsField("orbit", QtCore.QVariant.Int),
+                          QgsField("point_id", QtCore.QVariant.Int),
+                          QgsField("band", QtCore.QVariant.Int),
+                          QgsField("surf_px", QtCore.QVariant.Double),
+                          QgsField("surf_t", QtCore.QVariant.Double)])
+
+        x_list = []
+        i_surf_d = dict(zip(i_surf[0],i_surf[1]))
+        i_sub_d = []
+        depths_d = []
+        for ii in range(len(depths)):
+            i_sub_d.append(dict(zip(i_sub[ii][0],i_sub[ii][1])))
+            depths_d.append(dict(zip(depths[ii][0],depths[ii][1])))
+            pr.addAttributes([QgsField("sub_"+str(ii)+"_px", QtCore.QVariant.Double),
+                              QgsField("sub_"+str(ii)+"_t", QtCore.QVariant.Double),
+                              QgsField("depth_"+str(ii)+"_px", QtCore.QVariant.Double),
+                              QgsField("depth_"+str(ii)+"_t", QtCore.QVariant.Double)])
+
+            x_list = x_list+depths[ii][0]
+
+        x_list.sort()
+        x_list = list(set(x_list))
+
+        for xx in x_list:
+            attr_list = [self.orbit.get_id(), xx, self.band, float(i_surf_d[xx]), self.orbit.px2t(float(i_surf_d[xx]))]
+            feat = self.orbit.get_feature(xx)
+
+            if not (feat == -1):
+                for ii in range(len(depths)):
+                    if i_sub_d[ii].has_key(xx):
+                        attr_list = attr_list+[float(i_sub_d[ii][xx]),
+                                               self.orbit.px2t(float(i_sub_d[ii][xx])),
+                                               float(depths_d[ii][xx]),
+                                               float(depths_d[ii][xx])]
+                    else:
+                        attr_list = attr_list+[None]*4
+
+                new_feat = QgsFeature()
+                new_feat.setGeometry(feat.geometry())
+                new_feat.setAttributes(attr_list)
+
+                pr.addFeatures([new_feat])
+
+            else:
+                warning_flag = 1
+
+        if warning_flag:
+            QtGui.QMessageBox.warning(None, "Warning", "Some surface point is outside the map available features")
+
+        # commit to stop editing the layer
+        vl.commitChanges()
+
+        # update layer's extent when new features have been added
+        # because change of extent in provider is not propagated to the layer
+        vl.updateExtents()
+
+        # add layer to the legend
+        QgsMapLayerRegistry.instance().addMapLayer(vl)
+
+        pass
 
 class UpdGisSelection():
 
@@ -393,7 +457,7 @@ class OrbitViewer(pg.GraphicsLayout):
 
         ii = 0
         for band in orbit_dict.data:
-            depth_cb = CreateDepthLayer(self.orbit_dict, band)
+            depth_cb = CreateDepthLayer(self.orbit_dict, ii)
             self.plots.append(SinglePlot(images = [data_f[ii], sim_f[ii]],
                                          images_label = ["data", "sim"],
                                          label_text = self.orbit_label+" Frequency band "+str(ii+1),
