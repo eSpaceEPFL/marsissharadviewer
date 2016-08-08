@@ -381,13 +381,25 @@ class DepthTool(object):
 
         return 0
 
-    def _interp_line(self, line):
+    def _handle2points(self, line):
         handles = line.getViewHandlePositions()
         x = []
         y = []
         for h in handles:
             x.append(h[1].x())
             y.append(h[1].y())
+
+        return (x,y)
+
+    def _interp_line(self, line):
+#        handles = line.getViewHandlePositions()
+#        x = []
+#        y = []
+#        for h in handles:
+#            x.append(h[1].x())
+#            y.append(h[1].y())
+
+        (x,y) = self._handle2points(line)
 
         xi = range(int(x[0]),int(x[-1])+1)
         yi = np_interp(np_array(xi), np_array(x), np_array(y))
