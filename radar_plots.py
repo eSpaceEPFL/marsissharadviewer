@@ -359,7 +359,7 @@ class DepthTool(object):
         self.surf_sel = self._handle2points(self.surf_line)
         for line in self.sub_lines:
             self.i_sub.append(self._interp_line(line))
-            self.sub_sel.append(self._interp_line(line))
+            self.sub_sel.append(self._handle2points(line))
             self.depths.append(self._compute_depth(self.i_sub[-1]))
 
         self.measure_cb(self.i_surf, self.i_sub, self.depths)
