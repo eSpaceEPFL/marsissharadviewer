@@ -284,8 +284,7 @@ class CreateDepthLayer(object):
         self.orbit = orbit
         self.band = band
 
-    def run(self, i_surf, i_sub, depths):
-
+    def run(self, surf_sel, sub_sel, i_surf, i_sub, depths):
         warning_flag = 0
 
         # create layer
@@ -300,7 +299,10 @@ class CreateDepthLayer(object):
                           QgsField("point_id", QtCore.QVariant.Int),
                           QgsField("band", QtCore.QVariant.Int),
                           QgsField("surf_px", QtCore.QVariant.Double),
-                          QgsField("surf_t", QtCore.QVariant.Double)])
+                          QgsField("surf_t", QtCore.QVariant.Double),
+                          QgsField("surf_sel_x", QtCore.QVariant.Double),
+                          QgsField("surf_sel_y", QtCore.QVariant.Double)
+                        ])
 
         x_list = []
         i_surf_d = dict(zip(i_surf[0],i_surf[1]))
@@ -311,16 +313,21 @@ class CreateDepthLayer(object):
             depths_d.append(dict(zip(depths[ii][0],depths[ii][1])))
             pr.addAttributes([QgsField("sub_"+str(ii)+"_px", QtCore.QVariant.Double),
                               QgsField("sub_"+str(ii)+"_t", QtCore.QVariant.Double),
+                              QgsField("sub_"+str(ii)+"_sel_x", QtCore.QVariant.Double),
+                              QgsField("sub_"+str(ii)+"_sel_y", QtCore.QVariant.Double),
                               QgsField("depth_"+str(ii)+"_px", QtCore.QVariant.Double),
                               QgsField("depth_"+str(ii)+"_t", QtCore.QVariant.Double)])
 
-            x_list = x_list+depths[ii][0]
+#            x_list = x_list+depths[ii][0]
 
+        x_list = i_surf[0]
         x_list.sort()
         x_list = list(set(x_list))
 
         for xx in x_list:
-            attr_list = [self.orbit.get_id(), xx, self.band, float(i_surf_d[xx]), self.orbit.px2t(float(i_surf_d[xx]))]
+            surf, sub =  self._find_sel(xx, surf_sel, sub_sel)
+
+            attr_list = [self.orbit.get_id(), xx, self.band, float(i_surf_d[xx]), self.orbit.px2t(float(i_surf_d[xx])), surf[0], surf[1]]
             feat = self.orbit.get_feature(xx)
 
             if not (feat == -1):
@@ -328,10 +335,13 @@ class CreateDepthLayer(object):
                     if i_sub_d[ii].has_key(xx):
                         attr_list = attr_list+[float(i_sub_d[ii][xx]),
                                                self.orbit.px2t(float(i_sub_d[ii][xx])),
+                                               sub[ii][0],
+                                               sub[ii][1],
                                                float(depths_d[ii][xx]),
-                                               self.orbit.px2t(float(depths_d[ii][xx]))]
+                                               self.orbit.px2t(float(depths_d[ii][xx]))
+                                               ]
                     else:
-                        attr_list = attr_list+[None]*4
+                        attr_list = attr_list+[None]*6
 
                 new_feat = QgsFeature()
                 new_feat.setGeometry(feat.geometry())
@@ -355,7 +365,30 @@ class CreateDepthLayer(object):
         # add layer to the legend
         QgsMapLayerRegistry.instance().addMapLayer(vl)
 
-        pass
+#        pass
+
+    def _find_sel(self, xx, surf_sel, sub_sel):
+
+        surf = [None, None]
+        sub = []
+        for ii in range(len(sub_sel)):
+            sub.append([None,None])
+
+        # surface line
+        for ii in range(len(surf_sel[0])):
+            if int(surf_sel[0][ii]) == int(xx):
+                surf[0] = surf_sel[0][ii]
+                surf[1] = surf_sel[1][ii]
+
+        #subsurface lines
+        for jj in range(len(sub_sel)):
+            for ii in range(len(sub_sel[jj][0])):
+                if int(sub_sel[jj][0][ii]) == int(xx):
+                    sub[jj][0] = sub_sel[jj][0][ii]
+                    sub[jj][1] = sub_sel[jj][1][ii]
+
+        return surf, sub
+
 
 class UpdGisSelection():
 
