@@ -5,6 +5,9 @@
 #
 # Mantainer: Federico Cantini <federico.cantini@epfl.ch>
 
+from gc import collect as gc_collect
+from time import sleep
+
 from numpy import inf as np_inf
 from numpy import zeros as np_zeros
 from numpy import ones as np_ones
@@ -12,21 +15,24 @@ from numpy import empty as np_empty
 from numpy import rot90 as np_rot90
 from numpy import array as np_array
 from numpy import linspace as np_linspace
+from numpy import interp as np_interp
 
-from pyqtgraph.Qt import  QtCore, QtGui
+from marsissharadviewer.pyqtgraphcore.Qt import  QtCore, QtGui
 
-from pyqtgraph import GraphicsLayout as pg_GraphicsLayout
-from pyqtgraph import TextItem as pg_TextItem
-from pyqtgraph import GridItem as pg_GridItem
-from pyqtgraph import LinearRegionItem as pg_LinearRegionItem
-from pyqtgraph import InfiniteLine as pg_InfiniteLine
-from pyqtgraph import LabelItem as pg_LabelItem
-from pyqtgraph import ImageItem as pg_ImageItem
-from pyqtgraph import makeRGBA as pg_makeRGBA
+from marsissharadviewer.pyqtgraphcore import GraphicsLayout as pg_GraphicsLayout
+from marsissharadviewer.pyqtgraphcore import TextItem as pg_TextItem
+from marsissharadviewer.pyqtgraphcore import GridItem as pg_GridItem
+from marsissharadviewer.pyqtgraphcore import LinearRegionItem as pg_LinearRegionItem
+from marsissharadviewer.pyqtgraphcore import InfiniteLine as pg_InfiniteLine
+from marsissharadviewer.pyqtgraphcore import LabelItem as pg_LabelItem
+from marsissharadviewer.pyqtgraphcore import ImageItem as pg_ImageItem
+from marsissharadviewer.pyqtgraphcore import makeRGBA as pg_makeRGBA
+from marsissharadviewer.pyqtgraphcore import PolyLineROI as pg_PolyLineROI
 
-import pyqtgraph.opengl as gl
+from marsissharadviewer.pyqtgraphcore import opengl as gl
 
 import look_up_tables as lut
+
 
 class SinglePlot(pg_GraphicsLayout):
     """
@@ -44,9 +50,14 @@ class SinglePlot(pg_GraphicsLayout):
                  x_unit = "",
                  y_unit = "",
                  v_offset = 0,
+                 depth_cb = None,
                  **kargs):
         super(SinglePlot, self).__init__(parent, **kargs)
 
+        self.menu = None
+        self.set_menu()
+#        self.surf_line = None
+#        self.sub_lines = []
         self.images = []
 
         self.label_text = label_text
@@ -68,6 +79,7 @@ class SinglePlot(pg_GraphicsLayout):
         self.addItem(self.label, row=0, col=0)
 
         self.view_box = self.addViewBox(row=1, col=0, lockAspect=lock_aspect) #adding viewbox
+        self.depth = DepthTool(self.view_box, depth_cb)
 
         self.position_label = PositionLabel(x_label = x_label,
                                             y_label = y_label,
@@ -77,7 +89,7 @@ class SinglePlot(pg_GraphicsLayout):
 
         self.grid = pg_GridItem() #adding grid
         self.view_box.addItem(self.grid)
-
+#        self.view_box.setParent(self)
 #        for image in images:
 #            self._add_image(image)
 
@@ -88,6 +100,7 @@ class SinglePlot(pg_GraphicsLayout):
 
         self.roi = pg_LinearRegionItem(movable=roi_movable) #adding roi highlight
         self.view_box.addItem(self.roi)
+#        self.roi.setParent(self)
 
         self.v_mark = pg_InfiniteLine(angle=90, movable=True) #adding vertical marker
         self.view_box.addItem(self.v_mark, ignoreBounds=True)
@@ -98,10 +111,64 @@ class SinglePlot(pg_GraphicsLayout):
         self.h_mark.sigPositionChanged.connect(self.upd_pos_label)
 
 
+    def getContextMenus(self, event):
+
+        try:
+            if self.depth.surf_line:
+                self.surf_line_action.setEnabled(0)
+            else:
+                self.surf_line_action.setEnabled(1)
+        except AttributeError:
+            pass
+
+
+        return self.menu
+
+#    def raiseContextMenu(self, ev):
+#        menu = self.getMenu()
+#        if self.surf_line:
+#            self.surf_line_action.setEnabled(0)
+##        menu = self.scene().addParentContextMenus(self, menu, ev)
+#        pos = ev.screenPos()
+#        menu.popup(QtCore.QPoint(pos.x(), pos.y()))
+
+    def set_menu(self):
+        self.menu = QtGui.QMenu()
+        self.menu.setTitle("Depth measurement")
+
+        self.surf_line_action = QtGui.QAction("Add surface line", self.menu)
+        self.surf_line_action.triggered.connect(self.add_surf_line)
+        self.menu.addAction(self.surf_line_action)
+
+        sub_line = QtGui.QAction("Add subsurface line", self.menu)
+        sub_line.triggered.connect(self.add_sub_line)
+        self.menu.addAction(sub_line)
+        self.menu.sub_line = sub_line
+
+        meas = QtGui.QAction("Measure...", self.menu)
+        meas.triggered.connect(self.depth_measure)
+        self.menu.addAction(meas)
+
+    def add_surf_line(self):
+        (x1,x2) = self.roi.getRegion()
+        h = self.q_rects[0].top()+self.q_rects[0].height()/2.
+
+        self.depth.add_surf_line([x1,x2],[h,h])
+
+    def add_sub_line(self):
+        (x1,x2) = self.roi.getRegion()
+        h = self.q_rects[0].top()+self.q_rects[0].height()/2.
+
+        self.depth.add_sub_line([x1,x2],[h,h])
+
+    def depth_measure(self):
+        self.depth.measure()
+
     def set_label(self, label_text):
         self.label.setText(label_text)
 
     def set_roi(self, min_max, bounds = None):
+
         self.roi.setRegion(min_max)
         if bounds:
             self.roi.setBounds(bounds)
@@ -242,7 +309,157 @@ class SinglePlot(pg_GraphicsLayout):
                                                   self.q_rects[ii].width(),
                                                   self.q_rects[ii].height()))
 
+###############################################################################
+###############################################################################
+###############################################################################
 
+class DepthTool(object):
+    def __init__(self, vb, measure_cb):
+        self.vb = vb
+        self.measure_cb = measure_cb
+
+        self.surf_line = None
+        self.sub_lines = []
+
+    def add_surf_line(self, x, y):
+        self.surf_line = SurfLine([[x[0],y[0]], [x[1],y[1]]], closed=False, removable=True, pen = (0,9), movable = True)
+        self.vb.addItem(self.surf_line)
+        self.surf_line.sigRemoveRequested.connect(self.rm_surf_line)
+
+    def rm_surf_line(self):
+        self.surf_line.sigRemoveRequested.disconnect(self.rm_surf_line)
+        self.vb.removeItem(self.surf_line)
+#        self.surf_line.stateChanged()
+        del self.surf_line
+        self.surf_line = None
+
+    def add_sub_line(self, x, y):
+        self.sub_lines.append(SubLine([[x[0],y[0]], [x[1],y[1]]], self.sub_lines, closed=False, removable=True, vb = self.vb, pen = (3,9), movable = True))
+        self.vb.addItem(self.sub_lines[-1])
+        self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
+
+    def measure(self):
+
+        if not self.surf_line:
+            QtGui.QMessageBox.critical (None, "Error", "No surface line")
+            return -1
+
+        if not len(self.sub_lines):
+            QtGui.QMessageBox.critical (None, "Error", "No sub-surface lines")
+            return -1
+
+        if self._check_extent():
+            QtGui.QMessageBox.critical (None, "Error", "Surface line does not cover subsurface lines extension")
+            return -1
+
+        self.i_sub = []
+        self.depths = []
+        self.sub_sel = []
+        self.i_surf = self._interp_line(self.surf_line)
+        self.surf_sel = self._handle2points(self.surf_line)
+        for line in self.sub_lines:
+            self.i_sub.append(self._interp_line(line))
+            self.sub_sel.append(self._handle2points(line))
+            self.depths.append(self._compute_depth(self.i_sub[-1]))
+
+        self.measure_cb(self.surf_sel, self.sub_sel, self.i_surf, self.i_sub, self.depths)
+
+    def _compute_depth(self, line):
+        x0 = -self.i_surf[0][0] + line[0][0]
+#        xf = self.i_surf[0][-1] - line[0][-1]
+
+        return (line[0], line[1]-self.i_surf[1][x0:x0+len(line[1])])
+
+    def _check_extent(self):
+        x0_surf = self.surf_line.getViewHandlePositions()[0][1].x()
+        xf_surf = self.surf_line.getViewHandlePositions()[-1][1].x()
+
+        for line in self.sub_lines:
+            handles = line.getViewHandlePositions()
+            if handles[0][1].x() < x0_surf:
+                return 1
+
+            if handles[-1][1].x() > xf_surf:
+                return 1
+
+        return 0
+
+    def _handle2points(self, line):
+        handles = line.getViewHandlePositions()
+        x = []
+        y = []
+        for h in handles:
+            x.append(h[1].x())
+            y.append(h[1].y())
+
+        return (x,y)
+
+    def _interp_line(self, line):
+#        handles = line.getViewHandlePositions()
+#        x = []
+#        y = []
+#        for h in handles:
+#            x.append(h[1].x())
+#            y.append(h[1].y())
+
+        (x,y) = self._handle2points(line)
+
+        xi = range(int(x[0]),int(x[-1])+1)
+        yi = np_interp(np_array(xi), np_array(x), np_array(y))
+
+
+        return (xi,yi)
+
+class SurfLine(pg_PolyLineROI):
+    """Just to add the getViewHandlePositions method to the pyqtgraphs
+    PolyLineROI class and change menù label"""
+
+    def getViewHandlePositions(self, index=None):
+        """Returns the position of handles in the view coordinate system.
+
+        The format returned is a list of (name, pos) tuples.
+        """
+        if index == None:
+            positions = []
+            for h in self.handles:
+                positions.append((h['name'], h['item'].viewPos()))
+            return positions
+        else:
+            return (self.handles[index]['name'], self.handles[index]['item'].viewPos())
+
+    def getMenu(self):
+        if self.menu is None:
+            self.menu = QtGui.QMenu()
+            self.menu.setTitle("Surf line")
+            remAct = QtGui.QAction("Remove surface line", self.menu)
+            remAct.triggered.connect(self.removeClicked)
+            self.menu.addAction(remAct)
+            self.menu.remAct = remAct
+        return self.menu
+
+
+class SubLine(SurfLine):
+
+    def __init__(self, positions, sub_list, closed=False, pos=None, vb = None, **args):
+        super(SubLine, self).__init__(positions, closed=False, pos=None, **args)
+        self.vb = vb
+        self.list = sub_list
+
+    def getMenu(self):
+        if self.menu is None:
+            self.menu = QtGui.QMenu()
+            self.menu.setTitle("Sub line")
+            remAct = QtGui.QAction("Remove sub-surface line", self.menu)
+            remAct.triggered.connect(self.removeClicked)
+            self.menu.addAction(remAct)
+            self.menu.remAct = remAct
+        return self.menu
+
+    def remove(self):
+        self.sigRemoveRequested.disconnect(self.remove)
+        self.vb.removeItem(self)
+        self.list.remove(self)
+        self = None
 
 class PositionLabel(pg_TextItem):
 
@@ -465,5 +682,6 @@ class ThreeDScatterRenderer(ThreeDRenderer):
     def render(self):
         self.gl_obj = gl.GLScatterPlotItem(pos=self.pos, size=self.size, color=self.color, pxMode=False)
         self.gl_obj.translate(-self.xoff, -self.yoff, -self.zoff)
+
 
 

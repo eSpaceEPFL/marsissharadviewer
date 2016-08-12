@@ -7,8 +7,8 @@
 
 import os
 import gc
-#import pyqtgraph as pg
-from pyqtgraph.Qt import QtGui, QtCore
+
+from marsissharadviewer.pyqtgraphcore.Qt import QtGui, QtCore
 from PyQt4 import uic
 #from PyQt4.QtCore import QThread
 
@@ -21,6 +21,8 @@ from PyQt4 import uic
 #import time
 from get_feature_data import GetFeatureData
 #from qgis.core import QgsFeatureRequest
+
+from orbit import *
 
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'marsis_viewer_dialog_base.ui'))
@@ -188,3 +190,4 @@ class ThreadProcessing(QtCore.QThread):
     def run(self):
         self.to_run()
         self.finished.emit()
+

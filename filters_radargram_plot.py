@@ -5,8 +5,8 @@
 #
 # Mantainer: Federico Cantini <federico.cantini@epfl.ch>
 
-import pyqtgraph as pg
-from pyqtgraph.Qt import QtCore, QtGui
+from marsissharadviewer.pyqtgraphcore import pyqtgraph as pg
+from marsissharadviewer.pyqtgraphcore.Qt import QtCore, QtGui
 from PyQt4.QtCore import QRectF
 import qgis.core
 
