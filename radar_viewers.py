@@ -19,7 +19,7 @@ from OpenGL.GL import *
 
 from marsissharadviewer.pyqtgraphcore.Qt import QtCore, QtGui
 #QtGui.QApplication.setGraphicsSystem('raster')
-from qgis.core import  QgsVectorLayer, QgsMapLayerRegistry, QgsField, QgsFeature, QgsFeatureRequest
+from qgis.core import  QgsVectorLayer, QgsMapLayerRegistry, QgsField, QgsFeature, QgsVectorFileWriter
 from qgis import utils
 #from PyQt4.QtCore import QRectF
 #from PyQt4.QtGui import QPushButton, QGridLayout
@@ -144,7 +144,8 @@ class RadarViewer(_RadarViewer):
                              lock_aspect = self.lock_aspect,
                              labels = 0,
                              x_unit = self.x_unit,
-                             y_unit = self.y_unit)
+                             y_unit = self.y_unit,
+                             prefs = self.prefs)
 
             self.orbit_row.append(ow)
 
@@ -280,7 +281,8 @@ class SyncRadarViewer(RadarViewer):
 
 class CreateDepthLayer(object):
 
-    def __init__(self, orbit, band):
+    def __init__(self, orbit, band, saving_dir):
+        self.saving_dir = saving_dir
         self.orbit = orbit
         self.band = band
 
@@ -364,6 +366,9 @@ class CreateDepthLayer(object):
 
         # add layer to the legend
         QgsMapLayerRegistry.instance().addMapLayer(vl)
+        file_name = os.path.join(self.saving_dir, layer_name + '.sqlite')
+
+        QgsVectorFileWriter.writeAsVectorFormat(vl, file_name, "utf-8", None, "SQLite")
 
 #        pass
 
@@ -464,7 +469,8 @@ class OrbitViewer(pg.GraphicsLayout):
                  y_label = 'y',
                  x_unit = "",
                  y_unit = "",
-                 v_offset = 0):
+                 v_offset = 0,
+                 prefs = None):
 
         super(OrbitViewer, self).__init__(parent)
 
@@ -476,6 +482,7 @@ class OrbitViewer(pg.GraphicsLayout):
         self.x_unit = x_unit
         self.y_unit = y_unit
         self.orbit_dict=orbit_dict
+        self.prefs = prefs
 
         for band in orbit_dict.data:
             data_f.append(np_mean(band,0))
@@ -490,7 +497,7 @@ class OrbitViewer(pg.GraphicsLayout):
 
         ii = 0
         for band in orbit_dict.data:
-            depth_cb = CreateDepthLayer(self.orbit_dict, ii)
+            depth_cb = CreateDepthLayer(self.orbit_dict, ii, self.prefs.CHACHE_BASE_DIR)
             self.plots.append(SinglePlot(images = [data_f[ii], sim_f[ii]],
                                          images_label = ["data", "sim"],
                                          label_text = self.orbit_label+" Frequency band "+str(ii+1),
