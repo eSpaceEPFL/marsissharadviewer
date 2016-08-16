@@ -323,8 +323,8 @@ class CreateDepthLayer(object):
 #            x_list = x_list+depths[ii][0]
 
         x_list = i_surf[0]
-        x_list.sort()
         x_list = list(set(x_list))
+        x_list.sort()
 
         for xx in x_list:
             surf, sub =  self._find_sel(xx, surf_sel, sub_sel)
