@@ -17,6 +17,9 @@ from numpy import array as np_array
 from numpy import linspace as np_linspace
 from numpy import interp as np_interp
 
+from qgis.core import QgsFeatureRequest
+from qgis import utils
+
 from marsissharadviewer.pyqtgraphcore.Qt import  QtCore, QtGui
 
 from marsissharadviewer.pyqtgraphcore import GraphicsLayout as pg_GraphicsLayout
@@ -149,6 +152,10 @@ class SinglePlot(pg_GraphicsLayout):
         meas.triggered.connect(self.depth_measure)
         self.menu.addAction(meas)
 
+        load = QtGui.QAction("Load lines from selected layer", self.menu)
+        load.triggered.connect(self.depth_load)
+        self.menu.addAction(load)
+
     def add_surf_line(self):
         (x1,x2) = self.roi.getRegion()
         h = self.q_rects[0].top()+self.q_rects[0].height()/2.
@@ -163,6 +170,9 @@ class SinglePlot(pg_GraphicsLayout):
 
     def depth_measure(self):
         self.depth.measure()
+
+    def depth_load(self):
+        self.depth.load()
 
     def set_label(self, label_text):
         self.label.setText(label_text)
@@ -322,7 +332,7 @@ class DepthTool(object):
         self.sub_lines = []
 
     def add_surf_line(self, x, y):
-        self.surf_line = SurfLine([[x[0],y[0]], [x[1],y[1]]], closed=False, removable=True, pen = (0,9), movable = True)
+        self.surf_line = SurfLine(zip(x,y), closed=False, removable=True, pen = (0,9), movable = True)
         self.vb.addItem(self.surf_line)
         self.surf_line.sigRemoveRequested.connect(self.rm_surf_line)
 
@@ -334,9 +344,58 @@ class DepthTool(object):
         self.surf_line = None
 
     def add_sub_line(self, x, y):
-        self.sub_lines.append(SubLine([[x[0],y[0]], [x[1],y[1]]], self.sub_lines, closed=False, removable=True, vb = self.vb, pen = (3,9), movable = True))
+        self.sub_lines.append(SubLine(zip(x,y), self.sub_lines, closed=False, removable=True, vb = self.vb, pen = (3,9), movable = True))
         self.vb.addItem(self.sub_lines[-1])
         self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
+
+    def load(self):
+        layer = utils.iface.activeLayer()
+        fiter = layer.getFeatures()
+        features = [feature for feature in fiter]
+        n_attr = len(features[0].attributes())
+
+        surf_x = []
+        surf_y = []
+
+        sub_attrs = self._get_sub_load_attrs(n_attr, layer)
+        sub_x = []
+        sub_y = []
+        sub_x_dict = {}
+        iid = 0
+
+        for attr in sub_attrs:
+            sub_x.append([])
+            sub_y.append([])
+            sub_x_dict[attr] = iid
+            iid = iid + 1
+
+        for feature in features:
+            if isinstance(feature.attribute('surf_sel_x'), float):
+                surf_x.append(feature.attribute('surf_sel_x'))
+                surf_y.append(feature.attribute('surf_sel_y'))
+
+            for idx in sub_attrs:
+                if isinstance(feature.attribute(layer.attributeDisplayName(idx)), float):
+                    sub_x[sub_x_dict[idx]].append(feature.attribute(layer.attributeDisplayName(idx)))
+                    sub_y[sub_x_dict[idx]].append(feature.attribute(layer.attributeDisplayName(idx+1)))
+
+#        self.rm_surf_line()
+#        print surf_x
+#        print surf_y
+        self.add_surf_line(surf_x, surf_y)
+        for ii in range(len(sub_x)):
+            self.add_sub_line(sub_x[ii], sub_y[ii])
+
+
+    def _get_sub_load_attrs(self, n_attr, layer):
+#        attr_dict = {}
+        attr_list = []
+        for ii in range(n_attr):
+            attribute = layer.attributeDisplayName(ii)
+            if (attribute.find('sub_')>=0) and (attribute.find('_sel_x')>=0):
+                attr_list.append(ii)
+
+        return attr_list
 
     def measure(self):
 
