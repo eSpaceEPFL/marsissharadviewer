@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/marsissharadviewer/" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>

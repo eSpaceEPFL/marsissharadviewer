@@ -6,7 +6,7 @@
 # Mantainer: Federico Cantini <federico.cantini@epfl.ch>
 
 import numpy as np
-from pyqtgraph import ColorMap as pg_ColorMap
+from marsissharadviewer.pyqtgraphcore import ColorMap as pg_ColorMap
 
 class LUT(object):
 

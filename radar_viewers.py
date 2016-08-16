@@ -7,18 +7,19 @@
 
 import os.path
 from collections import OrderedDict
+from time import sleep
 
 from numpy import mean as np_mean
 from numpy import zeros as np_zeros
 #from numpy import array as np_array
 
-import pyqtgraph as pg
-import pyqtgraph.opengl as gl
+import marsissharadviewer.pyqtgraphcore  as pg
+from marsissharadviewer.pyqtgraphcore import opengl as gl
 from OpenGL.GL import *
 
-from pyqtgraph.Qt import QtCore, QtGui
+from marsissharadviewer.pyqtgraphcore.Qt import QtCore, QtGui
 #QtGui.QApplication.setGraphicsSystem('raster')
-from qgis.core import QgsFeatureRequest
+from qgis.core import  QgsVectorLayer, QgsMapLayerRegistry, QgsField, QgsFeature, QgsFeatureRequest
 from qgis import utils
 #from PyQt4.QtCore import QRectF
 #from PyQt4.QtGui import QPushButton, QGridLayout
@@ -152,7 +153,7 @@ class RadarViewer(_RadarViewer):
                                        self.get_roi_bounds(data_dict[orbit]))
             self.orbit_row[-1].set_full_link_int()
 
-            self.upd_gis_selection[str_orbit] = UpdGisSelection(ow, str_orbit, data_dict[orbit]['layer'], self.prefs)
+            self.upd_gis_selection[str_orbit] = UpdGisSelection(ow, str_orbit, data_dict[orbit].get_layer(), self.prefs)
             self.orbit_row[-1].plots[0].roi_connect(self.upd_gis_selection[str_orbit].run)
 
             self.buttons[self.prefs.DEF_LUT].click()
@@ -174,12 +175,12 @@ class RadarViewer(_RadarViewer):
         return None
 
     def get_roi_range(self, orbit_dict):
-        return orbit_dict['range']
+        return orbit_dict.get_range()
 
     def get_q_rect(self, orbit_dict):
     # If files are not available an exception is thrown here
-    # Check if data is actually avaiable (probably higher in the hierarchy of call ) 
-        return QtCore.QRectF(0, -orbit_dict['data'][0].shape[2],orbit_dict['data'][0].shape[1], orbit_dict['data'][0].shape[2])
+    # Check if data is actually avaiable (probably higher in the hierarchy of call )
+        return QtCore.QRectF(0, -orbit_dict.data[0].shape[2],orbit_dict.data[0].shape[1], orbit_dict.data[0].shape[2])
 
     def show_data(self, lut = lut.GrayLUT().get_lut(), comp_mode = QtGui.QPainter.CompositionMode_Plus):
         self._show_single_image(0, lut = lut, comp_mode = comp_mode)
@@ -267,14 +268,126 @@ class SyncRadarViewer(RadarViewer):
 
     def get_roi_range(self, orbit_dict):
 
-        return (orbit_dict['lat'][0], orbit_dict['lat'][-1])
+        return (orbit_dict.lat_0(), orbit_dict.lat_f())
 
     def get_q_rect(self, orbit_dict):
-        step = (orbit_dict['lat'][-1]-orbit_dict['lat'][0])/(orbit_dict['range'][-1]-orbit_dict['range'][0])
-        lat_0 = orbit_dict['lat'][0] + step*(-orbit_dict['range'][0])
-        lat_f = orbit_dict['lat'][0] + step*(orbit_dict['data'][0].shape[1]-orbit_dict['range'][0])
 
-        return QtCore.QRectF(lat_0,-orbit_dict['v_scale'], lat_f-lat_0, orbit_dict['v_scale'])
+        step = (orbit_dict.lat_f()-orbit_dict.lat_0())/(orbit_dict.get_range()[-1]-orbit_dict.get_range()[0])
+        lat_0 = orbit_dict.lat_0() + step*(-orbit_dict.get_range()[0])
+        lat_f = orbit_dict.lat_0() + step*(orbit_dict.data[0].shape[1]-orbit_dict.get_range()[0])
+
+        return QtCore.QRectF(lat_0,-orbit_dict.get_v_scale(), lat_f-lat_0, orbit_dict.get_v_scale())
+
+class CreateDepthLayer(object):
+
+    def __init__(self, orbit, band):
+        self.orbit = orbit
+        self.band = band
+
+    def run(self, surf_sel, sub_sel, i_surf, i_sub, depths):
+        warning_flag = 0
+
+        # create layer
+        layer_name = self.orbit.get_instrument()+'_'+self.orbit.get_id()+'_'+str(self.band)+'_depth'
+        vl = QgsVectorLayer("Point", layer_name, "memory")
+        pr = vl.dataProvider()
+
+        # changes are only possible when editing the layer
+        vl.startEditing()
+        # add fields
+        pr.addAttributes([QgsField("orbit", QtCore.QVariant.Int),
+                          QgsField("point_id", QtCore.QVariant.Int),
+                          QgsField("band", QtCore.QVariant.Int),
+                          QgsField("surf_px", QtCore.QVariant.Double),
+                          QgsField("surf_t", QtCore.QVariant.Double),
+                          QgsField("surf_sel_x", QtCore.QVariant.Double),
+                          QgsField("surf_sel_y", QtCore.QVariant.Double)
+                        ])
+
+        x_list = []
+        i_surf_d = dict(zip(i_surf[0],i_surf[1]))
+        i_sub_d = []
+        depths_d = []
+        for ii in range(len(depths)):
+            i_sub_d.append(dict(zip(i_sub[ii][0],i_sub[ii][1])))
+            depths_d.append(dict(zip(depths[ii][0],depths[ii][1])))
+            pr.addAttributes([QgsField("sub_"+str(ii)+"_px", QtCore.QVariant.Double),
+                              QgsField("sub_"+str(ii)+"_t", QtCore.QVariant.Double),
+                              QgsField("sub_"+str(ii)+"_sel_x", QtCore.QVariant.Double),
+                              QgsField("sub_"+str(ii)+"_sel_y", QtCore.QVariant.Double),
+                              QgsField("depth_"+str(ii)+"_px", QtCore.QVariant.Double),
+                              QgsField("depth_"+str(ii)+"_t", QtCore.QVariant.Double)])
+
+#            x_list = x_list+depths[ii][0]
+
+        x_list = i_surf[0]
+        x_list.sort()
+        x_list = list(set(x_list))
+
+        for xx in x_list:
+            surf, sub =  self._find_sel(xx, surf_sel, sub_sel)
+
+            attr_list = [self.orbit.get_id(), xx, self.band, float(i_surf_d[xx]), self.orbit.px2t(float(i_surf_d[xx])), surf[0], surf[1]]
+            feat = self.orbit.get_feature(xx)
+
+            if not (feat == -1):
+                for ii in range(len(depths)):
+                    if i_sub_d[ii].has_key(xx):
+                        attr_list = attr_list+[float(i_sub_d[ii][xx]),
+                                               self.orbit.px2t(float(i_sub_d[ii][xx])),
+                                               sub[ii][0],
+                                               sub[ii][1],
+                                               float(depths_d[ii][xx]),
+                                               self.orbit.px2t(float(depths_d[ii][xx]))
+                                               ]
+                    else:
+                        attr_list = attr_list+[None]*6
+
+                new_feat = QgsFeature()
+                new_feat.setGeometry(feat.geometry())
+                new_feat.setAttributes(attr_list)
+
+                pr.addFeatures([new_feat])
+
+            else:
+                warning_flag = 1
+
+        if warning_flag:
+            QtGui.QMessageBox.warning(None, "Warning", "Some surface point is outside the map available features")
+
+        # commit to stop editing the layer
+        vl.commitChanges()
+
+        # update layer's extent when new features have been added
+        # because change of extent in provider is not propagated to the layer
+        vl.updateExtents()
+
+        # add layer to the legend
+        QgsMapLayerRegistry.instance().addMapLayer(vl)
+
+#        pass
+
+    def _find_sel(self, xx, surf_sel, sub_sel):
+
+        surf = [None, None]
+        sub = []
+        for ii in range(len(sub_sel)):
+            sub.append([None,None])
+
+        # surface line
+        for ii in range(len(surf_sel[0])):
+            if int(surf_sel[0][ii]) == int(xx):
+                surf[0] = surf_sel[0][ii]
+                surf[1] = surf_sel[1][ii]
+
+        #subsurface lines
+        for jj in range(len(sub_sel)):
+            for ii in range(len(sub_sel[jj][0])):
+                if int(sub_sel[jj][0][ii]) == int(xx):
+                    sub[jj][0] = sub_sel[jj][0][ii]
+                    sub[jj][1] = sub_sel[jj][1][ii]
+
+        return surf, sub
 
 
 class UpdGisSelection():
@@ -291,33 +404,11 @@ class UpdGisSelection():
 
     def run(self, a):
 
-        if self.fetch_feat_ids:
-            self.fetch_feat_ids = 0
-            qstring = self.prefs.ORBIT['MARSIS']+' = '+  str(self.orbit_number)
-            req=QgsFeatureRequest().setFilterExpression(qstring)
-            req.setSubsetOfAttributes([self.layer.fieldNameIndex(self.prefs.ORBIT['MARSIS']), self.layer.fieldNameIndex('point_id')])
-
-            fit=self.layer.getFeatures(req)
-            feats=[ f for f in fit ]
-            feats.sort(key=lambda x: x.attribute('point_id'), reverse=False)
-
-            ii = 0
-            point_ids = []
-
-            for f in feats:
-                self.features_ids.append(f.id())
-                point_ids.append(f.attribute('point_id'))
-                self.features_ids_dict[f.attribute('point_id')] = ii
-                ii = ii + 1
-
-            self.orbit_viewer.set_roi_bounds([min( point_ids), max( point_ids)])
-
-        self.layer.deselect(self.features_ids)
-
-        selection_start = self.features_ids_dict[int(round(a.getRegion()[0]))]
-        selection_stop = self.features_ids_dict[int(round(a.getRegion()[1]))]
-
-        self.layer.select(self.features_ids[selection_start:selection_stop])
+        point_ids = self.orbit_viewer.orbit_dict.get_map_avail_ids()
+        self.orbit_viewer.set_roi_bounds([min( point_ids), max( point_ids)])
+        feat_list = self.orbit_viewer.orbit_dict.get_map_selected_feats(int(round(a.getRegion()[0])),int(round(a.getRegion()[1])))
+        self.layer.deselect(self.orbit_viewer.orbit_dict.get_map_avail_feats())
+        self.layer.select(feat_list)
 
 class RadarLutWidget(pg.LayoutWidget):
 
@@ -381,23 +472,25 @@ class OrbitViewer(pg.GraphicsLayout):
         data_f = []
         sim_f = []
         self.v_offset = v_offset
-        self.orbit_label = orbit_dict['instrument'] + " - Orbit "+str(orbit)
+        self.orbit_label = orbit_dict.get_instrument() + " - Orbit "+str(orbit)
         self.x_unit = x_unit
         self.y_unit = y_unit
+        self.orbit_dict=orbit_dict
 
-        for band in orbit_dict['data']:
+        for band in orbit_dict.data:
             data_f.append(np_mean(band,0))
 
-        if orbit_dict['sim']:
-            for band in orbit_dict['sim']:
+        if orbit_dict.sim:
+            for band in orbit_dict.sim:
                 sim_f.append(np_mean(band,0))
 
         else:
-            for band in orbit_dict['data']:
+            for band in orbit_dict.data:
                 sim_f.append(np_zeros(band.shape[1:]))
 
         ii = 0
-        for band in orbit_dict['data']:
+        for band in orbit_dict.data:
+            depth_cb = CreateDepthLayer(self.orbit_dict, ii)
             self.plots.append(SinglePlot(images = [data_f[ii], sim_f[ii]],
                                          images_label = ["data", "sim"],
                                          label_text = self.orbit_label+" Frequency band "+str(ii+1),
@@ -407,7 +500,8 @@ class OrbitViewer(pg.GraphicsLayout):
                                          x_label = x_label,
                                          y_label = y_label,
                                          x_unit = x_unit,
-                                         y_unit = y_unit))
+                                         y_unit = y_unit,
+                                         depth_cb = depth_cb.run))
 
             self.addItem(self.plots[-1], row=0, col=(ii))
 
@@ -418,6 +512,7 @@ class OrbitViewer(pg.GraphicsLayout):
     def set_roi(self, roi_range, roi_bounds = None):
         for plot in self.plots:
             plot.set_roi(roi_range, roi_bounds)
+
 
     def set_roi_bounds(self, roi_bounds):
         for plot in self.plots:
@@ -593,31 +688,31 @@ class ThreeDViewer(QtGui.QWidget):
         for orbit in data_dict.keys():
             self.orbit_surf_dict[orbit] = {}
             self.orbit_surf_dict[orbit]['data'] = []
-            for band in data_dict[orbit]['data']:
-                data = np_mean(band[:,data_dict[orbit]['range'][0]:data_dict[orbit]['range'][1]+1,:],0)
-                y = np.array(data_dict[orbit]['proj_y'])
-                x = np.array(data_dict[orbit]['proj_x'])
-                z = np.linspace(0, data_dict[orbit]['v_scale'], data.shape[1])
+            for band in data_dict[orbit].data:
+                data = np_mean(band[:,data_dict[orbit].get_range()[0]:data_dict[orbit].get_range()[1]+1,:],0)
+                y = np.array(data_dict[orbit].get_proj_y_list())
+                x = np.array(data_dict[orbit].get_proj_x_list())
+                z = np.linspace(0, data_dict[orbit].get_v_scale(), data.shape[1])
                 gl_obj = self.plot.add_surface(x,y,z/10., data)
                 self.orbit_surf_dict[orbit]['data'].append(ThreeDDataSurf(gl_obj, self.plot, 0))
 
 #            if data_dict[orbit].has_key('sim'):
-            if data_dict[orbit]['sim']:
+            if data_dict[orbit].sim:
                 self.orbit_surf_dict[orbit]['sim'] = []
-                for band in data_dict[orbit]['sim']:
-                    data = np_mean(band[:,data_dict[orbit]['range'][0]:data_dict[orbit]['range'][1]+1,:],0)
-                    y = np.array(data_dict[orbit]['proj_y'])
-                    x = np.array(data_dict[orbit]['proj_x'])
-                    z = np.linspace(0, data_dict[orbit]['v_scale'], data.shape[1])
+                for band in data_dict[orbit].sim:
+                    data = np_mean(band[:,data_dict[orbit].get_range()[0]:data_dict[orbit].get_range()[1]+1,:],0)
+                    y = np.array(data_dict[orbit].get_proj_y_list())
+                    x = np.array(data_dict[orbit].get_proj_x_list())
+                    z = np.linspace(0, data_dict[orbit].get_v_scale(), data.shape[1])
                     gl_obj = self.plot.add_surface(x,y,z/10., data)
                     self.orbit_surf_dict[orbit]['sim'].append(ThreeDDataSurf(gl_obj, self.plot, 0))
 
 
     def set_k(self, data_dict):
-    # Here place check if something was selected - output an error 
-    # indicating that nothing reasonable was selected 
-    # Here plug in crashes if started from an empty project. 
-        if np.abs(data_dict[data_dict.keys()[0]]['proj_y'][0])>1000:
+    # Here place check if something was selected - output an error
+    # indicating that nothing reasonable was selected
+    # Here plug in crashes if started from an empty project.
+        if np.abs(data_dict[data_dict.keys()[0]].get_proj_y_list()[0])>1000:
             self.plot.set_k( kx=100000., ky=100000., kz=1.)
         else:
             self.plot.set_k( kx=1., ky=1., kz=1.)
@@ -629,171 +724,10 @@ class ThreeDViewer(QtGui.QWidget):
             xm = []
             ym = []
 
-            ym.append(np.mean(data_dict[orbit]['proj_y']))
-            xm.append(np.mean(data_dict[orbit]['proj_x']))
+            ym.append(np.mean(data_dict[orbit].get_proj_y_list()))
+            xm.append(np.mean(data_dict[orbit].get_proj_x_list()))
 
         return (np.mean(xm), np.mean(ym))
-
-
-#class _ThreeDViewer(pg.LayoutWidget):
-#
-#    def __init__(self):
-#
-#        super(ThreeDViewer, self).__init__()
-#
-#
-#    def set_plots(self, data_dict):
-#
-#        self.w = gl.GLViewWidget()
-#        self.addWidget(self.w)
-#        self.w.opts['distance'] = 200
-#
-#        self.set_surface_plots(data_dict)
-#     #   self.set_scatter_plots(data_dict)
-##        w.show()
-#
-#    def set_surface_plots(self, data_dict):
-#
-#        utils.iface.mapCanvas().saveAsImage(prefs.CHACHE_BASE_DIR+'canvas.png')
-#        self.canvas = np.asarray(im.open(prefs.CHACHE_BASE_DIR+'canvas.png'))
-#
-##        print data_dict[data_dict.keys()[0]]['proj_y'][0]
-#        if np.abs(data_dict[data_dict.keys()[0]]['proj_y'][0])>1000:
-#            k = 100000.
-#        else:
-#            k = 1
-#
-#        ii = 0
-#        self.radg = []
-#        xm = []
-#        ym = []
-#        for orbit in data_dict.keys():
-#            data_f = []
-#            for band in data_dict[orbit]['data']:
-#   #             print data_dict[orbit]['range']
-#                data_f.append(np_mean(band[:,data_dict[orbit]['range'][0]:data_dict[orbit]['range'][1]+1,:],0))
-#                print data_f[0].shape
-#            y = np.array(data_dict[orbit]['proj_y'])/k
-#            ym.append(np.mean(y))
-#            z = np.linspace(0, data_f[0].shape[1] - 1, data_f[0].shape[1])
-#            x = np.zeros((data_f[0].shape[1], len(y)))
-#            xm.append(np.mean(data_dict[orbit]['proj_x'])/k)
-#            x[:,:] = data_dict[orbit]['proj_x']
-#            x = x/k
-##            print "-----"
-##            print np.rot90(data_f[0]).shape
-#            tex = pg.makeRGBA(np.rot90(data_f[0]), levels= (50., 255.))[0]/255.
-#            tex[...,3] = tex[...,0]
-##            tex[:,:,3] = 255
-##            print np.max(x)
-##            print np.max(y)
-##
-##            print np.min(x)
-##            print np.min(y)
-#
-##            print y.shape
-#
-#            self.radg.append(pg.opengl.GLSurfacePlotItem(x=z/10., y=y, z=x, colors = tex))
-#            self.radg[ii].rotate(90, 0, 1, 0)
-#
-#            ii = ii+1
-#
-#        xmm = np.mean(xm)
-#        ymm = np.mean(ym)
-#
-#        for rg in self.radg:
-#            rg.translate(-xmm,-ymm,len(z)/2/10.)
-#            self.w.addItem(rg)
-#
-#
-#
-#        xMax = utils.iface.mapCanvas().extent().xMaximum()
-#        xMin = utils.iface.mapCanvas().extent().xMinimum()
-#        yMax = utils.iface.mapCanvas().extent().yMaximum()
-#        yMin = utils.iface.mapCanvas().extent().yMinimum()
-#
-#        cx = np.linspace(xMin/k,xMax/k,self.canvas.shape[1])
-#        cy = np.linspace(yMin/k,yMax/k,self.canvas.shape[0])
-#        print self.canvas.shape
-#        cz = np.zeros((self.canvas.shape[1],self.canvas.shape[0]))
-#
-#        canv_tex = pg.makeRGBA(np.rot90(self.canvas, k=3))[0]/255.
-#        self.canvas_surf = pg.opengl.GLSurfacePlotItem(x=cx, y=cy, z=cz, colors = canv_tex, shader='balloon')
-#        self.canvas_surf.translate(-xmm,-ymm,-len(z)/4/10.)
-#        self.w.addItem(self.canvas_surf)
-#        ## Add a grid to the view
-#        xgrid = gl.GLGridItem()
-#        ygrid = gl.GLGridItem()
-#        self.zgrid = GridItem()
-##        w.addItem(xgrid)
-##        w.addItem(ygrid)
-##        self.w.addItem(self.zgrid)
-#
-#        ## rotate x and y grids to face the correct direction
-#        xgrid.rotate(90, 0, 1, 0)
-##        ygrid.rotate(90, 1, 0, 0)
-#
-#        ## scale each grid differently
-##        xgrid.scale(0.2, 0.1, 0.1)
-##        ygrid.scale(0.2, 0.1, 0.1)
-##        zgrid.scale(0.1, 0.2, 0.1)
-#
-#        ax = pg.opengl.GLAxisItem()
-#        self.w.addItem(ax)
-#
-#
-#    def set_scatter_plots(self, data_dict):
-#
-#        k = 100000.
-#
-#        self.radg = []
-#        xm = []
-#        ym = []
-#
-#        for orbit in data_dict.keys():
-#            data_f = []
-#            for band in data_dict[orbit]['data']:
-#                data_f.append(np_mean(band[:,data_dict[orbit]['range'][0]:data_dict[orbit]['range'][1]+1,:],0))
-#
-#            data_len = data_f[0].shape[0]*data_f[0].shape[1]
-#            pos = np.empty((data_len, 3))
-#            size = np.ones((data_len))*.1
-#            color = np.ones((data_len, 4))
-#
-#            x = np.array(data_dict[orbit]['proj_x'])/k
-#            xm.append(np.mean(x))
-#            y = np.array(data_dict[orbit]['proj_y'])/k
-#            ym.append(np.mean(y))
-#            z = np.linspace(0, data_f[0].shape[1] - 1, data_f[0].shape[1])
-#
-#            jj = 0
-#            th = .6
-#            for ii in range(len(y)):
-#                y_pos = ii*len(y)
-#                for zz in range(len(z)):
-##                    pos_index = y_pos+zz
-#                    pos[jj,:] = np.array((x[ii],y[ii],zz/10.))
-#
-#                    color[jj,:] = np.array(data_f[0][ii,zz])/255.
-#                    if color[jj,0] < th:
-#                        size[jj]= 0
-#
-#                    jj = jj + 1
-#            self.radg.append(pg.opengl.GLScatterPlotItem(pos=pos, size=size, color=color, pxMode=False))
-#
-#        zgrid = gl.GLGridItem()
-##        w.addItem(xgrid)
-##        w.addItem(ygrid)
-#        self.w.addItem(zgrid)
-#
-#
-#        xmm = np.mean(xm)
-#        ymm = np.mean(ym)
-#        zmm = np.mean(z)
-#        for rg in self.radg:
-#            rg.translate(-xmm,-ymm,-zmm/10.)
-#            self.w.addItem(rg)
-
 
 
 class GridItem(gl.GLGridItem):
@@ -805,43 +739,6 @@ class GridItem(gl.GLGridItem):
 
     def __init__(self, size=None, color=None, antialias=True, glOptions='translucent'):
         super(GridItem, self).__init__(size = size, color=color,antialias = antialias,glOptions=glOptions)
-#        GLGraphicsItem.__init__(self)
-#        self.setGLOptions(glOptions)
-#        self.antialias = antialias
-#        if size is None:
-#            size = QtGui.QVector3D(20,20,1)
-#        self.setSize(size=size)
-#        self.setSpacing(1, 1, 1)
-#
-#    def setSize(self, x=None, y=None, z=None, size=None):
-#        """
-#        Set the size of the axes (in its local coordinate system; this does not affect the transform)
-#        Arguments can be x,y,z or size=QVector3D().
-#        """
-#        if size is not None:
-#            x = size.x()
-#            y = size.y()
-#            z = size.z()
-#        self.__size = [x,y,z]
-#        self.update()
-#
-#    def size(self):
-#        return self.__size[:]
-#
-#    def setSpacing(self, x=None, y=None, z=None, spacing=None):
-#        """
-#        Set the spacing between grid lines.
-#        Arguments can be x,y,z or spacing=QVector3D().
-#        """
-#        if spacing is not None:
-#            x = spacing.x()
-#            y = spacing.y()
-#            z = spacing.z()
-#        self.__spacing = [x,y,z]
-#        self.update()
-#
-#    def spacing(self):
-#        return self.__spacing[:]
 
     def paint(self):
         self.setupGLState()
@@ -945,7 +842,7 @@ class ThreeDCtrlWidget(pg.LayoutWidget):
         i={}
         self.surf_actions = []
         for orbit in viewer.orbit_surf_dict.keys():
-           i[orbit] = pg.TreeWidgetItem([viewer.data_dict[orbit]['instrument']+" "+orbit])
+           i[orbit] = pg.TreeWidgetItem([viewer.data_dict[orbit].get_instrument()+" "+orbit])
            self.tw.addTopLevelItem(i[orbit])
            button_orb = QtGui.QCheckBox()
            orbito_list.append(button_orb)
