@@ -27,6 +27,7 @@ import resources
 from marsis_viewer_dialog import MarsisViewerDialog
 from settings_dialog import SettingsDialog
 from radar_3d import Radar3D
+from subsurf_viewer import SubSurfDialog
 
 import prefs
 
@@ -111,6 +112,10 @@ class Marsis:
 #        QObject.connect(self.radar_fetch_action, SIGNAL("triggered()"), self.radar_fetch)
 #        self.marsis_menu.addAction(self.radar_fetch_action)
 
+        self.subsurf_action = QAction(icon, "Subsurfaces viewer", self.iface.mainWindow())
+        QObject.connect(self.subsurf_action, SIGNAL("triggered()"), self.subsurf)
+        self.marsis_menu.addAction(self.subsurf_action)
+
 #        icon = QIcon(os.path.dirname(__file__) + ":/plugins/Marsis/icon.png")
         self.settings_action = QAction(icon, "Settings", self.iface.mainWindow())
         QObject.connect(self.settings_action, SIGNAL("triggered()"), self.settings)
@@ -156,8 +161,10 @@ class Marsis:
     def settings(self):
         """Launch the preferences settings dialog
         """
-
         self.set_dialog = SettingsDialog(self.prefs)
+
+    def subsurf(self):
+        self.set_dialog = SubSurfDialog(self.prefs)
 
     def update_prefs(self):
         """Update the plug in preferences

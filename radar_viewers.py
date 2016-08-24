@@ -669,11 +669,11 @@ class ThreeDViewer(QtGui.QWidget):
 
 #        self.controller = ThreeDController()
 #        self.controller.show()
-        self.data_dict = data_dict
+
         utils.iface.mapCanvas().saveAsImage(os.path.join(self.prefs.CHACHE_BASE_DIR,'canvas.png'))
         self.canvas = np.asarray(im.open(os.path.join(self.prefs.CHACHE_BASE_DIR,'canvas.png')))
 
-        self.set_k(data_dict)
+
 
         xMax = utils.iface.mapCanvas().extent().xMaximum()
         xMin = utils.iface.mapCanvas().extent().xMinimum()
@@ -683,6 +683,8 @@ class ThreeDViewer(QtGui.QWidget):
         ref_gl_obj = self.plot.add_reference_surface(xMin, xMax, yMin, yMax, self.canvas)
         self.reference_surf = ThreeDDataSurf(ref_gl_obj, self.plot, 0)
 
+        self.data_dict = data_dict
+        self.set_k(data_dict)
         self.xoff,self.yoff = self.get_xy_offs(data_dict)
 
         for orbit in data_dict.keys():
@@ -946,6 +948,23 @@ class DialActions():
         self.v0 = self.dial.value()
 
 
+
+class SubSurfViewer(QtGui.QWidget):
+
+    def __init__(self):
+        super(SubSurfViewer, self).__init__()
+
+        self.buttons_widg = pg.LayoutWidget()
+        self.layout = QtGui.QVBoxLayout()
+        self.setLayout(self.layout)
+#
+        self.plot = ThreeDPlot()
+#
+        self.layout.addWidget(self.plot, stretch = 1)
+        self.layout.addWidget(self.buttons_widg, stretch = 0, alignment = QtCore.Qt.AlignRight)
+#
+#        self.orbit_surf_dict = {}
+#        self.add_buttons()
 
 
 
