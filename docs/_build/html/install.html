@@ -8,7 +8,7 @@
     
     <title>Installation &mdash; MARS ground penetrating radars tracks GIS vector layers 0.9 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -23,100 +23,236 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="MARS ground penetrating radars tracks GIS vector layers 0.9 documentation" href="index.html" />
-    <link rel="next" title="&lt;no title&gt;" href="use.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="intro.html" /> 
+    <link rel="next" title="Using the QGIS plugin" href="use.html" />
+    <link rel="prev" title="General description" href="intro.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="use.html" title="&lt;no title&gt;"
+          <a href="use.html" title="Using the QGIS plugin"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="intro.html" title="&lt;no title&gt;"
+          <a href="intro.html" title="General description"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">MARS ground penetrating radars tracks GIS vector layers 0.9 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MARS ground penetrating radars tracks GIS vector layers 0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="preliminary-steps">
-<h2>Preliminary steps<a class="headerlink" href="#preliminary-steps" title="Permalink to this headline">¶</a></h2>
-<p>The following steps are required for any OS.</p>
-<div class="section" id="download-pyqtgraphs">
-<h3>Download pyqtgraphs<a class="headerlink" href="#download-pyqtgraphs" title="Permalink to this headline">¶</a></h3>
-</div>
-<div class="section" id="download-marsis-sharad-viewer">
-<h3>Download MARSIS/SHARAD viewer<a class="headerlink" href="#download-marsis-sharad-viewer" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
+<div class="section" id="install-dependaces">
+<h2>Install dependaces<a class="headerlink" href="#install-dependaces" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="gnu-linux">
-<h2>GNU/Linux<a class="headerlink" href="#gnu-linux" title="Permalink to this headline">¶</a></h2>
+<h3>GNU/Linux<a class="headerlink" href="#gnu-linux" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="debian-8-jessie">
-<h3>Debian 8 (Jessie)<a class="headerlink" href="#debian-8-jessie" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="enable-backports-repository">
-<h4>Enable backports repository<a class="headerlink" href="#enable-backports-repository" title="Permalink to this headline">¶</a></h4>
+<h4>Debian 8 (Jessie)<a class="headerlink" href="#debian-8-jessie" title="Permalink to this headline">¶</a></h4>
+<p><strong>Enable backports repository</strong></p>
+<p>Enabling the official debian backport repository allows to install a more recent version of QGIS.
+You can skip this step if you are happy with the version provided in the main repository.</p>
+<p>Add the following line to the file <em>/etc/apt/sources.list</em> (root privileges required):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>deb http://ftp.debian.org/debian wheezy-backports main
+</pre></div>
 </div>
-<div class="section" id="install-qgis-and-dependencies">
-<h4>Install QGIS and dependencies<a class="headerlink" href="#install-qgis-and-dependencies" title="Permalink to this headline">¶</a></h4>
+<p>Run repos update (as root):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># apt-get update</span>
+</pre></div>
 </div>
-<div class="section" id="install-marsis-sharad-plugin">
-<h4>Install MARSIS/SHARAD plugin<a class="headerlink" href="#install-marsis-sharad-plugin" title="Permalink to this headline">¶</a></h4>
+<p>More information about <em>Debian backports</em> can be found here</p>
+<p><a class="reference external" href="http://backports.debian.org/">http://backports.debian.org/</a></p>
+<p>Official <strong>QGIS</strong> repositories providing newer versions of the software can be added following the instruction in</p>
+<p><a class="reference external" href="http://qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu">http://qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu</a></p>
+<p><strong>Install QGIS and dependencies</strong></p>
+<p>Install python and python packages:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># apt-get install python-numpy python-scipy python-qt4 python-pil</span>
+</pre></div>
 </div>
+<p>Check the available QGIS versions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># apt-cache showpkg qgis</span>
+</pre></div>
 </div>
-<div class="section" id="ubuntu-15">
-<h3>Ubuntu 15<a class="headerlink" href="#ubuntu-15" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id1">
-<h4>Install QGIS and dependencies<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>The output should begin like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Package: qgis
+Versions:
+2.14.5+dfsg-1~bpo8+1 (/var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie-backports_main_binary-amd64_Packages) (/var/lib/dpkg/status)
+ Description Language:
+                 File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie_main_binary-amd64_Packages
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+ Description Language: en
+                 File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie_main_i18n_Translation-en
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+
+2.4.0-1+b1 (/var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie_main_binary-amd64_Packages)
+ Description Language:
+                 File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie_main_binary-amd64_Packages
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+ Description Language: en
+                 File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie_main_i18n_Translation-en
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+</pre></div>
 </div>
-<div class="section" id="id2">
-<h4>Install MARSIS/SHARAD plugin<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>To install the most recent version:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># apt-get install qgis=2.14.5+dfsg-1~bpo8+1</span>
+</pre></div>
 </div>
+<p><em>Take care of replacing the version with the actual version available in the repository at the installation time.</em></p>
+</div>
+<div class="section" id="ubuntu-16-lts-xenial-xerus">
+<h4>Ubuntu 16 LTS (Xenial Xerus)<a class="headerlink" href="#ubuntu-16-lts-xenial-xerus" title="Permalink to this headline">¶</a></h4>
+<p><strong>Enable Ubuntu GIS repository</strong></p>
+<p>Enabling the Ubuntu GIS unstable repository allows to install a more recent version of QGIS.
+You can skip this step if you are happy with the version provided in the main repository.</p>
+<p>Add the following line to the file <em>/etc/apt/sources.list</em> (root privileges required):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu xenial main
+deb-src http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu xenial main
+</pre></div>
+</div>
+<p>Run repos update:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># sudo apt-get update</span>
+</pre></div>
+</div>
+<p>More information about <em>Ubuntu GIS</em> can be found here</p>
+<p><a class="reference external" href="http://wiki.ubuntu.com/UbuntuGIS">http://wiki.ubuntu.com/UbuntuGIS</a></p>
+<p><a class="reference external" href="http://trac.osgeo.org/ubuntugis/wiki/UbuntuGISRepository">http://trac.osgeo.org/ubuntugis/wiki/UbuntuGISRepository</a></p>
+<p>Official <strong>QGIS</strong> repositories providing newer versions of the software can be added following the instruction in</p>
+<p><a class="reference external" href="http://qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu">http://qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu</a></p>
+<p><strong>Install QGIS and dependencies</strong></p>
+<p>Install python and python packages:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># apt-get install python-numpy python-scipy python-qt4 python-pil</span>
+</pre></div>
+</div>
+<p>Check the available QGIS versions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># apt-cache showpkg qgis</span>
+</pre></div>
+</div>
+<p>The output should begin like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Package: qgis
+Versions:
+2.14.1+dfsg-3~xenial0 (/var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-unstable_ubuntu_dists_xenial_main_binary-amd64_Packages)
+ Description Language:
+                 File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-amd64_Packages
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+ Description Language:
+                 File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-i386_Packages
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+ Description Language: en
+                 File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_i18n_Translation-en
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+ Description Language:
+                 File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-unstable_ubuntu_dists_xenial_main_binary-amd64_Packages
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+ Description Language:
+                 File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-unstable_ubuntu_dists_xenial_main_binary-i386_Packages
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+
+2.8.6+dfsg-1build1 (/var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-amd64_Packages)
+ Description Language:
+                 File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-amd64_Packages
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+ Description Language:
+                 File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-i386_Packages
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+ Description Language: en
+                 File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_i18n_Translation-en
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+ Description Language:
+                 File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-unstable_ubuntu_dists_xenial_main_binary-amd64_Packages
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+ Description Language:
+                 File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-unstable_ubuntu_dists_xenial_main_binary-i386_Packages
+                  MD5: 49f76973cc4c2bd4a16872b7a79659ad
+</pre></div>
+</div>
+<p>To install the most recent version:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># apt-get install qgis=2.14.1+dfsg-3~xenial0</span>
+</pre></div>
+</div>
+<p><em>Take care of replacing the version with the actual version available in the repository at the installation time.</em></p>
 </div>
 <div class="section" id="centos-7">
-<h3>CentOS 7<a class="headerlink" href="#centos-7" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="enable-required-repositories">
-<h4>Enable required repositories<a class="headerlink" href="#enable-required-repositories" title="Permalink to this headline">¶</a></h4>
-</div>
+<h4>CentOS 7<a class="headerlink" href="#centos-7" title="Permalink to this headline">¶</a></h4>
+<p><strong>Enable required repositories</strong></p>
 </div>
 </div>
 <div class="section" id="apple-osx">
-<h2>Apple OSX<a class="headerlink" href="#apple-osx" title="Permalink to this headline">¶</a></h2>
+<h3>Apple OSX<a class="headerlink" href="#apple-osx" title="Permalink to this headline">¶</a></h3>
 <p>TBD</p>
 </div>
 <div class="section" id="microsoft-windows">
-<h2>Microsoft Windows<a class="headerlink" href="#microsoft-windows" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="ms-win-8-1">
-<h3>MS Win 8.1<a class="headerlink" href="#ms-win-8-1" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="download-and-install-qgis">
-<h4>Download and install QGIS<a class="headerlink" href="#download-and-install-qgis" title="Permalink to this headline">¶</a></h4>
-</div>
-<div class="section" id="install-pyqtgraph">
-<h4>Install pyqtgraph<a class="headerlink" href="#install-pyqtgraph" title="Permalink to this headline">¶</a></h4>
+<h3>Microsoft Windows<a class="headerlink" href="#microsoft-windows" title="Permalink to this headline">¶</a></h3>
+<p><strong>Download and install QGIS</strong></p>
+<p>Download and install the <em>QGIS standalone installer</em> of your choice from</p>
+<p><a class="reference external" href="http://www.qgis.org/en/site/forusers/download.html">http://www.qgis.org/en/site/forusers/download.html</a></p>
 </div>
 </div>
-<div class="section" id="ms-win-10">
-<h3>MS Win 10<a class="headerlink" href="#ms-win-10" title="Permalink to this headline">¶</a></h3>
-<p>TBD</p>
+<div class="section" id="install-marsis-sharad-plugin">
+<h2>Install MARSIS/SHARAD plugin<a class="headerlink" href="#install-marsis-sharad-plugin" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="download-marsis-sharad-viewer">
+<h3>Download MARSIS/SHARAD viewer<a class="headerlink" href="#download-marsis-sharad-viewer" title="Permalink to this headline">¶</a></h3>
+<p>You can alternatively do one of the following</p>
+<ul class="simple">
+<li>Download the latest release version (or any other version at your choice) from</li>
+</ul>
+<p><a class="reference external" href="https://github.com/eSpaceEPFL/marsissharadviewer/releases">https://github.com/eSpaceEPFL/marsissharadviewer/releases</a></p>
+<p>and uncompress the archive.</p>
+<ul class="simple">
+<li>Get the development version from</li>
+</ul>
+<p><a class="reference external" href="https://github.com/eSpaceEPFL/marsissharadviewer">https://github.com/eSpaceEPFL/marsissharadviewer</a></p>
+<p>by clicking on the green button <em>&#8216;clone or download&#8217;</em>.</p>
+<p>Uncompress the archive if you downloaded the <em>zip</em> file.</p>
+<p>Cloning the repository requires you have <a class="reference external" href="http://git-scm.com/">Git</a> installed on your machine.</p>
+</div>
+<div class="section" id="installing-the-plug-in">
+<h3>Installing the plug-in<a class="headerlink" href="#installing-the-plug-in" title="Permalink to this headline">¶</a></h3>
+<p>Copy the folder <em>marsissharadviewer</em> containing the plug-in files in the QGIS plug-ins folder.</p>
+<p><strong>Location of the QGIS plug-ins folder</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operating system</th>
+<th class="head">Folder location</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>GNU/Linux</td>
+<td>/home/<em>username</em>/.qgis2/python/plugins</td>
+</tr>
+<tr class="row-odd"><td>OSX</td>
+<td>/Users/<em>username</em>/.qgis2/python/plugins</td>
+</tr>
+<tr class="row-even"><td>Windows</td>
+<td>C:\users\*username*\.qgis2\python\plugins</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<img alt="_images/menu.png" src="_images/menu.png" />
 </div>
 </div>
 <div class="section" id="post-installation">
 <h2>Post installation<a class="headerlink" href="#post-installation" title="Permalink to this headline">¶</a></h2>
-<p>The following steps are required for any OS.</p>
 <div class="section" id="set-plugin-preferencies">
 <h3>Set plugin preferencies<a class="headerlink" href="#set-plugin-preferencies" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/settings.png" src="_images/settings.png" />
 </div>
 </div>
 </div>
@@ -125,42 +261,25 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Installation</a><ul>
-<li><a class="reference internal" href="#preliminary-steps">Preliminary steps</a><ul>
-<li><a class="reference internal" href="#download-pyqtgraphs">Download pyqtgraphs</a></li>
-<li><a class="reference internal" href="#download-marsis-sharad-viewer">Download MARSIS/SHARAD viewer</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#install-dependaces">Install dependaces</a><ul>
 <li><a class="reference internal" href="#gnu-linux">GNU/Linux</a><ul>
-<li><a class="reference internal" href="#debian-8-jessie">Debian 8 (Jessie)</a><ul>
-<li><a class="reference internal" href="#enable-backports-repository">Enable backports repository</a></li>
-<li><a class="reference internal" href="#install-qgis-and-dependencies">Install QGIS and dependencies</a></li>
-<li><a class="reference internal" href="#install-marsis-sharad-plugin">Install MARSIS/SHARAD plugin</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#ubuntu-15">Ubuntu 15</a><ul>
-<li><a class="reference internal" href="#id1">Install QGIS and dependencies</a></li>
-<li><a class="reference internal" href="#id2">Install MARSIS/SHARAD plugin</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#centos-7">CentOS 7</a><ul>
-<li><a class="reference internal" href="#enable-required-repositories">Enable required repositories</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#debian-8-jessie">Debian 8 (Jessie)</a></li>
+<li><a class="reference internal" href="#ubuntu-16-lts-xenial-xerus">Ubuntu 16 LTS (Xenial Xerus)</a></li>
+<li><a class="reference internal" href="#centos-7">CentOS 7</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#apple-osx">Apple OSX</a></li>
-<li><a class="reference internal" href="#microsoft-windows">Microsoft Windows</a><ul>
-<li><a class="reference internal" href="#ms-win-8-1">MS Win 8.1</a><ul>
-<li><a class="reference internal" href="#download-and-install-qgis">Download and install QGIS</a></li>
-<li><a class="reference internal" href="#install-pyqtgraph">Install pyqtgraph</a></li>
+<li><a class="reference internal" href="#microsoft-windows">Microsoft Windows</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#ms-win-10">MS Win 10</a></li>
+<li><a class="reference internal" href="#install-marsis-sharad-plugin">Install MARSIS/SHARAD plugin</a><ul>
+<li><a class="reference internal" href="#download-marsis-sharad-viewer">Download MARSIS/SHARAD viewer</a></li>
+<li><a class="reference internal" href="#installing-the-plug-in">Installing the plug-in</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#post-installation">Post installation</a><ul>
@@ -173,16 +292,18 @@
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="intro.html"
-                        title="previous chapter">&lt;no title&gt;</a></p>
+                        title="previous chapter">General description</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="use.html"
-                        title="next chapter">&lt;no title&gt;</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/install.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+                        title="next chapter">Using the QGIS plugin</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/install.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -199,24 +320,24 @@
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="use.html" title="&lt;no title&gt;"
+          <a href="use.html" title="Using the QGIS plugin"
              >next</a> |</li>
         <li class="right" >
-          <a href="intro.html" title="&lt;no title&gt;"
+          <a href="intro.html" title="General description"
              >previous</a> |</li>
-        <li><a href="index.html">MARS ground penetrating radars tracks GIS vector layers 0.9 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MARS ground penetrating radars tracks GIS vector layers 0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    <div class="footer">
+    <div class="footer" role="contentinfo">
         &copy; Copyright 2016, Federico Cantini, Anton Ivanov.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
     </div>
   </body>
 </html>
