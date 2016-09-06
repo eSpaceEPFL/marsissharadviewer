@@ -48,15 +48,45 @@
             
   <div class="section" id="using-the-qgis-plugin">
 <h1>Using the QGIS plugin<a class="headerlink" href="#using-the-qgis-plugin" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="set-plug-in-preferencies">
+<h2>Set plug-in preferencies<a class="headerlink" href="#set-plug-in-preferencies" title="Permalink to this headline">¶</a></h2>
+<p>Open the <em>Mars radars-&gt;Settings</em> dialog from the meu bar.</p>
+<p>The dialog (see figore below) allows to set the radargram source and the plug-in cache directory.</p>
+<p><em>This information must be provided before using the plug-in</em></p>
+<img alt="_images/settings.png" src="_images/settings.png" />
+<p>Radargrams (and possibly clutter simulations) can be fetched both from the disk and from a web server via <em>http</em> protocol.</p>
+<dl class="docutils">
+<dt>Default server for the <em>SHARAD</em> radargrams (<em>http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/browse/thm/</em>)</dt>
+<dd>is alredy set.</dd>
+</dl>
+<p>Regarding <em>MARSIS</em> data, since an official repository is not yet available, local copy of the data must be set up.</p>
+</div>
 <div class="section" id="orbits-selection">
 <h2>Orbits selection<a class="headerlink" href="#orbits-selection" title="Permalink to this headline">¶</a></h2>
+<p>The MARSIS/SHARAD viewer will show data on the basis of the selected features on the QGIS map.</p>
+<p>Features can be selected with any selection tool provided by QGIS. A multiple layer selection plug-in (<a class="reference external" href="http://plugins.qgis.org/plugins/MultipleLayerSelection/">http://plugins.qgis.org/plugins/MultipleLayerSelection/</a>) can be usefull.</p>
+<p>Layers containing MARSIS and SHARAD tracks feaures must have their name starting with <em>marsis_</em> and <em>sharad_</em> respectively in order to be correctly recognised</p>
+<p>The image below shows a QGIS map with selected features on two MARSIS tracks.</p>
+<img alt="_images/selection.png" src="_images/selection.png" />
 </div>
 <div class="section" id="running-the-plugin">
 <h2>Running the plugin<a class="headerlink" href="#running-the-plugin" title="Permalink to this headline">¶</a></h2>
+<p>Once the features of interest are selected, the plug-in can be started using either the <em>Mars radars-&gt;MARSIS/SHARAD Viewer</em> menu or by pressing the plug-in launch button (see figure below).</p>
+<img alt="_images/start.png" src="_images/start.png" />
+<p>The viewer will open and show the radargrams belonging to the selected orbits.</p>
 <div class="section" id="single-radargram-viewer">
 <h3>Single radargram viewer<a class="headerlink" href="#single-radargram-viewer" title="Permalink to this headline">¶</a></h3>
+<p>The <em>Single radargram</em> is the default view provided by the plug in.</p>
+<p>Radargrams belonging to the selected orbits will be shown, one orbit per row. For MARSIS data one radargrams per frequency band will be shown.</p>
+<p>The section of the radargram highlighted with a blue band is the region corresponding to the selected features on the map. Plots can be zoomed and panned. For each plot, a vertical and an horizontal marker line are available.</p>
+<p>Moving the highlight selection will cause the features selection on the QGIS map to change accordingly. (<em>It is suggested to use this functionality with a small subset of orbits for a good responsivness of the system</em>)</p>
+<p>In case of MARSIS data, the plots of the different frequencies are syncronized.</p>
+<img alt="_images/single.png" src="_images/single.png" />
 <div class="section" id="adjusting-the-selection">
 <h4>Adjusting the selection<a class="headerlink" href="#adjusting-the-selection" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="subsurfaces-depth-measurement">
+<h4>Subsurfaces depth measurement<a class="headerlink" href="#subsurfaces-depth-measurement" title="Permalink to this headline">¶</a></h4>
 </div>
 </div>
 <div class="section" id="synchronised-viewer">
@@ -77,10 +107,12 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Using the QGIS plugin</a><ul>
+<li><a class="reference internal" href="#set-plug-in-preferencies">Set plug-in preferencies</a></li>
 <li><a class="reference internal" href="#orbits-selection">Orbits selection</a></li>
 <li><a class="reference internal" href="#running-the-plugin">Running the plugin</a><ul>
 <li><a class="reference internal" href="#single-radargram-viewer">Single radargram viewer</a><ul>
 <li><a class="reference internal" href="#adjusting-the-selection">Adjusting the selection</a></li>
+<li><a class="reference internal" href="#subsurfaces-depth-measurement">Subsurfaces depth measurement</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#synchronised-viewer">Synchronised viewer</a></li>

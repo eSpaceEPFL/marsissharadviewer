@@ -209,27 +209,20 @@ Copy the folder *marsissharadviewer* containing the plug-in files in the QGIS pl
 
 **Location of the QGIS plug-ins folder**
 
-+-------------------------+------------------------------------------------+
-| Operating system        | Folder location                                |
-+=========================+================================================+
-| GNU/Linux               | /home/*username*/.qgis2/python/plugins         |
-+-------------------------+------------------------------------------------+
-| OSX                     | /Users/*username*/.qgis2/python/plugins        |
-+-------------------------+------------------------------------------------+
-| Windows                 | C:\\users\\*username*\\.qgis2\\python\\plugins |
-+-------------------------+------------------------------------------------+
++-------------------------+--------------------------------------------------+
+| Operating system        | Folder location                                  |
++=========================+==================================================+
+| GNU/Linux               | /home/*{username}*/.qgis2/python/plugins         |
++-------------------------+--------------------------------------------------+
+| OSX                     | /Users/*{username}*/.qgis2/python/plugins        |
++-------------------------+--------------------------------------------------+
+| Windows                 | C:\\users\\{*username*}\\.qgis2\\python\\plugins |
++-------------------------+--------------------------------------------------+
 
 |
 |
 |
+Lunch QGIS, the *'Mars Radars'* menu should appear in the menu bar as show in the figure below. 
 
 .. image:: menu.png
-
-Post installation
-=================
-
-Set plugin preferencies
------------------------
-
-.. image:: settings.png
 
