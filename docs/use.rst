@@ -1,9 +1,9 @@
-=====================
-Using the QGIS plugin
-=====================
+======================
+Using the QGIS plug-in
+======================
 
-Set plug-in preferencies
-========================
+Set plug-in preferences
+=======================
 
 Open the *Mars radars->Settings* dialog from the meu bar.
 
@@ -15,7 +15,10 @@ The dialog (see figore below) allows to set the radargram source and the plug-in
 
 Radargrams (and possibly clutter simulations) can be fetched both from the disk and from a web server via *http* protocol.
 
-Default server for the *SHARAD* radargrams (*http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/browse/thm/*)
+Default server for the *SHARAD* radargrams 
+
+(*http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/browse/thm/*)
+
  is alredy set.
 
 Regarding *MARSIS* data, since an official repository is not yet available, local copy of the data must be set up.
@@ -83,7 +86,7 @@ On each plot, the tool can be access by right-clicking on the mouse/touch-pad an
 
 **Load lines from selected layer** load surface and subsurface lines from a proper selected layer. The user must select the correct layer to load data from **before** using the command.
 
-
+.. image:: surfaces.png
 
 Synchronised viewer
 -------------------
@@ -101,10 +104,12 @@ The *3D view* shows a 3D representation of the redargrams in the space, together
 
 The geographic projection is the one selected on QGIS. 
 
+.. image:: 3d.png
+
 Radargrams alignment
 ~~~~~~~~~~~~~~~~~~~~
 
-The *Open controller* button opens a dialog to toggle visibility and adjust vertical alignment of each radargram as well as the map layer.
+The *Open controller* button opens a dialog to toggle the visibility and adjust the vertical alignment of each radargram as well as the map layer.
 
 
 

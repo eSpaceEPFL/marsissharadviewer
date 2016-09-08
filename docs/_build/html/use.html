@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Using the QGIS plugin &mdash; MARS ground penetrating radars tracks GIS vector layers 0.9 documentation</title>
+    <title>Using the QGIS plug-in &mdash; MARSIS/SHARAD viewer plug-in for QGIS 0.9 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="MARS ground penetrating radars tracks GIS vector layers 0.9 documentation" href="index.html" />
+    <link rel="top" title="MARSIS/SHARAD viewer plug-in for QGIS 0.9 documentation" href="index.html" />
     <link rel="prev" title="Installation" href="install.html" /> 
   </head>
   <body role="document">
@@ -37,7 +37,7 @@
         <li class="right" >
           <a href="install.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MARS ground penetrating radars tracks GIS vector layers 0.9 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MARSIS/SHARAD viewer plug-in for QGIS 0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -46,19 +46,19 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="using-the-qgis-plugin">
-<h1>Using the QGIS plugin<a class="headerlink" href="#using-the-qgis-plugin" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="set-plug-in-preferencies">
-<h2>Set plug-in preferencies<a class="headerlink" href="#set-plug-in-preferencies" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="using-the-qgis-plug-in">
+<h1>Using the QGIS plug-in<a class="headerlink" href="#using-the-qgis-plug-in" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="set-plug-in-preferences">
+<h2>Set plug-in preferences<a class="headerlink" href="#set-plug-in-preferences" title="Permalink to this headline">¶</a></h2>
 <p>Open the <em>Mars radars-&gt;Settings</em> dialog from the meu bar.</p>
 <p>The dialog (see figore below) allows to set the radargram source and the plug-in cache directory.</p>
 <p><em>This information must be provided before using the plug-in</em></p>
 <img alt="_images/settings.png" src="_images/settings.png" />
 <p>Radargrams (and possibly clutter simulations) can be fetched both from the disk and from a web server via <em>http</em> protocol.</p>
-<dl class="docutils">
-<dt>Default server for the <em>SHARAD</em> radargrams (<em>http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/browse/thm/</em>)</dt>
-<dd>is alredy set.</dd>
-</dl>
+<p>Default server for the <em>SHARAD</em> radargrams</p>
+<p>(<em>http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/browse/thm/</em>)</p>
+<blockquote>
+<div>is alredy set.</div></blockquote>
 <p>Regarding <em>MARSIS</em> data, since an official repository is not yet available, local copy of the data must be set up.</p>
 </div>
 <div class="section" id="orbits-selection">
@@ -100,6 +100,7 @@
 <p><strong>Add subsurface line</strong> add a line to be used to draw a subsurface. The <em>subsurface lines</em> act as the <em>surface line</em>. An arbitrary number of <em>subsurface lines</em> can be added to the plot.</p>
 <p><strong>Measure...</strong> compute the subsurfaces depth. Computed data (in pixels and time), together with the position of the line&#8217;s handles, are stored in a new memory layer automatically added to the QGIS map. Since memory layers are not automatically saved by QGIS, a copy of the layer in <em>SQLite</em> format is saved in the <em>cache directory</em> selected in the <em>settings dialog</em>.</p>
 <p><strong>Load lines from selected layer</strong> load surface and subsurface lines from a proper selected layer. The user must select the correct layer to load data from <strong>before</strong> using the command.</p>
+<img alt="_images/surfaces.png" src="_images/surfaces.png" />
 </div>
 </div>
 <div class="section" id="synchronised-viewer">
@@ -112,6 +113,11 @@
 <h3>3D viewer<a class="headerlink" href="#d-viewer" title="Permalink to this headline">¶</a></h3>
 <p>The <em>3D view</em> shows a 3D representation of the redargrams in the space, together with the map layer selected on the QGIS map. The aim of the view is to show intersecting radargrams, especially in the polar regions.</p>
 <p>The geographic projection is the one selected on QGIS.</p>
+<img alt="_images/3d.png" src="_images/3d.png" />
+<div class="section" id="radargrams-alignment">
+<h4>Radargrams alignment<a class="headerlink" href="#radargrams-alignment" title="Permalink to this headline">¶</a></h4>
+<p>The <em>Open controller</em> button opens a dialog to toggle the visibility and adjust the vertical alignment of each radargram as well as the map layer.</p>
+</div>
 </div>
 </div>
 </div>
@@ -124,8 +130,8 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Using the QGIS plugin</a><ul>
-<li><a class="reference internal" href="#set-plug-in-preferencies">Set plug-in preferencies</a></li>
+<li><a class="reference internal" href="#">Using the QGIS plug-in</a><ul>
+<li><a class="reference internal" href="#set-plug-in-preferences">Set plug-in preferences</a></li>
 <li><a class="reference internal" href="#orbits-selection">Orbits selection</a></li>
 <li><a class="reference internal" href="#running-the-plugin">Running the plugin</a><ul>
 <li><a class="reference internal" href="#single-radargram-viewer">Single radargram viewer</a><ul>
@@ -134,7 +140,10 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#synchronised-viewer">Synchronised viewer</a></li>
-<li><a class="reference internal" href="#d-viewer">3D viewer</a></li>
+<li><a class="reference internal" href="#d-viewer">3D viewer</a><ul>
+<li><a class="reference internal" href="#radargrams-alignment">Radargrams alignment</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -177,7 +186,7 @@
         <li class="right" >
           <a href="install.html" title="Installation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">MARS ground penetrating radars tracks GIS vector layers 0.9 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">MARSIS/SHARAD viewer plug-in for QGIS 0.9 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

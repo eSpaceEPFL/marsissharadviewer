@@ -6,7 +6,7 @@
 Welcome to Mars radars QGIS plugin's documentation!
 ===================================================
 
-Contents:
+.. Contents:
 
 .. toctree::
    :maxdepth: 2
@@ -17,10 +17,10 @@ Contents:
    use
 
 
-Indices and tables
-==================
+.. Indices and tables
+.. ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`
 

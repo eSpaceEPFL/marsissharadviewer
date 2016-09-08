@@ -51,8 +51,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'MARS ground penetrating radars tracks GIS vector layers'
-copyright = u'2016, Federico Cantini, Anton Ivanov'
+project = u'MARSIS/SHARAD viewer plug-in for QGIS'
+copyright = u'2016, Federico Cantini, Anton Ivanov (eSpace-EPFL)'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -193,7 +193,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'MARSgroundpenetratingradarstracksGISvectorlayersdoc'
+htmlhelp_basename = 'maarsissharadviewerdoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
@@ -213,8 +213,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'MARSgroundpenetratingradarstracksGISvectorlayers.tex', u'MARS ground penetrating radars tracks GIS vector layers Documentation',
-   u'Federico Cantini, Anton Ivanov', 'manual'),
+  ('index', 'maarsissharadviewer.tex', u'MARSIS/SHARAD viewer plug-in for QGIS',
+   u'Federico Cantini, Anton Ivanov (eSpace-EPFL)', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -226,7 +226,7 @@ latex_documents = [
 #latex_use_parts = True
 
 # If true, show page references after internal links.
-#latex_show_pagerefs = False
+latex_show_pagerefs = True
 
 # If true, show URL addresses after external links.
 #latex_show_urls = False
@@ -243,8 +243,8 @@ latex_domain_indices = False
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'marsgroundpenetratingradarstracksgisvectorlayers', u'MARS ground penetrating radars tracks GIS vector layers Documentation',
-     [u'Federico Cantini, Anton Ivanov'], 1)
+    ('index', 'maarsissharadviewer', u'MARSIS/SHARAD viewer plug-in for QGIS',
+     [u'Federico Cantini, Anton Ivanov', '(eSpace-EPFL)'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -257,7 +257,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'MARSgroundpenetratingradarstracksGISvectorlayers', u'MARS ground penetrating radars tracks GIS vector layers Documentation',
+  ('index', 'maarsissharadviewer', u'MARSIS/SHARAD viewer plug-in for QGIS Documentation',
    u'Federico Cantini, Anton Ivanov', 'MARSgroundpenetratingradarstracksGISvectorlayers', 'One line description of project.',
    'Miscellaneous'),
 ]
@@ -278,9 +278,9 @@ texinfo_documents = [
 # -- Options for Epub output ----------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'MARS ground penetrating radars tracks GIS vector layers'
+epub_title = u'MARSIS/SHARAD viewer plug-in for QGIS'
 epub_author = u'Federico Cantini, Anton Ivanov'
-epub_publisher = u'Federico Cantini, Anton Ivanov'
+epub_publisher = u'Federico Cantini, Anton Ivanov (eSpace-EPFL)'
 epub_copyright = u'2016, Federico Cantini, Anton Ivanov'
 
 # The basename for the epub file. It defaults to the project name.
