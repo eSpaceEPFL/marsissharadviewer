@@ -79,21 +79,39 @@
 <p>The <em>Single radargram</em> is the default view provided by the plug in.</p>
 <p>Radargrams belonging to the selected orbits will be shown, one orbit per row. For MARSIS data one radargrams per frequency band will be shown.</p>
 <p>The section of the radargram highlighted with a blue band is the region corresponding to the selected features on the map. Plots can be zoomed and panned. For each plot, a vertical and an horizontal marker line are available.</p>
-<p>Moving the highlight selection will cause the features selection on the QGIS map to change accordingly. (<em>It is suggested to use this functionality with a small subset of orbits for a good responsivness of the system</em>)</p>
-<p>In case of MARSIS data, the plots of the different frequencies are syncronized.</p>
+<p>Radio buttons at the top of the viewer allows to select among only radargrams, only clutter simulation and superposed view, using different look up table preset. The <em>swap last two</em> button toggle between the views corresponding to the last two selected radio buttons.</p>
+<p>In case of MARSIS data, the plots of the different frequencies are synchronised.</p>
 <img alt="_images/single.png" src="_images/single.png" />
 <div class="section" id="adjusting-the-selection">
 <h4>Adjusting the selection<a class="headerlink" href="#adjusting-the-selection" title="Permalink to this headline">¶</a></h4>
+<p>Moving the highlight selection will cause the features selection on the QGIS map to change accordingly. (<em>It is suggested to use this functionality with a small subset of orbits for a good responsiveness of the system</em>)</p>
 </div>
 <div class="section" id="subsurfaces-depth-measurement">
 <h4>Subsurfaces depth measurement<a class="headerlink" href="#subsurfaces-depth-measurement" title="Permalink to this headline">¶</a></h4>
+<p>The <em>subsurfaces depth measurement tool</em> allows to select subsurfaces and measure their depth with respect to the planet surface saving data on QGIS layers.</p>
+<p>On each plot, the tool can be access by right-clicking on the mouse/touch-pad and positioning the mouse pointer on <em>Dpeth measurement</em> on the context menu. The following option are available:</p>
+<ul class="simple">
+<li>Add surface line</li>
+<li>Add subsurface line</li>
+<li>Measure...</li>
+<li>Load lines from selected layer</li>
+</ul>
+<p><strong>Add surface line</strong> add a line to be used to draw the surface. New <em>handles</em> can be added to the line clicking on it, to split the line in segments. The line and each handle can be moved to match the surface. Only one <em>surface line</em> can be added to the plot.</p>
+<p><strong>Add subsurface line</strong> add a line to be used to draw a subsurface. The <em>subsurface lines</em> act as the <em>surface line</em>. An arbitrary number of <em>subsurface lines</em> can be added to the plot.</p>
+<p><strong>Measure...</strong> compute the subsurfaces depth. Computed data (in pixels and time), together with the position of the line&#8217;s handles, are stored in a new memory layer automatically added to the QGIS map. Since memory layers are not automatically saved by QGIS, a copy of the layer in <em>SQLite</em> format is saved in the <em>cache directory</em> selected in the <em>settings dialog</em>.</p>
+<p><strong>Load lines from selected layer</strong> load surface and subsurface lines from a proper selected layer. The user must select the correct layer to load data from <strong>before</strong> using the command.</p>
 </div>
 </div>
 <div class="section" id="synchronised-viewer">
 <h3>Synchronised viewer<a class="headerlink" href="#synchronised-viewer" title="Permalink to this headline">¶</a></h3>
+<p>The <em>synchronised view</em> acts as the default view except the radargrams belonging to different orbits are aligned by latitude and linked when zooming and panning. The aim of the view is to help to inspect structures in close, quasi-parallel radargrams.</p>
+<p>The alignment is done on the selected area (blue highlight bands) corresponding to the features selection of the QGIS map. Outside this region, the latitude alignment is not guaranteed.</p>
+<p>Highlight region editing and subsurface selection are currently <strong>not</strong> available in this view.</p>
 </div>
 <div class="section" id="d-viewer">
 <h3>3D viewer<a class="headerlink" href="#d-viewer" title="Permalink to this headline">¶</a></h3>
+<p>The <em>3D view</em> shows a 3D representation of the redargrams in the space, together with the map layer selected on the QGIS map. The aim of the view is to show intersecting radargrams, especially in the polar regions.</p>
+<p>The geographic projection is the one selected on QGIS.</p>
 </div>
 </div>
 </div>
