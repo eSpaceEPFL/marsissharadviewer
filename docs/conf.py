@@ -280,8 +280,8 @@ texinfo_documents = [
 # Bibliographic Dublin Core info.
 epub_title = u'MARSIS/SHARAD viewer plug-in for QGIS'
 epub_author = u'Federico Cantini, Anton Ivanov'
-epub_publisher = u'Federico Cantini, Anton Ivanov (eSpace-EPFL)'
-epub_copyright = u'2016, Federico Cantini, Anton Ivanov'
+epub_publisher = u'eSpace-EPFL'
+epub_copyright = u'2016, Federico Cantini, Anton Ivanov (eSpace-EPFL)'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = u'MARS ground penetrating radars tracks GIS vector layers'
