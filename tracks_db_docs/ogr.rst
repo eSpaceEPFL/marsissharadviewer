@@ -25,7 +25,9 @@ The generic syntax of *ogr2ogr* command is the following:
 
 ::
 
-    ogr2ogr -f "*driver*" *filename* PG:"host=redmine-espace.epfl.ch user=\ *dbuser* dbname=\ *dbname* password=\ *password*" *layer_name* -spat *min_lon* *min_lat* *max_lon* *max_lat* -where "*restricted_where*" -select "*field1*, *field2* [,...]"
+    ogr2ogr -f "driver" filename PG:"host=redmine-espace.epfl.ch user=dbuser 
+        dbname=dbname password=password" layer_name -spat min_lon min_lat 
+        max_lon max_lat -where "restricted_where" -select "field1, field2 [,...]"
 
 
 * *driver*: name of the GDAL driver to use to write data
@@ -41,20 +43,25 @@ examples:
 ^^^^^^^^^
 ::
 
-    ogr2ogr -f "GML" file.gml PG:"host=redmine-espace.epfl.ch user=\ *dbuser* dbname=\ *dbname* password=\ *password*" marsis_orbit_points_180 -spat -10 -30 10 30 
+    ogr2ogr -f "GML" file.gml PG:"host=redmine-espace.epfl.ch user=dbuser dbname=dbname
+         password=password" marsis_orbit_points_180 -spat -10 -30 10 30 
 
 Fetches data of MARSIS sampling points from table *marsis_orbit_points_180* with **longitude between 10°W and 10°E and latitude between 30°S and 30°N** and save it in *file.gml* using GML format.
 
 ::
 
-    ogr2ogr -f "SQLite" file.sqlite PG:"host=redmine-espace.epfl.ch user=\ *dbuser* dbname=\ *dbname* password=\ *password*" marsis_orbit_points_180 -where "orbit>=8000 and orbit<=8999"
+    ogr2ogr -f "SQLite" file.sqlite PG:"host=redmine-espace.epfl.ch user=dbuser 
+        dbname=dbname password=password" marsis_orbit_points_180 
+        -where "orbit>=8000 and orbit<=8999"
 
 
 Fetches data of MARSIS sampling points from table *marsis_orbit_points_180* with **orbit number between 8000 and 8999** and save it in *file.sqlite* using SQLite format.
 
 ::
 
-    ogr2ogr -f "SQLite" file.sqlite PG:"host=redmine-espace.epfl.ch user=\ *dbuser* dbname=\ *dbname* password=\ *password*" marsis_orbit_points_180 -select "orbit, point_id,sunzenith"
+    ogr2ogr -f "SQLite" file.sqlite PG:"host=redmine-espace.epfl.ch user=dbuser 
+        dbname=dbname password=password" marsis_orbit_points_180
+         -select "orbit, point_id,sunzenith"
 
 Fetches data of MARSIS sampling points from table *marsis_orbit_points_180* **restricted to orbit number, orbit point id and solar zenith angle** and save it in *file.sqlite* using SQLite format.
 

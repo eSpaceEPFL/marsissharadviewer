@@ -61,7 +61,9 @@
 <div class="section" id="connecting-to-postgis-db">
 <h3>Connecting to PostGIS db<a class="headerlink" href="#connecting-to-postgis-db" title="Permalink to this headline">¶</a></h3>
 <p>The generic syntax of <em>ogr2ogr</em> command is the following:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>ogr2ogr -f &quot;*driver*&quot; *filename* PG:&quot;host=redmine-espace.epfl.ch user=\ *dbuser* dbname=\ *dbname* password=\ *password*&quot; *layer_name* -spat *min_lon* *min_lat* *max_lon* *max_lat* -where &quot;*restricted_where*&quot; -select &quot;*field1*, *field2* [,...]&quot;
+<div class="highlight-python"><div class="highlight"><pre><span></span>ogr2ogr -f &quot;driver&quot; filename PG:&quot;host=redmine-espace.epfl.ch user=dbuser
+    dbname=dbname password=password&quot; layer_name -spat min_lon min_lat
+    max_lon max_lat -where &quot;restricted_where&quot; -select &quot;field1, field2 [,...]&quot;
 </pre></div>
 </div>
 <ul class="simple">
@@ -76,15 +78,20 @@
 </ul>
 <div class="section" id="examples">
 <h4>examples:<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-python"><div class="highlight"><pre><span></span>ogr2ogr -f &quot;GML&quot; file.gml PG:&quot;host=redmine-espace.epfl.ch user=\ *dbuser* dbname=\ *dbname* password=\ *password*&quot; marsis_orbit_points_180 -spat -10 -30 10 30
+<div class="highlight-python"><div class="highlight"><pre><span></span>ogr2ogr -f &quot;GML&quot; file.gml PG:&quot;host=redmine-espace.epfl.ch user=dbuser dbname=dbname
+     password=password&quot; marsis_orbit_points_180 -spat -10 -30 10 30
 </pre></div>
 </div>
 <p>Fetches data of MARSIS sampling points from table <em>marsis_orbit_points_180</em> with <strong>longitude between 10°W and 10°E and latitude between 30°S and 30°N</strong> and save it in <em>file.gml</em> using GML format.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>ogr2ogr -f &quot;SQLite&quot; file.sqlite PG:&quot;host=redmine-espace.epfl.ch user=\ *dbuser* dbname=\ *dbname* password=\ *password*&quot; marsis_orbit_points_180 -where &quot;orbit&gt;=8000 and orbit&lt;=8999&quot;
+<div class="highlight-python"><div class="highlight"><pre><span></span>ogr2ogr -f &quot;SQLite&quot; file.sqlite PG:&quot;host=redmine-espace.epfl.ch user=dbuser
+    dbname=dbname password=password&quot; marsis_orbit_points_180
+    -where &quot;orbit&gt;=8000 and orbit&lt;=8999&quot;
 </pre></div>
 </div>
 <p>Fetches data of MARSIS sampling points from table <em>marsis_orbit_points_180</em> with <strong>orbit number between 8000 and 8999</strong> and save it in <em>file.sqlite</em> using SQLite format.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>ogr2ogr -f &quot;SQLite&quot; file.sqlite PG:&quot;host=redmine-espace.epfl.ch user=\ *dbuser* dbname=\ *dbname* password=\ *password*&quot; marsis_orbit_points_180 -select &quot;orbit, point_id,sunzenith&quot;
+<div class="highlight-python"><div class="highlight"><pre><span></span>ogr2ogr -f &quot;SQLite&quot; file.sqlite PG:&quot;host=redmine-espace.epfl.ch user=dbuser
+    dbname=dbname password=password&quot; marsis_orbit_points_180
+     -select &quot;orbit, point_id,sunzenith&quot;
 </pre></div>
 </div>
 <p>Fetches data of MARSIS sampling points from table <em>marsis_orbit_points_180</em> <strong>restricted to orbit number, orbit point id and solar zenith angle</strong> and save it in <em>file.sqlite</em> using SQLite format.</p>
