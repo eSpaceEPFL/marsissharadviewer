@@ -1,6 +1,6 @@
-===================
-General description
-===================
+=================
+About the plug-in
+=================
 
 *MARSIS/SHARAD viewer* is a plug-in for the QGIS software (http://www.qgis.org/). It's aim is to provide an easy way to visualize radargrams from MARSIS (http://sci.esa.int/mars-express/34826-design/?fbodylongid=1601) and SHARAD (http://mars.nasa.gov/mro/mission/instruments/sharad/) ground penetrating radars.
 
