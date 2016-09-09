@@ -47,7 +47,7 @@ MARSIS layers:
 SHARAD layers:
 --------------
 
-The data provided in the SHARAD layers are those included in the SHARAD geometric data files (_http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/data/geom/_)
+The data provided in the SHARAD layers are those included in the SHARAD geometric data files (http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/data/geom/)
 
 * *point_id*: id of the corresponding radargram column 
 * *epoch*: UT date and time of observation   

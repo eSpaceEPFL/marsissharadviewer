@@ -16,8 +16,8 @@ Welcome to MARS ground penetrating radars tracks GIS vector layers's documentati
    layers
    data
    connections
-   qgis
    ogr
+..   qgis
 
 
 .. Indices and tables
