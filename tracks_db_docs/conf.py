@@ -52,7 +52,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'MARS ground penetrating radars tracks GIS vector layers'
-copyright = u'2016, Federico Cantini, Anton Ivanov'
+copyright = u'2016, Federico Cantini, Anton Ivanov (eSpace-EPFL)'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -214,7 +214,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   ('index', 'MARSgroundpenetratingradarstracksGISvectorlayers.tex', u'MARS ground penetrating radars tracks GIS vector layers Documentation',
-   u'Federico Cantini, Anton Ivanov', 'manual'),
+   u'Federico Cantini, Anton Ivanov (eSpace-EPFL)', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -226,7 +226,7 @@ latex_documents = [
 #latex_use_parts = True
 
 # If true, show page references after internal links.
-#latex_show_pagerefs = False
+latex_show_pagerefs = True
 
 # If true, show URL addresses after external links.
 #latex_show_urls = False
@@ -244,7 +244,7 @@ latex_domain_indices = False
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'marsgroundpenetratingradarstracksgisvectorlayers', u'MARS ground penetrating radars tracks GIS vector layers Documentation',
-     [u'Federico Cantini, Anton Ivanov'], 1)
+     [u'Federico Cantini, Anton Ivanov', '(eSpace-EPFL)'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -280,8 +280,8 @@ texinfo_documents = [
 # Bibliographic Dublin Core info.
 epub_title = u'MARS ground penetrating radars tracks GIS vector layers'
 epub_author = u'Federico Cantini, Anton Ivanov'
-epub_publisher = u'Federico Cantini, Anton Ivanov'
-epub_copyright = u'2016, Federico Cantini, Anton Ivanov'
+epub_publisher = u'eSpace-EPFL'
+epub_copyright = u'2016, Federico Cantini, Anton Ivanov (eSpace-EPFL)'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = u'MARS ground penetrating radars tracks GIS vector layers'
