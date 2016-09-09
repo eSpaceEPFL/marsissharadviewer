@@ -6,7 +6,7 @@
 Welcome to MARS ground penetrating radars tracks GIS vector layers's documentation!
 ===================================================================================
 
-Contents:
+.. Contents:
 
 .. toctree::
    :maxdepth: 2
@@ -20,10 +20,10 @@ Contents:
    ogr
 
 
-Indices and tables
-==================
+.. Indices and tables
+.. ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`
 
