@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Included data &mdash; MARS ground penetrating radars tracks GIS vector layers 0.9 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.9',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="MARS ground penetrating radars tracks GIS vector layers 0.9 documentation" href="index.html" />
+    <link rel="next" title="PostGIS connection parameters" href="connections.html" />
+    <link rel="prev" title="Available layers" href="layers.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="connections.html" title="PostGIS connection parameters"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="layers.html" title="Available layers"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MARS ground penetrating radars tracks GIS vector layers 0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="included-data">
+<h1>Included data<a class="headerlink" href="#included-data" title="Permalink to this headline">¶</a></h1>
+<p>For each radar sampling point, the _points_ layers provide the follwing data:</p>
+<div class="section" id="marsis-layers">
+<h2>MARSIS layers:<a class="headerlink" href="#marsis-layers" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><em>point_id</em>: id of the corresponding radargram column</li>
+<li><em>scetw</em>: SCET timeof the frame (whole)</li>
+<li><em>scetf</em>: SCET timeof the frame (frac)</li>
+<li><em>ephemt</em>: Ephemeris time (number of seconds since Jan 1 2000 - 12:00 UTC)</li>
+<li><em>geoep</em>: Ephemeris time in UTC format</li>
+<li><em>sunlon</em>: Mars solar longitude</li>
+<li><em>sundist</em>: Mars to Sun distance</li>
+<li><em>orbit</em>: Orbit number of the related dataproduct</li>
+<li><em>target</em>: Celestial body observed</li>
+<li><em>tarscx</em>: Target posistion (X component)</li>
+<li><em>tarscy</em>: Target posistion (Y component)</li>
+<li><em>tarscz</em>: Target posistion (Z component)</li>
+<li><em>scalt</em>: Distance from the Mars Express spacecraft to the reference surface</li>
+<li><em>scelon</em>: Longitude of the footprint location</li>
+<li><em>sclat</em>: Latitude of the footprint location</li>
+<li><em>tarscvx</em>: Mars Express spacecraft velocity vector in the reference frame of the target body (X component)</li>
+<li><em>tarscvy</em>: Mars Express spacecraft velocity vector in the reference frame of the target body (Y component)</li>
+<li><em>tarscvz</em>: Mars Express spacecraft velocity vector in the reference frame of the target body (Z component)</li>
+<li><em>tarscradv</em>: Radial component of the Mars Express spacecraft velocity vector in the reference frame of the target body</li>
+<li><em>tarsctanv</em>: Tangential component of the Mars Express spacecraft velocity vector in the reference frame of the target body</li>
+<li><em>locsunt</em>: Local true solar time</li>
+<li><em>sunzenith</em>: Solar zenith angle</li>
+<li><em>dipx</em>: Unit vector directed along MARSIS dipole Antenna in the reference frame of the target body (X component)</li>
+<li><em>dipy</em>: Unit vector directed along MARSIS dipole Antenna in the reference frame of the target body (Y component)</li>
+<li><em>dipz</em>: Unit vector directed along MARSIS dipole Antenna in the reference frame of the target body (Z component)</li>
+<li><em>monox</em>: Unit vector directed along MARSIS monopole Antenna in the reference frame of the target body (X component)</li>
+<li><em>monoy</em>: Unit vector directed along MARSIS monopole Antenna in the reference frame of the target body (Y component)</li>
+<li><em>monoz</em>: Unit vector directed along MARSIS monopole Antenna in the reference frame of the target body (Z component)</li>
+<li><em>f1</em>: Values in Hz of the first radar frequency</li>
+<li><em>f2</em>: Values in Hz of the second radar frequency</li>
+<li><em>snr_f1_m1</em>: [[Signal to noise ratio]] of the first frequency, filter -1</li>
+<li><em>snr_f1__0</em>: [[Signal to noise ratio]] of the first frequency, filter 0</li>
+<li><em>snr_f1_p1</em>: [[Signal to noise ratio]] of the first frequency, filter 1</li>
+<li><em>snr_f2_m1</em>: [[Signal to noise ratio]] of the second frequency, filter -1</li>
+<li><em>snr_f2__0</em>: [[Signal to noise ratio]] of the second frequency, filter 0</li>
+<li><em>snr_f2_p1</em>: [[Signal to noise ratio]] of the second frequency, filter 1</li>
+</ul>
+</div>
+<div class="section" id="sharad-layers">
+<h2>SHARAD layers:<a class="headerlink" href="#sharad-layers" title="Permalink to this headline">¶</a></h2>
+<p>The data provided in the SHARAD layers are those included in the SHARAD geometric data files (_http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/data/geom/_)</p>
+<ul class="simple">
+<li><em>point_id</em>: id of the corresponding radargram column</li>
+<li><em>epoch</em>: UT date and time of observation</li>
+<li><em>lat</em>: Latitude of the footprint location</li>
+<li><em>lon</em>: Longitude of the footprint location</li>
+<li><em>mars_r</em>: Radius of Mars at the footprint time</li>
+<li><em>sc_r</em>: Distance from center of mass to MRO</li>
+<li><em>rad_v</em>: MRO radial velocity</li>
+<li><em>tan_v</em>: MRO tangential velocity</li>
+<li><em>sza</em>: Solar zenith angle</li>
+<li><em>phase</em>: Signal phase distortion</li>
+<li><em>orbit</em>: Orbit number of the related dataproduct</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Included data</a><ul>
+<li><a class="reference internal" href="#marsis-layers">MARSIS layers:</a></li>
+<li><a class="reference internal" href="#sharad-layers">SHARAD layers:</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="layers.html"
+                        title="previous chapter">Available layers</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="connections.html"
+                        title="next chapter">PostGIS connection parameters</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/data.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="connections.html" title="PostGIS connection parameters"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="layers.html" title="Available layers"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">MARS ground penetrating radars tracks GIS vector layers 0.9 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Federico Cantini, Anton Ivanov.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.6.
+    </div>
+  </body>
+</html>
