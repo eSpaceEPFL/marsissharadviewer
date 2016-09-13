@@ -49,20 +49,20 @@ The output should begin like this::
 
         Package: qgis
         Versions: 
-        2.14.5+dfsg-1~bpo8+1 (/var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie-backports_main_binary-amd64_Packages) (/var/lib/dpkg/status)
+        2.14.5+dfsg-1~bpo8+1 (/var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie-...
          Description Language: 
-                         File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie_main_binary-amd64_Packages
+                         File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
          Description Language: en
-                         File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie_main_i18n_Translation-en
+                         File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
         
-        2.4.0-1+b1 (/var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie_main_binary-amd64_Packages)
+        2.4.0-1+b1 (/var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie_main_bina...
          Description Language: 
-                         File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie_main_binary-amd64_Packages
+                         File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
          Description Language: en
-                         File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie_main_i18n_Translation-en
+                         File: /var/lib/apt/lists/ftp.ch.debian.org_debian_dists_jessie...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
 
 To install the most recent version::
@@ -114,38 +114,38 @@ The output should begin like this::
 
         Package: qgis
         Versions: 
-        2.14.1+dfsg-3~xenial0 (/var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-unstable_ubuntu_dists_xenial_main_binary-amd64_Packages)
+        2.14.1+dfsg-3~xenial0 (/var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-...
          Description Language: 
-                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-amd64_Packages
+                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xen...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
          Description Language: 
-                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-i386_Packages
+                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xen...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
          Description Language: en
-                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_i18n_Translation-en
+                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xen...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
          Description Language: 
-                         File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-unstable_ubuntu_dists_xenial_main_binary-amd64_Packages
+                         File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
          Description Language: 
-                         File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-unstable_ubuntu_dists_xenial_main_binary-i386_Packages
+                         File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
 
-        2.8.6+dfsg-1build1 (/var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-amd64_Packages)
+        2.8.6+dfsg-1build1 (/var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_...
          Description Language: 
-                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-amd64_Packages
+                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xeni...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
          Description Language: 
-                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_binary-i386_Packages
+                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xeni...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
          Description Language: en
-                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xenial_universe_i18n_Translation-en
+                         File: /var/lib/apt/lists/ch.archive.ubuntu.com_ubuntu_dists_xeni...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
          Description Language: 
-                         File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-unstable_ubuntu_dists_xenial_main_binary-amd64_Packages
+                         File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-u...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
          Description Language: 
-                         File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-unstable_ubuntu_dists_xenial_main_binary-i386_Packages
+                         File: /var/lib/apt/lists/ppa.launchpad.net_ubuntugis_ubuntugis-u...
                           MD5: 49f76973cc4c2bd4a16872b7a79659ad
 
 
@@ -164,7 +164,19 @@ CentOS 7
 Apple OSX
 ---------
 
-TBD
+**Download and install QGIS**
+
+Download and install *QGIS* from https://www.qgis.org/en/site/forusers/download.html#mac or 
+directly from http://www.kyngchaos.com/software/qgis
+
+
+**Download and install depdendances**
+
+From http://www.kyngchaos.com/software/python install the following packages:
+
+* NumPy
+* PIL
+
 
 
 Microsoft Windows
@@ -175,6 +187,8 @@ Microsoft Windows
 Download and install the *QGIS standalone installer* of your choice from 
 
 http://www.qgis.org/en/site/forusers/download.html
+
+The package contains all the libriaries required.
 
 
 
