@@ -19,7 +19,7 @@ Default server for the *SHARAD* radargrams
 
 (*http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/browse/thm/*)
 
- is alredy set.
+ is already set.
 
 Regarding *MARSIS* data, since an official repository is not yet available, local copy of the data must be set up.
 
@@ -37,8 +37,8 @@ The image below shows a QGIS map with selected features on two MARSIS tracks.
 .. image:: selection.png
 
 
-Running the plugin
-==================
+Running the plug-in
+===================
 
 Once the features of interest are selected, the plug-in can be started using either the *Mars radars->MARSIS/SHARAD Viewer* menu or by pressing the plug-in launch button (see figure below).
 
@@ -48,7 +48,7 @@ The viewer will open and show the radargrams belonging to the selected orbits.
 
 Single radargram viewer
 -----------------------
-The *Single radargram* is the default view provided by the plug in.
+The *Single radargram* is the default view provided by the plug-in.
 
 Radargrams belonging to the selected orbits will be shown, one orbit per row. For MARSIS data one radargrams per frequency band will be shown.
 
@@ -66,12 +66,12 @@ Adjusting the selection
 
 Moving the highlight selection will cause the features selection on the QGIS map to change accordingly. (*It is suggested to use this functionality with a small subset of orbits for a good responsiveness of the system*)
 
-Subsurfaces depth measurement
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Subsurface depth measurement
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The *subsurfaces depth measurement tool* allows to select subsurfaces and measure their depth with respect to the planet surface saving data on QGIS layers.
 
-On each plot, the tool can be access by right-clicking on the mouse/touch-pad and positioning the mouse pointer on *Dpeth measurement* on the context menu. The following option are available:
+On each plot, the tool can be accessed by right-clicking on the mouse/touch-pad and positioning the mouse pointer on *Depth measurement* on the context menu. The following options are available:
 
 * Add surface line
 * Add subsurface line
@@ -100,7 +100,7 @@ Highlight region editing and subsurface selection are currently **not** availabl
 3D viewer
 ---------
 
-The *3D view* shows a 3D representation of the redargrams in the space, together with the map layer selected on the QGIS map. The aim of the view is to show intersecting radargrams, especially in the polar regions.
+The *3D view* shows a 3D representation of the radargrams in the space, together with the map layer selected on the QGIS map. The aim of the view is to show intersecting radargrams, especially in the polar regions.
 
 The geographic projection is the one selected on QGIS. 
 

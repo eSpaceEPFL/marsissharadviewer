@@ -2,8 +2,8 @@
 Installation
 ============
 
-Install dependaces
-==================
+Install dependencies
+====================
 
 
 GNU/Linux
@@ -158,7 +158,7 @@ To install the most recent version::
 CentOS 7
 ~~~~~~~~
 
-**Enable required repositories**
+**TO BE COMPLETED**
 
 
 Apple OSX
@@ -192,8 +192,8 @@ The package contains all the libriaries required.
 
 
 
-Install MARSIS/SHARAD plugin
-============================
+Install MARSIS/SHARAD plug-in
+=============================
 
 Download MARSIS/SHARAD viewer
 -----------------------------
@@ -236,7 +236,7 @@ Copy the folder *marsissharadviewer* containing the plug-in files in the QGIS pl
 |
 |
 |
-Lunch QGIS, the *'Mars Radars'* menu should appear in the menu bar as show in the figure below. 
+Launch QGIS, the *'Mars Radars'* menu should appear in the menu bar as show in the figure below. 
 
 .. image:: menu.png
 
