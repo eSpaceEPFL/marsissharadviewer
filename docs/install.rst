@@ -14,7 +14,7 @@ Debian 8 (Jessie)
 
 **Enable backports repository**
 
-Enabling the official debian backport repository allows to install a more recent version of QGIS.
+Enabling the official *debian backports repository* allows to install a more recent version of QGIS.
 You can skip this step if you are happy with the version provided in the main repository.
 
 Add the following line to the file */etc/apt/sources.list* (root privileges required)::
@@ -39,7 +39,7 @@ http://qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu
 
 Install python and python packages::
 
-        # apt-get install python-numpy python-scipy python-qt4 python-pil
+        # apt-get install python-numpy python-qt4 python-pil
 
 Check the available QGIS versions::
 
@@ -76,7 +76,7 @@ Ubuntu 16 LTS (Xenial Xerus)
 
 **Enable Ubuntu GIS repository**
 
-Enabling the Ubuntu GIS unstable repository allows to install a more recent version of QGIS.
+Enabling the *Ubuntu GIS unstable repository* allows to install a more recent version of QGIS.
 You can skip this step if you are happy with the version provided in the main repository.
 
 Add the following line to the file */etc/apt/sources.list* (root privileges required)::
@@ -104,7 +104,7 @@ http://qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu
 
 Install python and python packages::
 
-        # apt-get install python-numpy python-scipy python-qt4 python-pil
+        # apt-get install python-numpy python-qt4 python-pil
 
 Check the available QGIS versions::
 
@@ -158,8 +158,19 @@ To install the most recent version::
 CentOS 7
 ~~~~~~~~
 
-**TO BE COMPLETED**
+**Enable EPEL repository**
 
+Install the proper package and update the system::
+
+        # sudo yum install epel-release
+        # sudo yum update
+
+
+**Install QGIS and dependencies**
+
+::
+
+        # sudo yum install numpy python-pillow PyQt4 qgis
 
 Apple OSX
 ---------
@@ -170,7 +181,7 @@ Download and install *QGIS* from https://www.qgis.org/en/site/forusers/download.
 directly from http://www.kyngchaos.com/software/qgis
 
 
-**Download and install depdendances**
+**Download and install dependencies**
 
 From http://www.kyngchaos.com/software/python install the following packages:
 
@@ -188,7 +199,7 @@ Download and install the *QGIS standalone installer* of your choice from
 
 http://www.qgis.org/en/site/forusers/download.html
 
-The package contains all the libriaries required.
+The package contains all the required libraries .
 
 
 
@@ -220,6 +231,8 @@ Cloning the repository requires you have `Git <http://git-scm.com/>`_ installed 
 Installing the plug-in
 ----------------------
 Copy the folder *marsissharadviewer* containing the plug-in files in the QGIS plug-ins folder.
+
+**The folder may be named** *marsissharadviewer-<branch_name>*. **Rename it to** *marsissharadviewer*.
 
 **Location of the QGIS plug-ins folder**
 

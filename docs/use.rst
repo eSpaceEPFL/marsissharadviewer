@@ -5,9 +5,9 @@ Using the plug-in
 Set plug-in preferences
 =======================
 
-Open the *Mars radars->Settings* dialog from the meu bar.
+Open the *Mars radars->Settings* dialog from the menu bar.
 
-The dialog (see figore below) allows to set the radargram source and the plug-in cache directory.
+The dialog (see the figure below) allows to set the radargram source and the plug-in cache directory.
 
 *This information must be provided before using the plug-in*
 
@@ -28,9 +28,9 @@ Orbits selection
 ================
 The MARSIS/SHARAD viewer will show data on the basis of the selected features on the QGIS map.
 
-Features can be selected with any selection tool provided by QGIS. A multiple layer selection plug-in (http://plugins.qgis.org/plugins/MultipleLayerSelection/) can be usefull.
+Features can be selected with any selection tool provided by QGIS. A multiple layer selection plug-in (http://plugins.qgis.org/plugins/MultipleLayerSelection/) can be useful.
 
-Layers containing MARSIS and SHARAD tracks feaures must have their name starting with *marsis_* and *sharad_* respectively in order to be correctly recognised 
+Layers containing MARSIS and SHARAD tracks features must have their name starting with *marsis_* and *sharad_* respectively in order to be correctly recognised 
 
 The image below shows a QGIS map with selected features on two MARSIS tracks.
 

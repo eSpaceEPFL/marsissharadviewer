@@ -59,7 +59,7 @@
 <div class="section" id="debian-8-jessie">
 <h4>Debian 8 (Jessie)<a class="headerlink" href="#debian-8-jessie" title="Permalink to this headline">¶</a></h4>
 <p><strong>Enable backports repository</strong></p>
-<p>Enabling the official debian backport repository allows to install a more recent version of QGIS.
+<p>Enabling the official <em>debian backports repository</em> allows to install a more recent version of QGIS.
 You can skip this step if you are happy with the version provided in the main repository.</p>
 <p>Add the following line to the file <em>/etc/apt/sources.list</em> (root privileges required):</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>deb http://ftp.debian.org/debian wheezy-backports main
@@ -75,7 +75,7 @@ You can skip this step if you are happy with the version provided in the main re
 <p><a class="reference external" href="http://qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu">http://qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu</a></p>
 <p><strong>Install QGIS and dependencies</strong></p>
 <p>Install python and python packages:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># apt-get install python-numpy python-scipy python-qt4 python-pil</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># apt-get install python-numpy python-qt4 python-pil</span>
 </pre></div>
 </div>
 <p>Check the available QGIS versions:</p>
@@ -111,7 +111,7 @@ Versions:
 <div class="section" id="ubuntu-16-lts-xenial-xerus">
 <h4>Ubuntu 16 LTS (Xenial Xerus)<a class="headerlink" href="#ubuntu-16-lts-xenial-xerus" title="Permalink to this headline">¶</a></h4>
 <p><strong>Enable Ubuntu GIS repository</strong></p>
-<p>Enabling the Ubuntu GIS unstable repository allows to install a more recent version of QGIS.
+<p>Enabling the <em>Ubuntu GIS unstable repository</em> allows to install a more recent version of QGIS.
 You can skip this step if you are happy with the version provided in the main repository.</p>
 <p>Add the following line to the file <em>/etc/apt/sources.list</em> (root privileges required):</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu xenial main
@@ -129,7 +129,7 @@ deb-src http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu xenial main
 <p><a class="reference external" href="http://qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu">http://qgis.org/en/site/forusers/alldownloads.html#debian-ubuntu</a></p>
 <p><strong>Install QGIS and dependencies</strong></p>
 <p>Install python and python packages:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># apt-get install python-numpy python-scipy python-qt4 python-pil</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># apt-get install python-numpy python-qt4 python-pil</span>
 </pre></div>
 </div>
 <p>Check the available QGIS versions:</p>
@@ -182,7 +182,16 @@ Versions:
 </div>
 <div class="section" id="centos-7">
 <h4>CentOS 7<a class="headerlink" href="#centos-7" title="Permalink to this headline">¶</a></h4>
-<p><strong>TO BE COMPLETED</strong></p>
+<p><strong>Enable EPEL repository</strong></p>
+<p>Install the proper package and update the system:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># sudo yum install epel-release</span>
+<span class="c1"># sudo yum update</span>
+</pre></div>
+</div>
+<p><strong>Install QGIS and dependencies</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># sudo yum install numpy python-pillow PyQt4 qgis</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="apple-osx">
@@ -190,7 +199,7 @@ Versions:
 <p><strong>Download and install QGIS</strong></p>
 <p>Download and install <em>QGIS</em> from <a class="reference external" href="https://www.qgis.org/en/site/forusers/download.html#mac">https://www.qgis.org/en/site/forusers/download.html#mac</a> or
 directly from <a class="reference external" href="http://www.kyngchaos.com/software/qgis">http://www.kyngchaos.com/software/qgis</a></p>
-<p><strong>Download and install depdendances</strong></p>
+<p><strong>Download and install dependencies</strong></p>
 <p>From <a class="reference external" href="http://www.kyngchaos.com/software/python">http://www.kyngchaos.com/software/python</a> install the following packages:</p>
 <ul class="simple">
 <li>NumPy</li>
@@ -202,7 +211,7 @@ directly from <a class="reference external" href="http://www.kyngchaos.com/softw
 <p><strong>Download and install QGIS</strong></p>
 <p>Download and install the <em>QGIS standalone installer</em> of your choice from</p>
 <p><a class="reference external" href="http://www.qgis.org/en/site/forusers/download.html">http://www.qgis.org/en/site/forusers/download.html</a></p>
-<p>The package contains all the libriaries required.</p>
+<p>The package contains all the required libraries .</p>
 </div>
 </div>
 <div class="section" id="install-marsis-sharad-plug-in">
@@ -226,6 +235,7 @@ directly from <a class="reference external" href="http://www.kyngchaos.com/softw
 <div class="section" id="installing-the-plug-in">
 <h3>Installing the plug-in<a class="headerlink" href="#installing-the-plug-in" title="Permalink to this headline">¶</a></h3>
 <p>Copy the folder <em>marsissharadviewer</em> containing the plug-in files in the QGIS plug-ins folder.</p>
+<p><strong>The folder may be named</strong> <em>marsissharadviewer-&lt;branch_name&gt;</em>. <strong>Rename it to</strong> <em>marsissharadviewer</em>.</p>
 <p><strong>Location of the QGIS plug-ins folder</strong></p>
 <table border="1" class="docutils">
 <colgroup>
