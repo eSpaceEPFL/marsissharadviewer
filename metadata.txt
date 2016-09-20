@@ -7,9 +7,9 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=MARSIS SHARAD utilities
+name=MARSIS/SHARAD viewer
 qgisMinimumVersion=2.0
-description=Utilities to work with MARSIS and SHARAD data
+description=Visualise MARSIS and SHARAD radargrams
 version=0.1
 author=EPFL-eSpace
 email=federico.cantini@epfl.ch
