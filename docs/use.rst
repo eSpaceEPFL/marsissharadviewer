@@ -19,7 +19,7 @@ Default server for the *SHARAD* radargrams
 
 (*http://pds-geosciences.wustl.edu/mro/mro-m-sharad-5-radargram-v1/mrosh_2001/browse/thm/*)
 
- is already set.
+is already set.
 
 Regarding *MARSIS* data, since an official repository is not yet available, local copy of the data must be set up.
 

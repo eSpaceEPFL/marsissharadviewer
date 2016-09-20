@@ -19,7 +19,7 @@ You can skip this step if you are happy with the version provided in the main re
 
 Add the following line to the file */etc/apt/sources.list* (root privileges required)::
 
-        deb http://ftp.debian.org/debian wheezy-backports main
+        deb http://ftp.debian.org/debian jessie-backports main
 
 Run repos update (as root)::
 
