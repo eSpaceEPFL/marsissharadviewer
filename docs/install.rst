@@ -246,10 +246,8 @@ Copy the folder *marsissharadviewer* containing the plug-in files in the QGIS pl
 | Windows                 | C:\\users\\{*username*}\\.qgis2\\python\\plugins |
 +-------------------------+--------------------------------------------------+
 
-|
-|
-|
 Launch QGIS, the *'Mars Radars'* menu should appear in the menu bar as show in the figure below. 
+If not, open the plug-ins manager from the menu bar using *Plugins->Manage and install plugins...* and activate *MARSIS/SHARAD viewer*.
 
 .. image:: menu.png
 
