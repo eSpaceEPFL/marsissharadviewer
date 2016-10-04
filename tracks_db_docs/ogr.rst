@@ -4,7 +4,7 @@ Getting layers subsets using GDAL's ogr2ogr
 
 "GDAL (http://www.gdal.org/) is a translator library for raster and vector geospatial data formats that is released under an X/MIT style Open Source license by the Open Source Geospatial Foundation (http://www.osgeo.org/)."
 
-Using the proper GDAL utility it is possible to **download subsets of data from MARSIS and SHARAD layers and saving it in one of the format managed by GDAL**. This can be useful to work without a network connection and can also lead to performance improvement using QGIS.
+Using the proper GDAL utility it is possible to **download subsets of data from MARSIS and SHARAD layers and saving it in one of the format managed by GDAL**. This can be useful to work without a network connection, download only the data of interest and can also lead to QGIS performance improvement.
 
 Download GDAL
 -------------
@@ -18,9 +18,6 @@ Getting layers subsets
 
 The GDAL utility to fetch layers subsets is *ogr2ogr* (http://www.gdal.org/ogr2ogr.html). It is included in the GDAL installation.
 
-Connecting to PostGIS db
-~~~~~~~~~~~~~~~~~~~~~~~~
-
 The generic syntax of *ogr2ogr* command is the following:
 
 ::
@@ -32,12 +29,12 @@ The generic syntax of *ogr2ogr* command is the following:
 
 * *driver*: name of the GDAL driver to use to write data
 * *filename*: name of the output file
-* *dbuser*: database username. Please refer to [[PostGIS connection parameters]]
-* *dbmane*: name of the database to fetch data from. Please refer to [[PostGIS connection parameters]]
+* *dbuser*: database username. Please refer to :doc:`connections`
+* *dbmane*: name of the database to fetch data from. Please refer to :doc:`connections`
 * *password*: password provided to the users
-* *layer_name*: name of the layer to fetch data from. Please refer to [[Available layers]]
+* *layer_name*: name of the layer to fetch data from. Please refer to :doc:`layers`
 * *min_lon* *min_lat* *max_lon* *max_lat*: longitude and latitude extent
-* *restricted_where*: list of attribute to include in the output. Please refer to [[Included data]]
+* *restricted_where*: list of attribute to include in the output. Please refer to :doc:`data`
 
 examples:
 ^^^^^^^^^
@@ -68,14 +65,8 @@ Fetches data of MARSIS sampling points from table *marsis_orbit_points_180* **re
 
 * For a detaild description* of *ogr2ogr* syntax please refer to http://download.osgeo.org/gdal/ or the documentation of your GDAL installation.
 
-*Service via WFS protocol is planned but not yet available.*
 
 
 
-Connecting to WFS service
--------------------------
-
-*To be implemented*
 
 
-Independently on the service used, the files containing the **fetched data can be open with QGIS or other software** (i.e. GRASS GIS) depending on the format used for saving it.

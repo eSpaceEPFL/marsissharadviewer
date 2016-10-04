@@ -49,7 +49,7 @@
   <div class="section" id="getting-layers-subsets-using-gdal-s-ogr2ogr">
 <h1>Getting layers subsets using GDAL&#8217;s ogr2ogr<a class="headerlink" href="#getting-layers-subsets-using-gdal-s-ogr2ogr" title="Permalink to this headline">¶</a></h1>
 <p>&#8220;GDAL (<a class="reference external" href="http://www.gdal.org/">http://www.gdal.org/</a>) is a translator library for raster and vector geospatial data formats that is released under an X/MIT style Open Source license by the Open Source Geospatial Foundation (<a class="reference external" href="http://www.osgeo.org/">http://www.osgeo.org/</a>).&#8221;</p>
-<p>Using the proper GDAL utility it is possible to <strong>download subsets of data from MARSIS and SHARAD layers and saving it in one of the format managed by GDAL</strong>. This can be useful to work without a network connection and can also lead to performance improvement using QGIS.</p>
+<p>Using the proper GDAL utility it is possible to <strong>download subsets of data from MARSIS and SHARAD layers and saving it in one of the format managed by GDAL</strong>. This can be useful to work without a network connection, download only the data of interest and can also lead to QGIS performance improvement.</p>
 <div class="section" id="download-gdal">
 <h2>Download GDAL<a class="headerlink" href="#download-gdal" title="Permalink to this headline">¶</a></h2>
 <p>Information about GDAL download and installation for GNU/Linux, OSX and Windows operating systems can be found here: (<a class="reference external" href="https://trac.osgeo.org/gdal/wiki/DownloadingGdalBinaries">https://trac.osgeo.org/gdal/wiki/DownloadingGdalBinaries</a>)</p>
@@ -58,8 +58,6 @@
 <div class="section" id="getting-layers-subsets">
 <h2>Getting layers subsets<a class="headerlink" href="#getting-layers-subsets" title="Permalink to this headline">¶</a></h2>
 <p>The GDAL utility to fetch layers subsets is <em>ogr2ogr</em> (<a class="reference external" href="http://www.gdal.org/ogr2ogr.html">http://www.gdal.org/ogr2ogr.html</a>). It is included in the GDAL installation.</p>
-<div class="section" id="connecting-to-postgis-db">
-<h3>Connecting to PostGIS db<a class="headerlink" href="#connecting-to-postgis-db" title="Permalink to this headline">¶</a></h3>
 <p>The generic syntax of <em>ogr2ogr</em> command is the following:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span>ogr2ogr -f &quot;driver&quot; filename PG:&quot;host=redmine-espace.epfl.ch user=dbuser
     dbname=dbname password=password&quot; layer_name -spat min_lon min_lat
@@ -69,15 +67,15 @@
 <ul class="simple">
 <li><em>driver</em>: name of the GDAL driver to use to write data</li>
 <li><em>filename</em>: name of the output file</li>
-<li><em>dbuser</em>: database username. Please refer to [[PostGIS connection parameters]]</li>
-<li><em>dbmane</em>: name of the database to fetch data from. Please refer to [[PostGIS connection parameters]]</li>
+<li><em>dbuser</em>: database username. Please refer to <a class="reference internal" href="connections.html"><em>PostGIS connection parameters</em></a></li>
+<li><em>dbmane</em>: name of the database to fetch data from. Please refer to <a class="reference internal" href="connections.html"><em>PostGIS connection parameters</em></a></li>
 <li><em>password</em>: password provided to the users</li>
-<li><em>layer_name</em>: name of the layer to fetch data from. Please refer to [[Available layers]]</li>
+<li><em>layer_name</em>: name of the layer to fetch data from. Please refer to <a class="reference internal" href="layers.html"><em>Available layers</em></a></li>
 <li><em>min_lon</em> <em>min_lat</em> <em>max_lon</em> <em>max_lat</em>: longitude and latitude extent</li>
-<li><em>restricted_where</em>: list of attribute to include in the output. Please refer to [[Included data]]</li>
+<li><em>restricted_where</em>: list of attribute to include in the output. Please refer to <a class="reference internal" href="data.html"><em>Included data</em></a></li>
 </ul>
 <div class="section" id="examples">
-<h4>examples:<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h4>
+<h3>examples:<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre><span></span>ogr2ogr -f &quot;GML&quot; file.gml PG:&quot;host=redmine-espace.epfl.ch user=dbuser dbname=dbname
      password=password&quot; marsis_orbit_points_180 -spat -10 -30 10 30
 </pre></div>
@@ -98,14 +96,7 @@
 <ul class="simple">
 <li>For a detaild description* of <em>ogr2ogr</em> syntax please refer to <a class="reference external" href="http://download.osgeo.org/gdal/">http://download.osgeo.org/gdal/</a> or the documentation of your GDAL installation.</li>
 </ul>
-<p><em>Service via WFS protocol is planned but not yet available.</em></p>
 </div>
-</div>
-</div>
-<div class="section" id="connecting-to-wfs-service">
-<h2>Connecting to WFS service<a class="headerlink" href="#connecting-to-wfs-service" title="Permalink to this headline">¶</a></h2>
-<p><em>To be implemented</em></p>
-<p>Independently on the service used, the files containing the <strong>fetched data can be open with QGIS or other software</strong> (i.e. GRASS GIS) depending on the format used for saving it.</p>
 </div>
 </div>
 
@@ -120,13 +111,9 @@
 <li><a class="reference internal" href="#">Getting layers subsets using GDAL&#8217;s ogr2ogr</a><ul>
 <li><a class="reference internal" href="#download-gdal">Download GDAL</a></li>
 <li><a class="reference internal" href="#getting-layers-subsets">Getting layers subsets</a><ul>
-<li><a class="reference internal" href="#connecting-to-postgis-db">Connecting to PostGIS db</a><ul>
 <li><a class="reference internal" href="#examples">examples:</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a class="reference internal" href="#connecting-to-wfs-service">Connecting to WFS service</a></li>
 </ul>
 </li>
 </ul>

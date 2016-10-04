@@ -53,16 +53,16 @@
   <div class="section" id="available-layers">
 <h1>Available layers<a class="headerlink" href="#available-layers" title="Permalink to this headline">¶</a></h1>
 <p>Several layers are available for MARSIS and SHARAD tracks data.</p>
-<p><em>_point</em> layers contain, for each radar sampling point, geometric data and other metadata. For the list of the included data see <a class="reference internal" href="data.html"><em>Included data</em></a>.</p>
-<p><em>_lines</em> layers are intended for a quick visualization of the orbit footprint without providing further details included in the <em>_point</em> layers. They can be used to show the track number on the QGIS canvas and maps.</p>
+<p><em>_points</em> layers contain, for each radar sampling point, geometric data and other metadata. For the list of the included data see <a class="reference internal" href="data.html"><em>Included data</em></a>.</p>
+<p><em>_lines</em> layers are intended for a quick visualization of the orbits&#8217; footprint without providing further details included in the <em>_points</em> layers. They can be used to show the track number on the QGIS canvas and maps.</p>
 <p>In the layers named with the <strong>_180_ suffix</strong>, the <strong>longitude</strong> is represented <strong>between -180° and +180°</strong>. In the other layers the longitude is represented <strong>between 0° and 360°</strong>.</p>
-<div class="section" id="using-postgis-db-connection">
-<h2>Using PostGIS DB connection<a class="headerlink" href="#using-postgis-db-connection" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="postgis-db">
+<h2>PostGIS DB<a class="headerlink" href="#postgis-db" title="Permalink to this headline">¶</a></h2>
 <p>For the PostGIS connection parameters refer to <a class="reference internal" href="connections.html"><em>PostGIS connection parameters</em></a></p>
 <div class="section" id="marsis-layers">
 <h3>MARSIS layers<a class="headerlink" href="#marsis-layers" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><em>orbit_point</em>: MARSIS sampling points (longitude between 0° and 360°. Features geometry type is <em>point</em>)</li>
+<li><em>marsis_orbit_points</em>: MARSIS sampling points (longitude between 0° and 360°. Features geometry type is <em>point</em>)</li>
 <li><em>marsis_orbit_points_180</em>: MARSIS sampling points (longitude between -180° and 180°. Features geometry type is <em>point</em>)</li>
 <li><em>marsis_orbit_lines</em>: MARSIS orbit tracks (longitude between 0° and 360°. Features geometry type is <em>line</em>)</li>
 <li><em>marsis_orbit_lines_180</em>: MARSIS orbit tracks (longitude between -180° and 180°. Features geometry type is <em>line</em>)</li>
@@ -71,17 +71,37 @@
 <div class="section" id="sharad-layers">
 <h3>SHARAD layers<a class="headerlink" href="#sharad-layers" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><em>orbit_point</em>: SHARAD sampling points (longitude between 0° and 360°. Features geometry type is <em>point</em>)</li>
+<li><em>sharad_orbit_points</em>: SHARAD sampling points (longitude between 0° and 360°. Features geometry type is <em>point</em>)</li>
 <li><em>sharad_orbit_points_180</em>: SHARAD sampling points (longitude between -180° and 180°. Features geometry type is <em>point</em>)</li>
 <li><em>sharad_orbit_lines</em>: SHARAD orbit tracks (longitude between 0° and 360°. Features geometry type is <em>line</em>)</li>
 <li><em>sharad_orbit_lines_180</em>: SHARAD orbit tracks (longitude between -180° and 180°. Features geometry type is <em>line</em>)</li>
 </ul>
 </div>
 </div>
-<div class="section" id="tracks-layers-in-sqlite-format">
-<h2>Tracks layers in SQLite format<a class="headerlink" href="#tracks-layers-in-sqlite-format" title="Permalink to this headline">¶</a></h2>
-<p>The aforementioned tracks layers are also available in <em>SQLite</em> format from TBA.</p>
-<p>Both for MARSIS and SHARAD, the DB is partitioned as follow:</p>
+<div class="section" id="sqlite-files">
+<h2>SQLite files<a class="headerlink" href="#sqlite-files" title="Permalink to this headline">¶</a></h2>
+<p>The aforementioned tracks layers are also available in <em>SQLite</em> format from <a class="reference external" href="https://drive.google.com/open?id=0B_iYniNmEIOVVXZFRmZoeWN5MnM">https://drive.google.com/open?id=0B_iYniNmEIOVVXZFRmZoeWN5MnM</a>.</p>
+<p><em>Google drive</em> account is required to download the files.</p>
+<p>The files are <em>zipped</em>.</p>
+<p>For both MARSIS and SHARAD, the tracks files are the following:</p>
+<ul class="simple">
+<li><em>_N_Pole.sqlite</em>: North pole, latitude &gt; 70°, longitude between 0° and 360°</li>
+<li><em>_N_Pole_180.sqlite</em>: North pole, latitude &gt; 70°, longitude between -180° and 180°</li>
+<li><em>_S_Pole.sqlite</em>: North pole, latitude &lt; -70°, longitude between 0° and 360°</li>
+<li><em>_S_Pole_180.sqlite</em>: North pole, latitude &lt; -70°, longitude between -180° and 180°</li>
+<li><em>_0_60E</em>: Longitude between 0° and 60°, latitude between -70° and 70°</li>
+<li><em>_60_120E</em>: Longitude between 60° and 120°, latitude between -70° and 70°</li>
+<li><em>_120_180E</em>: Longitude between 120° and 180°, latitude between -70° and 70°</li>
+<li><em>_180_240E</em>: Longitude between 180° and 240°, latitude between -70° and 70°</li>
+<li><em>_240_300E</em>: Longitude between 240° and 300°, latitude between -70° and 70°</li>
+<li><em>_300_360E</em>: Longitude between 300° and 360°, latitude between -70° and 70°</li>
+<li><em>_0_60W_180</em>: Longitude between 0° and -60°, latitude between -70° and 70°</li>
+<li><em>_60_120W_180</em>: Longitude between -60° and -120°, latitude between -70° and 70°</li>
+<li><em>_120_180W_180</em>: Longitude between -120° and -180°, latitude between -70° and 70°</li>
+<li><em>_orbit_lines</em>: Longitude between 0° and 360°, latitude between -90° and 90°</li>
+<li><em>_orbit_lines_180</em>: Longitude between -180° and 180°, latitude between -90° and 90°</li>
+</ul>
+<p>Further layers including MOLA raster map, USGS geologic map and Mars nomenclature are available here <a class="reference external" href="https://drive.google.com/open?id=0B_iYniNmEIOVMXZ6aTJ2MGtGdVE">https://drive.google.com/open?id=0B_iYniNmEIOVMXZ6aTJ2MGtGdVE</a>.</p>
 </div>
 </div>
 
@@ -94,12 +114,12 @@
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Available layers</a><ul>
-<li><a class="reference internal" href="#using-postgis-db-connection">Using PostGIS DB connection</a><ul>
+<li><a class="reference internal" href="#postgis-db">PostGIS DB</a><ul>
 <li><a class="reference internal" href="#marsis-layers">MARSIS layers</a></li>
 <li><a class="reference internal" href="#sharad-layers">SHARAD layers</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tracks-layers-in-sqlite-format">Tracks layers in SQLite format</a></li>
+<li><a class="reference internal" href="#sqlite-files">SQLite files</a></li>
 </ul>
 </li>
 </ul>

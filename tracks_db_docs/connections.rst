@@ -2,18 +2,12 @@
 PostGIS connection parameters
 =============================
 
-eSpace MARSIS layers DB 
------------------------
+eSpace Mars radars tracks layers DB 
+-----------------------------------
 
 | *Host:* redmine-espace.epfl.ch
 | *Port:* 5432 
-| *Database:* MARSIS 
-| *Username:* marsisuser
+| *Database:* radartracks 
+| *Username:* radaruser
 
-eSpace SHARAD layers DB 
------------------------
-
-| *Host:* redmine-espace.epfl.ch 
-| *Port:* 5432 
-| *Database:* SHARAD
-| *Username:* marsisuser
+Please write an email to federico.cantini@epfl.ch or anton.ivanov@epfl.ch to get the password.

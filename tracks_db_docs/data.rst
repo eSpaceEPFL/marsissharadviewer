@@ -2,7 +2,7 @@
 Included data
 =============
 
-For each radar sampling point, the _points_ layers provide the follwing data:
+For each radar sampling point, the *points* layers provide the follwing data:
 
 MARSIS layers:
 --------------
@@ -37,12 +37,14 @@ MARSIS layers:
 * *monoz*: Unit vector directed along MARSIS monopole Antenna in the reference frame of the target body (Z component)    
 * *f1*: Values in Hz of the first radar frequency
 * *f2*: Values in Hz of the second radar frequency
-* *snr_f1_m1*: [[Signal to noise ratio]] of the first frequency, filter -1 
-* *snr_f1__0*: [[Signal to noise ratio]] of the first frequency, filter 0 
-* *snr_f1_p1*: [[Signal to noise ratio]] of the first frequency, filter 1 
-* *snr_f2_m1*: [[Signal to noise ratio]] of the second frequency, filter -1 
-* *snr_f2__0*: [[Signal to noise ratio]] of the second frequency, filter 0  
-* *snr_f2_p1*: [[Signal to noise ratio]] of the second frequency, filter 1 
+* *snr_f1_m1*: Signal to noise ratio of the first frequency band, filter -1 
+* *snr_f1__0*: Signal to noise ratio of the first frequency band, filter 0 
+* *snr_f1_p1*: Signal to noise ratio of the first frequency band, filter 1 
+* *snr_f2_m1*: Signal to noise ratio of the second frequency band, filter -1 
+* *snr_f2__0*: Signal to noise ratio of the second frequency band, filter 0  
+* *snr_f2_p1*: Signal to noise ratio of the second frequency band, filter 1 
+* *qi1*: Overall track quality index as reported in official L2 data release (frequency band 1)
+* *qi2*: Overall track quality index as reported in official L2 data release (frequency band 2)
 
 SHARAD layers:
 --------------
