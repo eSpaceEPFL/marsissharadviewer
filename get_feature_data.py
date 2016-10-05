@@ -125,7 +125,7 @@ class GetFeatureData():
             self.orbits[orbit].set_range()
 
             #Remove orbit from dictionary if data is unavailable
-            if (not self.orbits[orbit].data) and (not self.orbits[orbit].sim):
+            if (not self.orbits[orbit].data):# and (not self.orbits[orbit].sim):
                  del self.orbits[orbit]
 #                 self.orbits[orbit] = None
                  removed.append(orbit)

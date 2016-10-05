@@ -484,8 +484,14 @@ class OrbitViewer(pg.GraphicsLayout):
         self.orbit_dict=orbit_dict
         self.prefs = prefs
 
-        for band in orbit_dict.data:
-            data_f.append(np_mean(band,0))
+        if orbit_dict.data:
+            for band in orbit_dict.data:
+                data_f.append(np_mean(band,0))
+
+        else:
+            for band in orbit_dict.sim:
+                data_f.append(np_zeros(band.shape[1:]))
+
 
         if orbit_dict.sim:
             for band in orbit_dict.sim:
