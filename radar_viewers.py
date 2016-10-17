@@ -605,7 +605,7 @@ class OrbitViewer(pg.GraphicsLayout):
             plot.show_superposed([0, 1], luts = luts, comp_modes = comp_modes)
 
     def get_v_offset(self):
-        return self.v_offset
+        return (self.v_offset_data, self.v_offset_sim)
 
 #    def set_v_offset(self, offset):
 #        self.v_offset = offset
