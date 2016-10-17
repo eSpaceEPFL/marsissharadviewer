@@ -233,8 +233,11 @@ class RadarViewer(_RadarViewer):
     def get_v_offset(self, orbit):
         pass
 
-    def set_v_offset(self, orbit, offset):
-        self.orbit_row[self.orbit_idx[orbit]].set_v_offset(offset)
+    def set_v_offset_data(self, orbit, offset):
+        self.orbit_row[self.orbit_idx[orbit]].set_v_offset_data(offset)
+
+    def set_v_offset_sim(self, orbit, offset):
+        self.orbit_row[self.orbit_idx[orbit]].set_v_offset_sim(offset)
 
     def open_v_offset(self):
         self.v_offset_widg = VOffsetWidget(self)
@@ -469,7 +472,7 @@ class OrbitViewer(pg.GraphicsLayout):
                  y_label = 'y',
                  x_unit = "",
                  y_unit = "",
-                 v_offset = 0,
+                 v_offset = (0,0),
                  prefs = None):
 
         super(OrbitViewer, self).__init__(parent)
@@ -478,6 +481,8 @@ class OrbitViewer(pg.GraphicsLayout):
         data_f = []
         sim_f = []
         self.v_offset = v_offset
+        self.v_offset_data = self.v_offset[0]
+        self.v_offset_sim = self.v_offset[1]
         self.orbit_label = orbit_dict.get_instrument() + " - Orbit "+str(orbit)
         self.x_unit = x_unit
         self.y_unit = y_unit
@@ -602,10 +607,20 @@ class OrbitViewer(pg.GraphicsLayout):
     def get_v_offset(self):
         return self.v_offset
 
-    def set_v_offset(self, offset):
-        self.v_offset = offset
+#    def set_v_offset(self, offset):
+#        self.v_offset = offset
+#        for plot in self.plots:
+#            plot.set_v_offset(offset)
+
+    def set_v_offset_data(self, offset):
+        self.v_offset_data = offset
         for plot in self.plots:
-            plot.set_v_offset(offset)
+            plot.set_v_offset_data(offset)
+
+    def set_v_offset_sim(self, offset):
+        self.v_offset_sim = offset
+        for plot in self.plots:
+            plot.set_v_offset_sim(offset)
 
 class VOffsetWidget(pg.LayoutWidget):
 
@@ -613,35 +628,64 @@ class VOffsetWidget(pg.LayoutWidget):
         super(VOffsetWidget, self).__init__(parent = parent)
 
         self.setWindowTitle(viewer.name)
-        self.v_off_action = []
+        self.v_off_action_data = []
+        self.v_off_action_sim = []
         ii = 0
         for orbit in viewer.orbit_idx:
             self.addWidget(QtGui.QLabel(viewer.orbit_row[viewer.orbit_idx[str(orbit)]].orbit_label), row = ii, col = 0)
             ii = ii+1
 
-            self.v_off_action.append(VOffsetAction(viewer, str(orbit)))
-            spin = pg.SpinBox(value=viewer.orbit_row[viewer.orbit_idx[str(orbit)]].get_v_offset(),
-                              step=1, bounds=[None, None],
-                              suffix=viewer.orbit_row[viewer.orbit_idx[str(orbit)]].y_unit)
-            spin.sigValueChanged.connect(self.v_off_action[-1].spin_changed)
-            spin.sigValueChanging.connect(self.v_off_action[-1].spin_changing)
-            self.addWidget(spin, row = ii, col = 0)
+            self.addWidget(QtGui.QLabel("Data"), row = ii, col = 0)
+            self.addWidget(QtGui.QLabel("Simulation"), row = ii, col = 1)
             ii = ii+1
 
+            self.v_off_action_data.append(VOffsetActionData(viewer, str(orbit)))
+            self.v_off_action_sim.append(VOffsetActionSim(viewer, str(orbit)))
+
+            data_offset, sim_offset = viewer.orbit_row[viewer.orbit_idx[str(orbit)]].get_v_offset()
+
+            spin = pg.SpinBox(value=data_offset,
+                              step=1, bounds=[None, None],
+                              suffix=viewer.orbit_row[viewer.orbit_idx[str(orbit)]].y_unit)
+            spin.sigValueChanged.connect(self.v_off_action_data[-1].spin_changed)
+            spin.sigValueChanging.connect(self.v_off_action_data[-1].spin_changing)
+            self.addWidget(spin, row = ii, col = 0)
+
+            spin_sim = pg.SpinBox(value=sim_offset,
+                              step=1, bounds=[None, None],
+                              suffix=viewer.orbit_row[viewer.orbit_idx[str(orbit)]].y_unit)
+            spin_sim.sigValueChanged.connect(self.v_off_action_sim[-1].spin_changed)
+            spin_sim.sigValueChanging.connect(self.v_off_action_sim[-1].spin_changing)
+            self.addWidget(spin_sim, row = ii, col = 1)
+            ii = ii+1
+
+###############################################################################
 class VOffsetAction():
 
-    def __init__(self, viewer, orbit):
+    def __init__(self, viewer, orbit ):
         self.viewer = viewer
         self.orbit = orbit
 
     def run(self, offset):
-        self.viewer.set_v_offset(self.orbit, offset)
+        pass
 
     def spin_changed(self, sb):
         self.run(sb.value())
 
     def spin_changing(self, sb, value):
         self.run(sb.value())
+
+class VOffsetActionData(VOffsetAction):
+
+    def run(self, offset):
+        self.viewer.set_v_offset_data(self.orbit, offset)
+
+class VOffsetActionSim(VOffsetAction):
+
+    def run(self, offset):
+        self.viewer.set_v_offset_sim(self.orbit, offset)
+
+###############################################################################
 
 class ThreeDViewer(QtGui.QWidget):
 

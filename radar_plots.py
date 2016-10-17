@@ -52,7 +52,7 @@ class SinglePlot(pg_GraphicsLayout):
                  y_label = 'y',
                  x_unit = "",
                  y_unit = "",
-                 v_offset = 0,
+                 v_offset = (0,0),
                  depth_cb = None,
                  **kargs):
         super(SinglePlot, self).__init__(parent, **kargs)
@@ -311,11 +311,25 @@ class SinglePlot(pg_GraphicsLayout):
     def get_v_offset(self):
         return self.v_offset
 
+    def _set_v_offset(self, offset, ii):
+        self.images[ii].setRect(QtCore.QRectF(self.q_rects[ii].x(),
+                                              self.q_rects[ii].y()+offset,
+                                              self.q_rects[ii].width(),
+                                              self.q_rects[ii].height()))
+
+    def set_v_offset_data(self, offset):
+        self.v_offset_data = offset
+        self._set_v_offset(offset, 0)
+
+    def set_v_offset_sim(self, offset):
+        self.v_offset_sim = offset
+        self._set_v_offset(offset, 1)
+
     def set_v_offset(self, offset):
         self.v_offset = offset
         for ii in range(len(self.images)):
             self.images[ii].setRect(QtCore.QRectF(self.q_rects[ii].x(),
-                                                  self.q_rects[ii].y()+offset,
+                                                  self.q_rects[ii].y()+offset[ii],
                                                   self.q_rects[ii].width(),
                                                   self.q_rects[ii].height()))
 
