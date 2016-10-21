@@ -177,7 +177,7 @@ class SinglePlot(pg_GraphicsLayout):
         self.depth.measure(self.v_offset_data)
 
     def depth_load(self):
-        self.depth.load()
+        self.depth.load(self.v_offset_data)
 
     def set_label(self, label_text):
         self.label.setText(label_text)
@@ -367,7 +367,7 @@ class DepthTool(object):
         self.vb.addItem(self.sub_lines[-1])
         self.sub_lines[-1].sigRemoveRequested.connect(self.sub_lines[-1].remove)
 
-    def load(self):
+    def load(self, offset):
         layer = utils.iface.activeLayer()
         fiter = layer.getFeatures()
         features = [feature for feature in fiter]
@@ -391,12 +391,12 @@ class DepthTool(object):
         for feature in features:
             if isinstance(feature.attribute('surf_sel_x'), float):
                 surf_x.append(feature.attribute('surf_sel_x'))
-                surf_y.append(feature.attribute('surf_sel_y'))
+                surf_y.append(feature.attribute('surf_sel_y')+offset)
 
             for idx in sub_attrs:
                 if isinstance(feature.attribute(layer.attributeDisplayName(idx)), float):
                     sub_x[sub_x_dict[idx]].append(feature.attribute(layer.attributeDisplayName(idx)))
-                    sub_y[sub_x_dict[idx]].append(feature.attribute(layer.attributeDisplayName(idx+1)))
+                    sub_y[sub_x_dict[idx]].append(feature.attribute(layer.attributeDisplayName(idx+1))+offset)
 
 #        self.rm_surf_line()
 #        print surf_x
