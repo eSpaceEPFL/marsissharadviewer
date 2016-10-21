@@ -118,6 +118,7 @@ class RadarViewer(_RadarViewer):
 
     roi_movable = True
     lock_aspect = True
+    depth_meas = True
 
     def __init__(self, parent = None):
         super(RadarViewer, self).__init__(parent)
@@ -145,7 +146,8 @@ class RadarViewer(_RadarViewer):
                              labels = 0,
                              x_unit = self.x_unit,
                              y_unit = self.y_unit,
-                             prefs = self.prefs)
+                             prefs = self.prefs,
+                             depth_meas = self.depth_meas)
 
             self.orbit_row.append(ow)
 
@@ -253,6 +255,7 @@ class SyncRadarViewer(RadarViewer):
 
     roi_movable = False
     lock_aspect = False
+    depth_meas = False
 
     def __init__(self, parent = None):
         super(SyncRadarViewer, self).__init__(parent)
@@ -484,7 +487,8 @@ class OrbitViewer(pg.GraphicsLayout):
                  x_unit = "",
                  y_unit = "",
                  v_offset = (0,0),
-                 prefs = None):
+                 prefs = None,
+                 depth_meas = True):
 
         super(OrbitViewer, self).__init__(parent)
 
@@ -530,7 +534,8 @@ class OrbitViewer(pg.GraphicsLayout):
                                          y_label = y_label,
                                          x_unit = x_unit,
                                          y_unit = y_unit,
-                                         depth_cb = depth_cb.run))
+                                         depth_cb = depth_cb.run,
+                                         depth_meas = depth_meas))
 
             self.addItem(self.plots[-1], row=0, col=(ii))
 

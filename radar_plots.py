@@ -56,8 +56,11 @@ class SinglePlot(pg_GraphicsLayout):
                  v_offset_data = 0,
                  v_offset_sim = 0,
                  depth_cb = None,
+                 depth_meas = False,
                  **kargs):
         super(SinglePlot, self).__init__(parent, **kargs)
+
+        self.depth_meas = depth_meas
 
         self.menu = None
         self.set_menu()
@@ -141,25 +144,27 @@ class SinglePlot(pg_GraphicsLayout):
 #        menu.popup(QtCore.QPoint(pos.x(), pos.y()))
 
     def set_menu(self):
-        self.menu = QtGui.QMenu()
-        self.menu.setTitle("Depth measurement")
 
-        self.surf_line_action = QtGui.QAction("Add surface line", self.menu)
-        self.surf_line_action.triggered.connect(self.add_surf_line)
-        self.menu.addAction(self.surf_line_action)
+        if self.depth_meas:
+            self.menu = QtGui.QMenu()
+            self.menu.setTitle("Depth measurement")
 
-        sub_line = QtGui.QAction("Add subsurface line", self.menu)
-        sub_line.triggered.connect(self.add_sub_line)
-        self.menu.addAction(sub_line)
-        self.menu.sub_line = sub_line
+            self.surf_line_action = QtGui.QAction("Add surface line", self.menu)
+            self.surf_line_action.triggered.connect(self.add_surf_line)
+            self.menu.addAction(self.surf_line_action)
 
-        meas = QtGui.QAction("Measure...", self.menu)
-        meas.triggered.connect(self.depth_measure)
-        self.menu.addAction(meas)
+            sub_line = QtGui.QAction("Add subsurface line", self.menu)
+            sub_line.triggered.connect(self.add_sub_line)
+            self.menu.addAction(sub_line)
+            self.menu.sub_line = sub_line
 
-        load = QtGui.QAction("Load lines from selected layer", self.menu)
-        load.triggered.connect(self.depth_load)
-        self.menu.addAction(load)
+            meas = QtGui.QAction("Measure...", self.menu)
+            meas.triggered.connect(self.depth_measure)
+            self.menu.addAction(meas)
+
+            load = QtGui.QAction("Load lines from selected layer", self.menu)
+            load.triggered.connect(self.depth_load)
+            self.menu.addAction(load)
 
     def add_surf_line(self):
         (x1,x2) = self.roi.getRegion()
