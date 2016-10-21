@@ -289,7 +289,7 @@ class CreateDepthLayer(object):
         self.orbit = orbit
         self.band = band
 
-    def run(self, surf_sel, sub_sel, i_surf, i_sub, depths):
+    def run(self, surf_sel, sub_sel, i_surf, i_sub, depths, offset):
         warning_flag = 0
 
         # create layer
@@ -332,16 +332,27 @@ class CreateDepthLayer(object):
         for xx in x_list:
             surf, sub =  self._find_sel(xx, surf_sel, sub_sel)
 
-            attr_list = [self.orbit.get_id(), xx, self.band, float(i_surf_d[xx]), self.orbit.px2t(float(i_surf_d[xx])), surf[0], surf[1]]
+            if surf[1] == None:
+                surf_off_1 = None
+            else:
+                surf_off_1 = surf[1]-offset
+
+            attr_list = [self.orbit.get_id(), xx, self.band, float(i_surf_d[xx])-offset, self.orbit.px2t(float(i_surf_d[xx])-offset), surf[0], surf_off_1]
             feat = self.orbit.get_feature(xx)
 
             if not (feat == -1):
                 for ii in range(len(depths)):
+
+                    if sub[ii][1] == None:
+                        sub_off_1 = None
+                    else:
+                        sub_off_1 = sub[ii][1]-offset
+
                     if i_sub_d[ii].has_key(xx):
-                        attr_list = attr_list+[float(i_sub_d[ii][xx]),
-                                               self.orbit.px2t(float(i_sub_d[ii][xx])),
+                        attr_list = attr_list+[float(i_sub_d[ii][xx])-offset,
+                                               self.orbit.px2t(float(i_sub_d[ii][xx])-offset),
                                                sub[ii][0],
-                                               sub[ii][1],
+                                               sub_off_1,
                                                float(depths_d[ii][xx]),
                                                self.orbit.px2t(float(depths_d[ii][xx]))
                                                ]

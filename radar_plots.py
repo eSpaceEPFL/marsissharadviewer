@@ -53,6 +53,8 @@ class SinglePlot(pg_GraphicsLayout):
                  x_unit = "",
                  y_unit = "",
                  v_offset = (0,0),
+                 v_offset_data = 0,
+                 v_offset_sim = 0,
                  depth_cb = None,
                  **kargs):
         super(SinglePlot, self).__init__(parent, **kargs)
@@ -65,6 +67,9 @@ class SinglePlot(pg_GraphicsLayout):
 
         self.label_text = label_text
         self.images_data = images
+
+        self.v_offset_data = v_offset_data
+        self.v_offset_sim = v_offset_sim
 
         if len(images_label) == 0:
             self.images_label = ["" for im in self.images_data]
@@ -169,7 +174,7 @@ class SinglePlot(pg_GraphicsLayout):
         self.depth.add_sub_line([x1,x2],[h,h])
 
     def depth_measure(self):
-        self.depth.measure()
+        self.depth.measure(self.v_offset_data)
 
     def depth_load(self):
         self.depth.load()
@@ -411,7 +416,7 @@ class DepthTool(object):
 
         return attr_list
 
-    def measure(self):
+    def measure(self, offset):
 
         if not self.surf_line:
             QtGui.QMessageBox.critical (None, "Error", "No surface line")
@@ -435,7 +440,7 @@ class DepthTool(object):
             self.sub_sel.append(self._handle2points(line))
             self.depths.append(self._compute_depth(self.i_sub[-1]))
 
-        self.measure_cb(self.surf_sel, self.sub_sel, self.i_surf, self.i_sub, self.depths)
+        self.measure_cb(self.surf_sel, self.sub_sel, self.i_surf, self.i_sub, self.depths, offset)
 
     def _compute_depth(self, line):
         x0 = -self.i_surf[0][0] + line[0][0]
