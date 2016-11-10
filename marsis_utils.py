@@ -27,6 +27,7 @@ import resources
 from marsis_viewer_dialog import MarsisViewerDialog
 from settings_dialog import SettingsDialog
 from radar_3d import Radar3D
+from depth_map import DepthMap
 
 import prefs
 
@@ -76,7 +77,7 @@ class Marsis:
             if qVersion() > '4.3.3':
                 QCoreApplication.installTranslator(self.translator)
 
-        self.iface = iface
+#        self.iface = iface
         self.marsis_menu = None
 
 
@@ -91,6 +92,10 @@ class Marsis:
         self.marsis_viewer_action = QAction(icon, "MARSIS/SHARAD Viewer", self.iface.mainWindow())
         QObject.connect(self.marsis_viewer_action, SIGNAL("triggered()"), self.marsis_viewer)
         self.marsis_menu.addAction(self.marsis_viewer_action)
+
+        self.depth_map_action = QAction(icon, "Make depth map", self.iface.mainWindow())
+        QObject.connect(self.depth_map_action, SIGNAL("triggered()"), self.depth_map)
+        self.marsis_menu.addAction(self.depth_map_action)
 
 #        self.polar_viewer_action = QAction(icon, "Polar viewer", self.iface.mainWindow())
 #        QObject.connect(self.marsis_viewer_action, SIGNAL("triggered()"), self.polar_viewer)
@@ -139,6 +144,11 @@ class Marsis:
 
 #    def polar_viewer(self):
 #        pass
+
+    def depth_map(self):
+        """
+        """
+        self.depth_map_run = DepthMap(self.iface)
 
     def radar_3d(self):
         """Export 3D data in CSV format
