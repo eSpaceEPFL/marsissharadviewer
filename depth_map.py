@@ -8,8 +8,7 @@
 import os.path
 
 from marsissharadviewer.pyqtgraphcore.Qt import QtCore, QtGui
-from qgis.core import  QgsVectorLayer, QgsMapLayerRegistry, QgsField, QgsFeature, QgsVectorFileWriter, QgsProject
-from qgis import utils
+from qgis.core import  QgsVectorLayer, QgsField, QgsFeature, QgsVectorFileWriter, QgsProject
 
 
 class DepthMap(object):
@@ -88,7 +87,7 @@ class DepthMap(object):
 #        QgsMapLayerRegistry.instance().addMapLayer(vl)
         path = QgsProject.instance().readPath("./")
         file_name = os.path.join(path, 'depth.sqlite')
-        fname = QtGui.QFileDialog().getSaveFileName(iface.mainWindow(), 'Map file',  file_name, '*.sqlite')
+        fname = QtGui.QFileDialog().getSaveFileName(iface.mainWindow(), 'Depth map file',  file_name, '*.sqlite')
 
         QgsVectorFileWriter.writeAsVectorFormat(vl, fname, "utf-8", None, "SQLite")
         iface.addVectorLayer(fname, fname.split('/')[-1][0:-len('.sqlite')], "ogr")
