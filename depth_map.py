@@ -19,6 +19,12 @@ class DepthMap(object):
         self._run(iface)
 
     def _run(self, iface):
+
+        if not self.layers:
+            QtGui.QMessageBox.critical (None, "Error", "No layers selected")
+            return 0
+
+
         self._get_n_surfs()
 
         # create layer
