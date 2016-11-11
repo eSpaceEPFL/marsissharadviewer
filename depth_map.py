@@ -5,8 +5,10 @@
 #
 # Maintainer: Federico Cantini <federico.cantini@epfl.ch>
 
-from marsissharadviewer.pyqtgraphcore.Qt import QtCore
-from qgis.core import  QgsVectorLayer, QgsMapLayerRegistry, QgsField, QgsFeature, QgsVectorFileWriter
+import os.path
+
+from marsissharadviewer.pyqtgraphcore.Qt import QtCore, QtGui
+from qgis.core import  QgsVectorLayer, QgsMapLayerRegistry, QgsField, QgsFeature, QgsVectorFileWriter, QgsProject
 from qgis import utils
 
 
@@ -15,9 +17,9 @@ class DepthMap(object):
     def __init__(self, iface):
         self.layers = iface.legendInterface().selectedLayers()
 
-        self._run()
+        self._run(iface)
 
-    def _run(self):
+    def _run(self, iface):
         self._get_n_surfs()
 
         # create layer
@@ -83,8 +85,13 @@ class DepthMap(object):
         vl.updateExtents()
 
         # add layer to the legend
-        QgsMapLayerRegistry.instance().addMapLayer(vl)
+#        QgsMapLayerRegistry.instance().addMapLayer(vl)
+        path = QgsProject.instance().readPath("./")
+        file_name = os.path.join(path, 'depth.sqlite')
+        fname = QtGui.QFileDialog().getSaveFileName(iface.mainWindow(), 'Map file',  file_name, '*.sqlite')
 
+        QgsVectorFileWriter.writeAsVectorFormat(vl, fname, "utf-8", None, "SQLite")
+        iface.addVectorLayer(fname, fname.split('/')[-1][0:-len('.sqlite')], "ogr")
 
 #        for layer in self.layers:
 #            sub_surf_n = (layer.fields().count()-7)/6
