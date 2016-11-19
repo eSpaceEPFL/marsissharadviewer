@@ -93,7 +93,9 @@ class MarsisViewerDialog(QtGui.QWidget, FORM_CLASS, GetFeatureData):
         """
 
         self.radar2d.set_prefs(self.prefs)
+        self.radar2d.set_iface(self.iface)
         self.sync2d.set_prefs(self.prefs)
+        self.sync2d.set_iface(self.iface)
         self.threed.set_prefs(self.prefs)
 
 

@@ -19,7 +19,7 @@ from OpenGL.GL import *
 
 from marsissharadviewer.pyqtgraphcore.Qt import QtCore, QtGui
 #QtGui.QApplication.setGraphicsSystem('raster')
-from qgis.core import  QgsVectorLayer, QgsMapLayerRegistry, QgsField, QgsFeature, QgsVectorFileWriter
+from qgis.core import  QgsVectorLayer, QgsMapLayerRegistry, QgsField, QgsFeature, QgsVectorFileWriter, QgsProject
 from qgis import utils
 #from PyQt4.QtCore import QRectF
 #from PyQt4.QtGui import QPushButton, QGridLayout
@@ -78,6 +78,9 @@ class _RadarViewer(pg.LayoutWidget):
 
     def set_prefs(self, prefs):
         self.prefs = prefs
+
+    def set_iface(self, iface):
+        self.iface = iface
 
     def add_buttons(self):
         self.buttons = {}
@@ -147,7 +150,8 @@ class RadarViewer(_RadarViewer):
                              x_unit = self.x_unit,
                              y_unit = self.y_unit,
                              prefs = self.prefs,
-                             depth_meas = self.depth_meas)
+                             depth_meas = self.depth_meas,
+                             iface = self.iface)
 
             self.orbit_row.append(ow)
 
@@ -287,10 +291,11 @@ class SyncRadarViewer(RadarViewer):
 
 class CreateDepthLayer(object):
 
-    def __init__(self, orbit, band, saving_dir):
+    def __init__(self, orbit, band, saving_dir, iface):
         self.saving_dir = saving_dir
         self.orbit = orbit
         self.band = band
+        self.iface = iface
 
     def run(self, surf_sel, sub_sel, i_surf, i_sub, depths, offset):
         warning_flag = 0
@@ -382,10 +387,12 @@ class CreateDepthLayer(object):
         vl.updateExtents()
 
         # add layer to the legend
-        QgsMapLayerRegistry.instance().addMapLayer(vl)
+        #QgsMapLayerRegistry.instance().addMapLayer(vl)
         file_name = os.path.join(self.saving_dir, layer_name + '.sqlite')
+        fname = QtGui.QFileDialog().getSaveFileName(self.iface.mainWindow(), 'Depth measure file',  file_name, '*.sqlite')
 
-        QgsVectorFileWriter.writeAsVectorFormat(vl, file_name, "utf-8", None, "SQLite")
+        QgsVectorFileWriter.writeAsVectorFormat(vl, fname, "utf-8", None, "SQLite")
+        self.iface.addVectorLayer(fname, fname.split('/')[-1][0:-len('.sqlite')], "ogr")
 
 #        pass
 
@@ -488,7 +495,8 @@ class OrbitViewer(pg.GraphicsLayout):
                  y_unit = "",
                  v_offset = (0,0),
                  prefs = None,
-                 depth_meas = True):
+                 depth_meas = True,
+                 iface = None):
 
         super(OrbitViewer, self).__init__(parent)
 
@@ -503,6 +511,7 @@ class OrbitViewer(pg.GraphicsLayout):
         self.y_unit = y_unit
         self.orbit_dict=orbit_dict
         self.prefs = prefs
+        self.iface = iface
 
         if orbit_dict.data:
             for band in orbit_dict.data:
@@ -523,7 +532,7 @@ class OrbitViewer(pg.GraphicsLayout):
 
         ii = 0
         for band in orbit_dict.data:
-            depth_cb = CreateDepthLayer(self.orbit_dict, ii, self.prefs.CHACHE_BASE_DIR)
+            depth_cb = CreateDepthLayer(self.orbit_dict, ii, QgsProject.instance().readPath("./"), self.iface)
             self.plots.append(SinglePlot(images = [data_f[ii], sim_f[ii]],
                                          images_label = ["data", "sim"],
                                          label_text = self.orbit_label+" Frequency band "+str(ii+1),
