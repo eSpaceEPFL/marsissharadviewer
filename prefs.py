@@ -55,7 +55,7 @@ class RadarPrefs(object):
 
         for source in self.SIM_SOURCE:
             if self.SIM_SOURCE[source] == 'DISK':
-                self.SIM_DIR[source] = self.DISK_SIM_DIR[source] #DISK_SIM_DIR -> local dir; HTTP_SIM_DIR -> remote dir (http connection)
+                self.SIM_DIR[source] = "file:"+self.DISK_SIM_DIR[source] #DISK_SIM_DIR -> local dir; HTTP_SIM_DIR -> remote dir (http connection) "file" string to work properly with windows dirs
 
             if self.SIM_SOURCE[source] == 'HTTP':
                 self.SIM_DIR[source] = self.HTTP_SIM_DIR[source] #DISK_SIM_DIR -> local dir; HTTP_SIM_DIR -> remote dir (http connection)
@@ -107,7 +107,7 @@ class RadarPrefs(object):
         self._set_pref("MarsisDataSource", source_key)
 
     def set_marsis_sim_source(self, source_key):
-        self._set_pref("MarsisSimSource", source_key)\
+        self._set_pref("MarsisSimSource", source_key)
 
     def set_sharad_data_source(self, source_key):
         self._set_pref("SharadDataSource", source_key)
