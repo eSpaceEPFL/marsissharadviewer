@@ -47,7 +47,7 @@ class RadarPrefs(object):
 
         for source in self.DATA_SOURCE:
             if self.DATA_SOURCE[source] == 'DISK':
-                self.L2_DIR[source] = self.DISK_L2_DIR[source] #DISK_L2_DIR -> local dir; HTTP_L2_DIR -> remote dir (http connection)
+                self.L2_DIR[source] = "file:"+self.DISK_L2_DIR[source] #DISK_L2_DIR -> local dir; HTTP_L2_DIR -> remote dir (http connection)
 
             if self.DATA_SOURCE[source] == 'HTTP':
                 self.L2_DIR[source] = self.HTTP_L2_DIR[source] #DISK_L2_DIR -> local dir; HTTP_L2_DIR -> remote dir (http connection)

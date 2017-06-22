@@ -120,7 +120,7 @@ class _RadarViewer(pg.LayoutWidget):
 class RadarViewer(_RadarViewer):
 
     roi_movable = True
-    lock_aspect = True
+    lock_aspect = False
     depth_meas = True
 
     def __init__(self, parent = None):
